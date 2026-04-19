@@ -76,10 +76,10 @@
     {
       "rust_const": "LIQUESCENT_DESC",
       "font_name": "rh_liquescent_desc",
-      "width": 160,
+      "width": 150,
       "smufl": "chantAuctumDesc",
       "smufl_codepoint": "U+E995",
-      "doc": "Descending liquescent terminal; small head + downward calligraphic tail."
+      "doc": "Rhineland cephalicus: round-loop head + descending calligraphic curl. Two contours (outer + inner void for the loop's eye). Width 150 du (body 120×238) set 2026-04-19 via trace-at-scale from a manuscript crop. Supersedes the earlier brief's 'angular head' description — Rhineland cephalicus has a rounded bulb-like head, not a tilted parallelogram."
     },
     {
       "rust_const": "DEMINUTUM",

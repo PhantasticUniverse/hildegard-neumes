@@ -30,6 +30,23 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_liquescent_desc (cephalicus) traced
+- rh_liquescent_desc (cephalicus in Hildegard paleographic terms):
+  advance 160 → 150 du (body 120 × 238 measured from manuscript crop
+  via trace-at-scale). Two contours: 24-point outer silhouette (CW)
+  + 10-point inner void (CCW) for the loop's "eye". First glyph in
+  the font with an interior cutout; FontForge's Correct Direction
+  handled the mixed-winding CFF convention cleanly after a
+  coincident-endpoint disconnect was merged.
+- Paleographic correction: the earlier brief § 9 described cephalicus
+  as having a "small angular head (like a miniature virga head)."
+  The manuscript reference shows a ROUND bulb-like loop head, not
+  angular. Brief needs rewriting when we make another docs pass.
+- First two-contour glyph in the font — validates that the trace-at-
+  scale workflow + Python extraction handles mixed-contour glyphs
+  correctly. Correct Direction in FontForge is safe with voids
+  (outer CW, inner CCW for CFF per ADR-0007).
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_strophicus (apostropha) traced
 - rh_strophicus (apostropha in Hildegard paleographic terms): advance
   160 → 110 du (body 73 × 54 measured via trace-at-scale from the

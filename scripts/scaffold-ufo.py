@@ -72,7 +72,7 @@ PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
     "rh_strophicus":         ( -35,  -30,   45,   30),
     "rh_pressus":            (-115, -190,   95,   35),
     "rh_liquescent_asc":     ( -65,  -30,   65,  240),
-    "rh_liquescent_desc":    ( -65, -240,   65,   30),
+    "rh_liquescent_desc":    ( -60, -195,   65,   45),
     "rh_deminutum":          ( -40,  -30,   40,   30),
     # Bravura chantCclef bbox approximately (0, -221) to (134, 221). Scaffold
     # placeholder mimics its extent so a reset (just rescaffold-ufo) gives a
