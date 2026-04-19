@@ -66,7 +66,7 @@ rh_punctum_inclinatum   width 120
 rh_quilisma             width 170
 rh_oriscus              width 200
 rh_strophicus           width 160
-rh_pressus              width 300
+rh_pressus              width 240   (trace-at-scale 2026-04-19; was 300)
 rh_liquescent_asc       width 160   (post-review; was 140)
 rh_liquescent_desc      width 160   (post-review; was 140)
 rh_deminutum            width 100

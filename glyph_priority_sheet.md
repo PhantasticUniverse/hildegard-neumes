@@ -17,7 +17,7 @@ These are the glyphs needed to render the first line of **O Ecclesia** from Dend
 | 3 | `rh_c_clef` | 134 | **Placeholder**: outline extracted from Bravura chantCclef (OFL 1.1) 2026-04-19 pending a Rhineland trace from `docs/reference/images/c_clef.png`. Functional stand-in so every staff has a clef during Phase C; replace with Rhineland shape when drawing time permits. |
 | 4 | `rh_punctum_inclinatum` | 120 | Required for the climacus that appears in O Ecclesia line 1. Cheap to draw once `rh_punctum` is settled — it's a smaller, sharper sibling. |
 | 5 | `rh_quilisma` | 170 | Line 1 has at least one quilisma. Its calligraphic undulation is distinctive and is a test of the designer's handling of wavy components, which informs `rh_oriscus` and `rh_pressus` next. |
-| 6 | `rh_pressus` | 300 | Line 1 has a pressus. Exercises the vertical+wave vocabulary that gates `rh_oriscus` and the liquescents. |
+| 6 | `rh_pressus` | 240 | Line 1 has a pressus. Width 240 (body 207×219) set 2026-04-19 via trace-at-scale from `pressus.png`. 28-point single contour. Exercises the vertical+wave vocabulary that gates `rh_oriscus` and the liquescents. |
 
 **Tier 1 completion criterion**: the Rhena CLI command
 

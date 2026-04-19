@@ -60,10 +60,10 @@
     {
       "rust_const": "PRESSUS",
       "font_name": "rh_pressus",
-      "width": 300,
+      "width": 240,
       "smufl": null,
       "smufl_codepoint": "U+F403",
-      "doc": "Rhineland pressus: vertical line attached to a short undulating line (Gardiner p. 94). No SMuFL equivalent."
+      "doc": "Rhineland pressus: vertical line attached to a short undulating line (Gardiner p. 94). No SMuFL equivalent; private PUA codepoint U+F403. Width 240 du (body 207 × 219) set 2026-04-19 via trace-at-scale from pressus.png."
     },
     {
       "rust_const": "LIQUESCENT_ASC",
