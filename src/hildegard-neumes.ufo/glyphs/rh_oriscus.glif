@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="rh_oriscus" format="2">
+  <advance width="200"/>
+  <unicode hex="E99C"/>
+  <outline>
+    <contour>
+      <point x="-85" y="-35" type="line"/>
+      <point x="85" y="-35" type="line"/>
+      <point x="85" y="35" type="line"/>
+      <point x="-85" y="35" type="line"/>
+    </contour>
+  </outline>
+</glyph>

@@ -9,6 +9,17 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 default:
     @just --list
 
+# Scaffold src/hildegard-neumes.ufo/ from the 19-atom contract. Phase A —
+# produces a UFO3 with placeholder rectangle outlines ready for a designer
+# to open in FontForge and redraw per docs/paleographic_drawing_briefs.md.
+scaffold-ufo:
+    python scripts/scaffold-ufo.py
+
+# Regenerate the UFO3 source from the contract, overwriting any existing
+# scaffold. Use sparingly — this wipes in-progress glyph work.
+rescaffold-ufo:
+    python scripts/scaffold-ufo.py --force
+
 # Build the OTF + WOFF2 from src/hildegard-neumes.ufo/ via FontForge (headless, UFO3 source per ADR-0001)
 build-font:
     bash scripts/build-font.sh

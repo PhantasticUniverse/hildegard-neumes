@@ -40,7 +40,7 @@ If you're opening this project to author the first glyphs, read in order:
 4. `rhena_integration_plan.md` — the full build pipeline and Rhena integration architecture.
 5. Manuscript reference images in the sibling Rhena project at `/Users/xaviermac/Documents/2_Areas/Coding-Projects/hildegard/docs/research/images/` — direct traces from Dendermonde fol. 168v.
 
-Then: create `src/hildegard-neumes.ufo/` in FontForge (or any UFO3-aware editor) and start drawing.
+Then: open `src/hildegard-neumes.ufo/` in FontForge (or any UFO3-aware editor). The scaffold is already in place — every glyph is a placeholder rectangle at its target advance width with the correct SMuFL codepoint. Double-click a glyph to enter the outline editor and redraw. If you ever need to regenerate the scaffold from scratch (e.g. after a contract change), run `just rescaffold-ufo`.
 
 ## Primary manuscript sources
 
@@ -105,8 +105,9 @@ hildegard-neumes/
 ├── src/
 │   ├── glyph-names.json                           (names + SMuFL + rust_const; contract fragment)
 │   ├── widths.json                                (advance widths contract fragment)
-│   └── hildegard-neumes.ufo/                      (UFO3 source — to be authored in FontForge)
+│   └── hildegard-neumes.ufo/                      (UFO3 source — Phase A placeholder rectangles)
 ├── scripts/
+│   ├── scaffold-ufo.py                            (contract → src/hildegard-neumes.ufo/)
 │   ├── build-font.sh                              (headless FontForge → OTF + WOFF2)
 │   ├── generate-rhena-glyphs.py                   (OTF → generated rhineland_glyphs.rs)
 │   └── validate-font.py                           (post-build bbox-vs-advance sanity checks)
@@ -121,6 +122,7 @@ hildegard-neumes/
 │   ├── test_width_assertion.py
 │   ├── test_determinism.py                        (parametrized over ttf/otf)
 │   ├── test_golden_output.py                      (parametrized over ttf/otf)
+│   ├── test_scaffold.py                           (Phase A UFO3 scaffolding + round-trip)
 │   └── test_rhena_smoke.py                        (optional — skipped without RHENA_PATH; copies, never mutates)
 ├── .github/workflows/                             (6 CI jobs per ADR-0004)
 │   ├── lint-docs.yml
@@ -162,22 +164,22 @@ hildegard-neumes/
 ## v1 status snapshot
 
 **Done**:
-- Source format fixed to UFO3 (ADR-0001). Scaffold at `src/hildegard-neumes.ufo/` pending a FontForge session.
+- Source format fixed to UFO3 (ADR-0001).
+- **Phase A UFO3 scaffold landed (2026-04-19)**: `src/hildegard-neumes.ufo/` now contains `.notdef` + the 19 Rhineland atoms with placeholder rectangle outlines at their post-review advance widths, SMuFL codepoints in the cmap, `public.glyphOrder` pinned so the OTF glyph order matches `ALL_GLYPHS`. Produced by `scripts/scaffold-ufo.py` (Python + stdlib `plistlib`, no `defcon` / `fs` deps). Round-trip verified via `fontTools.ufoLib.UFOReader` in `tests/test_scaffold.py`.
 - Build pipeline: `scripts/build-font.sh` (headless FontForge, `SOURCE_DATE_EPOCH=0`) and `scripts/generate-rhena-glyphs.py` (~790 lines, fontTools-based, hand-rolled path normalizer so no `svgpathtools` dependency).
 - Machine-readable contract: `src/glyph-names.json` + `src/widths.json`. Staged single-source-of-truth for Rhena adoption at `docs/rhena-coordination/rhineland.contract.json`.
-- Width review ran (2026-04-14, `docs/planning/width-review-2026-04-14.md`). Three overflow bugs found (`rh_virga` 65→90, `rh_liquescent_asc`/`desc` 140→160) and corrected in `src/widths.json` + the staged contract. Rhena's in-tree widths still hold the pre-review values; the coordinated adoption PR catches them up.
+- Width review ran (2026-04-14, `docs/planning/width-review-2026-04-14.md`). Three overflow bugs found (`rh_virga` 65→90, `rh_liquescent_asc`/`desc` 140→160) and corrected in `src/widths.json` + the staged contract + the scaffolded UFO3. Rhena's in-tree widths still hold the pre-review values; the coordinated adoption PR catches them up.
 - Determinism: 5/5 ADR-0004 mitigations in place (contract-order iteration, round-half-up integer coords, canonical path commands, stripped-timestamp OTF hash, `SOURCE_DATE_EPOCH=0`). `justfile` `check-generated` recipe + `.github/workflows/reproducibility.yml` matrix byte-identity gate.
-- Test suite: 42 pytest cases (40 active + 2 recipe regression guards), parametrized over TTF/OTF fixtures for format-specific coverage. `tests/fixtures/make_minimal_ttf.py` synthesizes a quadratic TTF; `tests/fixtures/make_minimal_otf.py` synthesizes a cubic CFF OTF — both built programmatically via fontTools `FontBuilder`, not committed as binaries.
+- Test suite: 56 pytest cases (54 active + 2 recipe regression guards), parametrized over TTF/OTF fixtures for format-specific coverage plus Phase A UFO3 structure + round-trip tests. `tests/fixtures/make_minimal_ttf.py` synthesizes a quadratic TTF; `tests/fixtures/make_minimal_otf.py` synthesizes a cubic CFF OTF — both built programmatically via fontTools `FontBuilder`, not committed as binaries.
 - 8 ADRs (`docs/adr/ADR-0001`–`0008`): source format, codegen toolchain, contract ownership, determinism, width freeze, OFL 1.1 licence, OTF/CFF outlines, paleographic fidelity arbitration policy.
 - 6 CI workflows (`.github/workflows/`): lint-docs, validate-contract, build-font (headless FontForge), codegen (matrix over fmt), reproducibility (matrix over fmt), smoke-rhena (workflow_dispatch only, compile-level gate).
 - Licence: OFL 1.1 with Reserved Font Name "Hildegard Neumes" (`OFL.txt` + `FONTLOG.txt`, ADR-0006).
 - Rhena-safe smoke test: `tests/test_rhena_smoke.py` uses `shutil.copytree` into `tmp_path` — operates on a throwaway copy, never mutates the sibling Rhena repo.
 
 **Remaining (gated on drawing start)**:
-- `src/hildegard-neumes.ufo/` scaffold creation in FontForge (19 empty glyph slots per `src/glyph-names.json`, em=1000).
 - Coordinated Rhena-side PR for post-review widths + diplomatic-mode snapshot update (Rhena-maintainer action; `docs/rhena-coordination/rhineland.contract.json` is the diff target).
-- Tier 1 drawing: `rh_punctum`, `rh_virga`, `rh_c_clef`, `rh_punctum_inclinatum`, `rh_quilisma`, `rh_pressus` — per `glyph_priority_sheet.md` and `docs/paleographic_drawing_briefs.md`. Trace from Dendermonde fol. 168v reference captures.
-- Tier 2 + Tier 3 drawing: the remaining 13 atoms.
+- **Phase B** (still CLI): upgrade the seven geometric glyphs (`rh_divisio_minima`/`_maior`/`_maxima`/`_finalis`, `rh_virgula`, `rh_pes_line`, `rh_flexa_line`) from placeholder rectangles to their final shapes in pure Python.
+- **Phase C** (FontForge GUI): redraw the twelve calligraphic atoms starting with Tier 1 (`rh_punctum`, `rh_virga`, `rh_c_clef`, `rh_punctum_inclinatum`, `rh_quilisma`, `rh_pressus`) per `glyph_priority_sheet.md` and `docs/paleographic_drawing_briefs.md`. Trace from Dendermonde fol. 168v reference captures.
 - First end-to-end render of `fixtures/corpus/o-ecclesia-line1.rhena --mode diplomatic` in Rhena, visual comparison against the manuscript reference, snapshot acceptance, and `v0.1.0` font tag.
 - File Rhena ADR-0009 (draft staged at `docs/rhena-coordination/ADR-0009-generated-rhineland-glyphs.md`).
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>public.glyphOrder</key>
+	<array>
+		<string>.notdef</string>
+		<string>rh_punctum</string>
+		<string>rh_virga</string>
+		<string>rh_punctum_inclinatum</string>
+		<string>rh_quilisma</string>
+		<string>rh_oriscus</string>
+		<string>rh_strophicus</string>
+		<string>rh_pressus</string>
+		<string>rh_liquescent_asc</string>
+		<string>rh_liquescent_desc</string>
+		<string>rh_deminutum</string>
+		<string>rh_c_clef</string>
+		<string>rh_f_clef</string>
+		<string>rh_divisio_minima</string>
+		<string>rh_divisio_maior</string>
+		<string>rh_divisio_maxima</string>
+		<string>rh_divisio_finalis</string>
+		<string>rh_virgula</string>
+		<string>rh_pes_line</string>
+		<string>rh_flexa_line</string>
+	</array>
+</dict>
+</plist>

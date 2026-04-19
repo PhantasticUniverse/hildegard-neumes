@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="rh_divisio_maior" format="2">
+  <advance width="16"/>
+  <unicode hex="E8F4"/>
+  <outline>
+    <contour>
+      <point x="2" y="0" type="line"/>
+      <point x="14" y="0" type="line"/>
+      <point x="14" y="500" type="line"/>
+      <point x="2" y="500" type="line"/>
+    </contour>
+  </outline>
+</glyph>

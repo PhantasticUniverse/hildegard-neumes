@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>.notdef</key>
+	<string>_notdef.glif</string>
+	<key>rh_c_clef</key>
+	<string>rh_c_clef.glif</string>
+	<key>rh_deminutum</key>
+	<string>rh_deminutum.glif</string>
+	<key>rh_divisio_finalis</key>
+	<string>rh_divisio_finalis.glif</string>
+	<key>rh_divisio_maior</key>
+	<string>rh_divisio_maior.glif</string>
+	<key>rh_divisio_maxima</key>
+	<string>rh_divisio_maxima.glif</string>
+	<key>rh_divisio_minima</key>
+	<string>rh_divisio_minima.glif</string>
+	<key>rh_f_clef</key>
+	<string>rh_f_clef.glif</string>
+	<key>rh_flexa_line</key>
+	<string>rh_flexa_line.glif</string>
+	<key>rh_liquescent_asc</key>
+	<string>rh_liquescent_asc.glif</string>
+	<key>rh_liquescent_desc</key>
+	<string>rh_liquescent_desc.glif</string>
+	<key>rh_oriscus</key>
+	<string>rh_oriscus.glif</string>
+	<key>rh_pes_line</key>
+	<string>rh_pes_line.glif</string>
+	<key>rh_pressus</key>
+	<string>rh_pressus.glif</string>
+	<key>rh_punctum</key>
+	<string>rh_punctum.glif</string>
+	<key>rh_punctum_inclinatum</key>
+	<string>rh_punctum_inclinatum.glif</string>
+	<key>rh_quilisma</key>
+	<string>rh_quilisma.glif</string>
+	<key>rh_strophicus</key>
+	<string>rh_strophicus.glif</string>
+	<key>rh_virga</key>
+	<string>rh_virga.glif</string>
+	<key>rh_virgula</key>
+	<string>rh_virgula.glif</string>
+</dict>
+</plist>

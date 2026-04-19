@@ -30,6 +30,22 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers
+- Phase A UFO3 scaffold landed. src/hildegard-neumes.ufo/ now exists
+  with 20 glyph slots (.notdef + 19 Rhineland atoms), placeholder
+  rectangle outlines at the post-review advance widths, SMuFL
+  codepoints in the cmap, and public.glyphOrder pinned. Produced by
+  scripts/scaffold-ufo.py from the 19-atom contract. Round-trip
+  verified by tests/test_scaffold.py (14 cases: file structure,
+  UFOReader round-trip, scaffolder guardrails).
+- Initial git commit captured the pre-scaffold infrastructure state
+  (59 files, eight ADRs, six CI workflows, 42 pytest cases).
+- Doc sweep closed stale references: rhena_integration_plan.md width
+  table updated to post-review values, svgpathtools mentions removed,
+  widths_proposed.json pointers replaced with rhineland.contract.json,
+  paleographic drawing brief section headers aligned to corrected
+  widths, glyph priority sheet tier widths refreshed.
+
 14 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers
 - Initial project scaffolding.
 - 19-glyph atomic inventory defined (rust_const / font_name / width /

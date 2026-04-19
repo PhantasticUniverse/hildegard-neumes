@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="rh_pressus" format="2">
+  <advance width="300"/>
+  <unicode hex="F403"/>
+  <outline>
+    <contour>
+      <point x="-130" y="-200" type="line"/>
+      <point x="130" y="-200" type="line"/>
+      <point x="130" y="80" type="line"/>
+      <point x="-130" y="80" type="line"/>
+    </contour>
+  </outline>
+</glyph>

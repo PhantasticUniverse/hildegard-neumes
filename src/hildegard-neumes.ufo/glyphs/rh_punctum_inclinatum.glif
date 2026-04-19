@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="rh_punctum_inclinatum" format="2">
+  <advance width="120"/>
+  <unicode hex="E991"/>
+  <outline>
+    <contour>
+      <point x="-50" y="-35" type="line"/>
+      <point x="50" y="-35" type="line"/>
+      <point x="50" y="35" type="line"/>
+      <point x="-50" y="35" type="line"/>
+    </contour>
+  </outline>
+</glyph>
