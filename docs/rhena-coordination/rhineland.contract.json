@@ -92,10 +92,10 @@
     {
       "rust_const": "C_CLEF",
       "font_name": "rh_c_clef",
-      "width": 110,
+      "width": 134,
       "smufl": "chantCclef",
       "smufl_codepoint": "U+E906",
-      "doc": "Rhineland movable C clef: horizontal dash above a calligraphic C."
+      "doc": "TEMPORARY PLACEHOLDER (2026-04-19): outline extracted from Bravura chantCclef (OFL 1.1, Steinberg). Pending replacement with a Rhineland trace from docs/reference/images/c_clef.png — advance may change when the Rhineland version is drawn and measured at staff scale. Brief § 11 describes the target Rhineland shape (dash + calligraphic C with thick-thin pen register)."
     },
     {
       "rust_const": "F_CLEF",

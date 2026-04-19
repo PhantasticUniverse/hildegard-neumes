@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- PLACEHOLDER: outline extracted from Bravura chantCclef (OFL 1.1, Steinberg).
+     Pending Rhineland trace-at-scale from docs/reference/images/c_clef.png.
+     See docs/paleographic_drawing_briefs.md § 11 and FONTLOG 2026-04-19. -->
 <glyph name="rh_c_clef" format="2">
-  <advance width="110"/>
+  <advance width="134"/>
   <unicode hex="E906"/>
   <outline>
     <contour>
-      <point x="5" y="0" type="line"/>
-      <point x="105" y="0" type="line"/>
-      <point x="105" y="250" type="line"/>
-      <point x="5" y="250" type="line"/>
+      <point x="69" y="61" type="curve"/>
+      <point x="36" y="61"/>
+      <point x="8" y="37"/>
+      <point x="8" y="0" type="curve"/>
+      <point x="8" y="-37"/>
+      <point x="36" y="-61"/>
+      <point x="69" y="-61" type="curve"/>
+      <point x="102" y="-61"/>
+      <point x="126" y="-37"/>
+      <point x="126" y="-37" type="curve"/>
+      <point x="129" y="-35"/>
+      <point x="131" y="-34"/>
+      <point x="132" y="-34" type="curve"/>
+      <point x="134" y="-34"/>
+      <point x="134" y="-37"/>
+      <point x="134" y="-37" type="curve"/>
+      <point x="134" y="-165" type="line"/>
+      <point x="134" y="-180"/>
+      <point x="125" y="-218"/>
+      <point x="76" y="-221" type="curve"/>
+      <point x="71" y="-221" type="line"/>
+      <point x="5" y="-221"/>
+      <point x="0" y="-142"/>
+      <point x="0" y="-108" type="curve"/>
+      <point x="0" y="108" type="line"/>
+      <point x="0" y="142"/>
+      <point x="5" y="221"/>
+      <point x="70" y="221" type="curve"/>
+      <point x="76" y="221" type="line"/>
+      <point x="125" y="218"/>
+      <point x="134" y="180"/>
+      <point x="134" y="165" type="curve"/>
+      <point x="134" y="37" type="line"/>
+      <point x="134" y="37"/>
+      <point x="134" y="34"/>
+      <point x="132" y="34" type="curve"/>
+      <point x="131" y="34"/>
+      <point x="129" y="35"/>
+      <point x="126" y="37" type="curve"/>
+      <point x="126" y="37"/>
+      <point x="102" y="61"/>
     </contour>
   </outline>
 </glyph>

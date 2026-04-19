@@ -30,6 +30,24 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — c_clef placeholder from Bravura
+- rh_c_clef: outline extracted from Bravura's chantCclef (OFL 1.1,
+  Steinberg Media Technologies) as a temporary placeholder so every
+  staff has a clef during Phase C drawing. This is explicitly NOT the
+  final Rhineland shape — it's square-notation SMuFL. To be replaced
+  with a Rhineland trace from docs/reference/images/c_clef.png when
+  drawing time permits.
+- Advance bumped from 110 to 134 (Bravura's width). Will likely
+  change again when the Rhineland version is measured at staff scale.
+- OFL attribution: extracted outlines are covered by OFL §1 (vector
+  data extraction into a derivative work). Rhena's NOTICE/README
+  should reference Bravura as a source for this specific glyph's
+  outline (until replaced). Source file:
+  reference-repos/musescore/fonts/bravura/Bravura.otf v1.392.
+- Brief § 11 marked placeholder; § 7 (pressus, next for trace-at-scale
+  drawing) marked with the same trace-pending disclaimer as applies
+  to all §§ 3-12 until drawn.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — trace-at-scale
 - Adopted trace-at-scale methodology for Phase C calligraphic atoms.
   With 12 staff-space horizontal guidelines now visible in every

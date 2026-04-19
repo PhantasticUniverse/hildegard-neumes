@@ -161,7 +161,10 @@ Every glyph in this font MUST respect this single pen angle. Visualize a rectang
 - **Registration**: centred on origin. Bounding box ~(-80, -50) to (+80, +50). Pitch anchor = centre of body.
 - **NOT**: three separate marks (Rhena stamps multiple copies for bi/tristropha); identical to punctum or inclinatum (needs its own identity via flick); large/curly flick (it's a tiny pen-lift).
 
-### 7. `rh_pressus` (width 300)
+### 7. `rh_pressus` (advance TBD — trace-at-scale pending)
+
+*As with all remaining calligraphic atoms (§§ 3-12), the dimensions in this section are the ORIGINAL provisional specification inherited from the abandoned `rhineland.rs`; they guide shape and pen technique but NOT sizing. Final advance and proportions are set from a trace of `pressus.png` scaled to align with the font's staff-space guidelines (y ∈ ±125, ±375 etc., 1 ss = 250 du). See `feedback_trace_at_scale_workflow.md` in memory and the briefs-header note in § 1.*
+
 
 - **Reference**: `pressus.png`, `quilisma+pressus.png`. Gardiner p. 94: *"a vertical line attached to a short undulating line"*.
 - **Shape**: TWO clearly distinct joined components:
@@ -204,7 +207,13 @@ Every glyph in this font MUST respect this single pen angle. Visualize a rectang
 - **Registration**: centred on origin. Bounding box (-50, -35) to (+50, +35).
 - **NOT**: same size as inclinatum (smaller); with a tail or flick (simplest possible dot-like mark); so small it disappears.
 
-### 11. `rh_c_clef` (width 110)
+### 11. `rh_c_clef` (advance 134 — **Bravura placeholder**, Rhineland trace pending)
+
+*The glyph currently in `src/hildegard-neumes.ufo/glyphs/rh_c_clef.glif` is the outline extracted from Bravura's `chantCclef` (OFL 1.1, Steinberg Media Technologies) — a functional stand-in so rh_c_clef renders in the font during Phase C. It's NOT a Rhineland paleographic shape; it's square-notation chant clef. Replace with a Rhineland trace from `docs/reference/images/c_clef.png` (dash + calligraphic C with thick-thin pen register) when drawing time permits. The shape guidance below describes that target Rhineland form.*
+
+---
+
+### 11. `rh_c_clef` (ORIGINAL spec — to be restored via Rhineland trace)
 
 - **Reference**: `c_clef.png` + the clef at the start of `o_ecclesia_rhineland_line_01.png`. Small horizontal dash at top, thick calligraphic C below, open side facing right, single continuous pen motion per component with clear thick-thin contrast.
 - **Shape**: two stacked components:

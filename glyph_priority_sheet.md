@@ -14,7 +14,7 @@ These are the glyphs needed to render the first line of **O Ecclesia** from Dend
 | --- | --- | --- | --- |
 | 1 | `rh_punctum` | 160 | Highest frequency atom. Its calligraphic register sets the visual language for all other atoms. Width 160 (body 130) set 2026-04-19 via trace-at-scale from punctum.png. |
 | 2 | `rh_virga` | 120 | The defining Rhineland gesture. Head + thin descending stem + small foot hook. Width 120 (head 91 wide) set 2026-04-19 via trace-at-scale from virda.png; measured narrower than the punctum when calibrated to staff guidelines (earlier 240 "head matches punctum" assumption was eyeball-based and over-sized). |
-| 3 | `rh_c_clef` | 110 | Every line of chant begins with a clef. Without it you cannot render a staff. Reference image: `docs/research/images/c_clef.png` (Dendermonde). |
+| 3 | `rh_c_clef` | 134 | **Placeholder**: outline extracted from Bravura chantCclef (OFL 1.1) 2026-04-19 pending a Rhineland trace from `docs/reference/images/c_clef.png`. Functional stand-in so every staff has a clef during Phase C; replace with Rhineland shape when drawing time permits. |
 | 4 | `rh_punctum_inclinatum` | 120 | Required for the climacus that appears in O Ecclesia line 1. Cheap to draw once `rh_punctum` is settled — it's a smaller, sharper sibling. |
 | 5 | `rh_quilisma` | 170 | Line 1 has at least one quilisma. Its calligraphic undulation is distinctive and is a test of the designer's handling of wavy components, which informs `rh_oriscus` and `rh_pressus` next. |
 | 6 | `rh_pressus` | 300 | Line 1 has a pressus. Exercises the vertical+wave vocabulary that gates `rh_oriscus` and the liquescents. |
