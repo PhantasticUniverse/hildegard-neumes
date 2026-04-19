@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>ascender</key>
-	<integer>800</integer>
+	<integer>2000</integer>
 	<key>capHeight</key>
 	<integer>700</integer>
 	<key>copyright</key>
 	<string>Copyright 2026 Hildegard Neumes Project. Licensed under the SIL Open Font License 1.1.</string>
 	<key>descender</key>
-	<integer>-200</integer>
+	<integer>-2000</integer>
 	<key>familyName</key>
 	<string>Hildegard Neumes</string>
 	<key>italicAngle</key>
@@ -17,9 +17,9 @@
 	<key>note</key>
 	<string>Scaffolded from the 19-atom contract at v0.1.0-dev. Placeholder rectangles — Phase A. Final calligraphic shapes authored per docs/paleographic_drawing_briefs.md.</string>
 	<key>openTypeHheaAscender</key>
-	<integer>800</integer>
+	<integer>2000</integer>
 	<key>openTypeHheaDescender</key>
-	<integer>-200</integer>
+	<integer>-2000</integer>
 	<key>openTypeHheaLineGap</key>
 	<integer>0</integer>
 	<key>openTypeNameDesigner</key>
@@ -48,9 +48,9 @@
 		<integer>7</integer>
 	</array>
 	<key>openTypeOS2TypoAscender</key>
-	<integer>800</integer>
+	<integer>2000</integer>
 	<key>openTypeOS2TypoDescender</key>
-	<integer>-200</integer>
+	<integer>-2000</integer>
 	<key>openTypeOS2TypoLineGap</key>
 	<integer>0</integer>
 	<key>openTypeOS2WeightClass</key>
@@ -58,9 +58,9 @@
 	<key>openTypeOS2WidthClass</key>
 	<integer>5</integer>
 	<key>openTypeOS2WinAscent</key>
-	<integer>800</integer>
+	<integer>2000</integer>
 	<key>openTypeOS2WinDescent</key>
-	<integer>200</integer>
+	<integer>2000</integer>
 	<key>postscriptFontName</key>
 	<string>HildegardNeumes-Regular</string>
 	<key>postscriptFullName</key>

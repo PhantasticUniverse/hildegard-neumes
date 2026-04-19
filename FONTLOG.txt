@@ -30,6 +30,36 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — SMuFL alignment
+- ADR-0009 landed: SMuFL alignment for tradition-agnostic glyphs. Font
+  positioned as a standalone SMuFL-conformant Rhineland OTF usable by
+  any SMuFL-aware consumer, not just Rhena.
+- OS/2 metrics: ascender 800 → 2000 du, descender -200 → -2000 du
+  (≥ 2 em vertical box per SMuFL convention; Bravura uses 2012 exactly,
+  we round to 2000).
+- Seven tradition-agnostic geometric glyphs adopt Bravura SMuFL
+  dimensions with path-intrinsic y-positioning:
+    rh_divisio_minima  16 × 250 du, y ∈ [+250, +500] (above staff)
+    rh_divisio_maior   16 × 500 du, y ∈ [-250, +250]
+    rh_divisio_maxima  16 × 750 du, y ∈ [-375, +375]
+    rh_divisio_finalis 120 du wide (two 16-du bars, 88-du gap),
+                       750 du tall
+    rh_virgula         91 × 245 du, y ∈ [+255, +500]
+  Width contract bumped: rh_divisio_finalis 56 → 120; rh_virgula 12 → 91.
+  Calligraphic atoms (punctum, virga, quilisma, oriscus, strophicus,
+  pressus, liquescents, deminutum, c_clef, f_clef) retain Rhineland-
+  distinct widths per ADR-0008. Compositional primitives (rh_pes_line,
+  rh_flexa_line) retain their own conventions.
+- The abandoned Rhena rhineland.rs conventions (2x divisio heights,
+  y=0 baselines, 12-du virgula) are no longer a reference; they were
+  placeholder decisions in code Rhena wrote off.
+- Paleographic drawing briefs §§ 13-19 rewritten to match SMuFL
+  convention; glyph priority sheet updated with post-alignment widths.
+- Out of scope: generalizing the codegen for Bravura extraction to
+  support Rhena's chant.rs. Scope discipline — we stay a Rhineland
+  font provider. Our generate-rhena-glyphs.py is MIT/Apache-dual under
+  ADR-0006 and can be forked by downstream consumers if useful.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — continued
 - Phase B geometric shapes landed. The seven non-calligraphic atoms
   (rh_divisio_minima/_maior/_maxima/_finalis, rh_virgula, rh_pes_line,

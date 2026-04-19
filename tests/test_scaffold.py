@@ -132,8 +132,10 @@ class TestUFORoundTrip:
         info = type("Info", (), {})()
         reader.readInfo(info)
         assert info.unitsPerEm == 1000
-        assert info.ascender == 800
-        assert info.descender == -200
+        # SMuFL ≥ 2 em vertical box per ADR-0009 (Bravura uses ±2012
+        # exactly; we round to ±2000).
+        assert info.ascender == 2000
+        assert info.descender == -2000
         assert info.familyName == "Hildegard Neumes"
         assert info.styleName == "Regular"
 

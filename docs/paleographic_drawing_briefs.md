@@ -220,66 +220,64 @@ Every glyph in this font MUST respect this single pen angle. Visualize a rectang
 - **Registration**: origin at the F line level — Y-coordinate of the upper horizontal bar (since that bar designates F). Bounding box ~(0, -250) to (+160, +250).
 - **NOT**: modern bass clef stylisation; omit the dots; larger than the C clef (balanced as a clef family). If unclear, fall back to a simple geometric form (acceptable stopgap).
 
-### 13. `rh_divisio_minima` (width 16)
+### Geometric glyphs §§ 13–19 — SMuFL-aligned conventions
 
-- **Shape**: thin short vertical bar — simple rectangle. Height ~250 em-units (one staff space), width 16.
-- **Stroke register**: flat geometric, not calligraphic. Structural mark, uniform thickness.
-- **Key features**: (1) Shortest of the divisio family — one staff space; (2) geometric (no thick-thin contrast); (3) thin (16 em-units).
-- **Proportions**: width 16, height ~250.
-- **Registration**: sits on the lower staff line: bounding box (0, 0) to (+16, +250). Origin at bottom-left.
-- **NOT**: calligraphic; as tall as divisio_maior; with serifs.
+Per **ADR-0009** (SMuFL alignment for tradition-agnostic glyphs, 2026-04-19): divisio family and virgula adopt Bravura's SMuFL conventions exactly — widths, heights, and **path-intrinsic y-positioning**. Compositional primitives (`rh_pes_line`, `rh_flexa_line`) have no SMuFL equivalent and keep their own conventions for Rhena's resolver. Units are design units (du); 1 staff space = 250 du in our 1000-UPM scale.
 
-### 14. `rh_divisio_maior` (width 16)
+### 13. `rh_divisio_minima` (width 16 du)
 
-- **Shape**: same as divisio_minima but spans the full staff — ~1000 em-units (4 staff spaces).
+- **Shape**: thin vertical bar, 16 du wide × 250 du tall (1 staff space).
+- **Stroke register**: flat geometric, uniform thickness.
+- **Key features**: (1) Shortest of the divisio family; (2) positioned **above the staff** (SMuFL y ∈ [+250, +500] = staff spaces [+1.0, +2.0]); (3) same thickness as maior/maxima (16 du).
+- **Registration**: bbox (0, +250) to (+16, +500). Path-intrinsic y: the outline carries its SMuFL placement, no per-consumer transform needed.
+- **NOT**: centred on staff midline (that's maior); touching or crossing the staff lines; as tall as maior.
+
+### 14. `rh_divisio_maior` (width 16 du)
+
+- **Shape**: thin vertical bar, 16 × 500 du (2 staff spaces).
 - **Stroke register**: flat geometric.
-- **Key features**: spans full staff vertically; same thickness as minima.
-- **Proportions**: width 16, height ~1000.
-- **Registration**: bounding box (0, -500) to (+16, +500), centred on origin.
+- **Key features**: centred on staff midline (SMuFL y ∈ [-250, +250] = staff spaces [-1.0, +1.0]); same thickness as minima/maxima.
+- **Registration**: bbox (0, -250) to (+16, +250). Path-intrinsic y.
+- **NOT**: extending past the staff (that's maxima); as short as minima; above the staff (that's minima).
 
-### 15. `rh_divisio_maxima` (width 16)
+### 15. `rh_divisio_maxima` (width 16 du)
 
-- **Shape**: same as maior but slightly taller — extends above the top line and below the bottom line by a small amount. Height ~1500 em-units.
+- **Shape**: thin vertical bar, 16 × 750 du (3 staff spaces).
 - **Stroke register**: flat geometric.
-- **Key features**: tallest single-bar divisio; extends past the staff lines by ~250 em-units each end.
-- **Proportions**: width 16, height ~1500.
-- **Registration**: bounding box (0, -750) to (+16, +750).
+- **Key features**: tallest single-bar divisio; extends slightly past standard staff bounds (SMuFL y ∈ [-375, +375] = staff spaces [-1.5, +1.5]); same thickness as minima/maior.
+- **Registration**: bbox (0, -375) to (+16, +375). Path-intrinsic y.
 - **NOT**: conflate with divisio_finalis (which has TWO bars; maxima has ONE).
 
-### 16. `rh_divisio_finalis` (width 56)
+### 16. `rh_divisio_finalis` (width 120 du)
 
-- **Shape**: two parallel thin vertical bars separated by a gap, each ~the height of divisio_maxima. Left bar at x=0, right bar at x=40, each 16 em-units wide. Height ~1500.
+- **Shape**: **two** 16-du-wide vertical bars separated by an 88-du gap (total 120 du wide), each 750 du tall (3 staff spaces). Left bar at x ∈ [0, 16]; right bar at x ∈ [104, 120].
 - **Stroke register**: flat geometric.
-- **Key features**: (1) **TWO bars** — defining feature; (2) both bars equal thickness (no "thick-thin" music-notation convention — this is chant finalis, not modern double bar); (3) tall like maxima.
-- **Proportions**: width 56, height ~1500.
-- **Registration**: bounding box (0, -750) to (+56, +750).
-- **NOT**: one bar thicker than the other (modern "final" bar convention).
+- **Key features**: (1) **TWO bars** — defining feature; (2) both bars equal thickness (no modern "thick-thin" convention — this is chant finalis); (3) same height as maxima; (4) wide enough gap to be visually distinct from maxima.
+- **Registration**: bbox (0, -375) to (+120, +375). Path-intrinsic y matches divisio_maxima.
+- **NOT**: one bar thicker than the other (modern "final" bar convention); narrower than Bravura (we match SMuFL exactly — 120 du total, 88 du gap).
 
-### 17. `rh_virgula` (width 12)
+### 17. `rh_virgula` (width 91 du)
 
-- **Shape**: very short thin vertical bar — ~300 em-units tall, 12 wide. Sits ABOVE the staff top line, not through it — it's a breath mark.
-- **Stroke register**: flat geometric (or very slight calligraphic ductus).
-- **Key features**: (1) shortest and thinnest of the bar family; (2) **above** the staff (not through it); (3) visually unobtrusive.
-- **Proportions**: width 12, height ~300.
-- **Registration**: bounding box (0, 200) to (+12, 500). Positive Y only — floats above the staff.
-- **NOT**: spanning the staff; with a foot or head.
+- **Shape**: breath mark above the top staff line. Placeholder is a 91 × 245 du rectangle; final shape may be a calligraphic hook (Bravura ships a curvy hook at this bbox). For v1 the rectangle is good enough for SMuFL-compatible positioning; Phase C can refine if Rhineland manuscripts attest a distinct virgula shape.
+- **Stroke register**: flat geometric (placeholder); optionally calligraphic hook in Phase C if manuscript evidence warrants.
+- **Key features**: (1) **above the staff** (SMuFL y ∈ [+255, +500]); (2) 91 du wide (matches Bravura chantVirgula); (3) a breath mark, not a phrase break.
+- **Registration**: bbox (0, +255) to (+91, +500). Path-intrinsic y.
+- **NOT**: spanning the staff; as thin as the 12-du hairline it used to be in the abandoned `rhineland.rs` (written off per ADR-0009).
 
-### 18. `rh_pes_line` (width 12)
+### 18. `rh_pes_line` (width 12 du)
 
-- **Shape**: thin straight ascending connector — narrow rectangle, 12 em-units wide, ~250 em-units tall (one staff space). Drawn as a hairline at 90° (vertical) — the renderer rotates/scales it to whatever interval the pes spans.
-- **Stroke register**: geometric thin line — connecting element, not calligraphic. Uniform thickness.
-- **Key features**: (1) thin (12 em-units — same as virgula); (2) plain vertical (renderer handles diagonal interpolation); (3) no heads or feet — pure connector.
-- **Proportions**: width 12, height ~250.
-- **Registration**: bounding box (-6, 0) to (+6, +250). Origin at bottom-centre.
-- **NOT**: heads or feet (those are separate atoms, glued by renderer); calligraphic (hairline).
+- **Shape**: thin vertical rectangle, 12 du wide × 250 du tall (1 staff space). LSB-0.
+- **Stroke register**: geometric hairline, uniform thickness.
+- **Key features**: (1) thin (12 du); (2) drawn vertical in the source; (3) no heads or feet — pure connector. Rhena's resolver rotates/scales this at render time to span whatever interval the pes covers.
+- **Registration**: bbox (0, 0) to (+12, +250). No SMuFL equivalent — this is a compositional primitive; Rhena-internal convention applies.
+- **NOT**: heads or feet (those are separate atoms); calligraphic; pre-rotated (the resolver handles rotation).
 
-### 19. `rh_flexa_line` (width 172)
+### 19. `rh_flexa_line` (width 172 du)
 
-- **Shape**: thin descending diagonal — narrow slanted rectangle from upper-left to lower-right. Runs from (0, 0) at top down to (+160, -250) at bottom, with thickness 12 em-units perpendicular to its length. Pure diagonal hairline.
-- **Stroke register**: geometric thin line, uniform thickness. Matches pes_line in weight.
+- **Shape**: descending diagonal parallelogram, 172 du wide × 260 du tall, 12 du thick. Top edge at y=0 spanning x ∈ [0, 12]; bottom edge at y=-260 spanning x ∈ [160, 172].
+- **Stroke register**: geometric hairline, uniform thickness. Matches pes_line in weight.
 - **Key features**: (1) **DIAGONAL** (unlike pes_line which is vertical); (2) descends left-to-right (reflects the flexa's downward motion); (3) thin hairline weight.
-- **Proportions**: width 172, height ~260.
-- **Registration**: origin at top-left endpoint (0, 0); the line descends into negative Y to the right. Bounding box ~(0, -260) to (+172, 0).
+- **Registration**: bbox (0, -260) to (+172, 0). No SMuFL equivalent — compositional primitive; Rhena-internal convention.
 - **NOT**: vertical (that's pes_line); with heads (heads are separate atoms); calligraphic (hairline).
 
 ---

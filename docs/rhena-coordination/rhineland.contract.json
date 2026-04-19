@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
-  "description": "Authoritative Rhineland glyph contract for the Rhena/Viriditas notation platform. Single source of truth for glyph names, advance widths, SMuFL cross-references, and documentation. Consumed by the hildegard-neumes font project (scripts/generate-rhena-glyphs.py) via a pinned copy. Rhena's render_ir::glyphs::rhineland module MUST agree with this file; a unit test in Rhena asserts the match. Proposed by hildegard-neumes ADR-0003 (contract ownership). Pending Rhena-side adoption. IMPORTANT (2026-04-14 width review): the corrected widths rh_virga=90, rh_liquescent_asc=160, rh_liquescent_desc=160 land here first. As of this update Rhena's crates/rhena-core/src/render_ir/glyphs/rhineland.rs still has the pre-review (buggy) values 65/140/140. The coordinated Rhena-side adoption PR brings the width changes AND the diplomatic-mode golden-snapshot updates together in one commit. This contract is the single source of truth; Rhena's in-tree rhineland.rs catches up via that PR.",
+  "description": "Authoritative Rhineland glyph contract for the Hildegard Neumes font project. Single source of truth for glyph names, advance widths, SMuFL cross-references, and documentation. Consumed by scripts/generate-rhena-glyphs.py to emit the Rust Glyph table for Rhena adoption. 2026-04-14 width review corrected three overflow bugs: rh_virga=90, rh_liquescent_asc=160, rh_liquescent_desc=160 (docs/planning/width-review-2026-04-14.md). 2026-04-19 SMuFL alignment (docs/adr/ADR-0009-smufl-alignment.md) bumped two tradition-agnostic geometric widths to match Bravura conventions: rh_divisio_finalis=120, rh_virgula=91. Calligraphic atoms retain Rhineland-distinct widths per ADR-0008. Units are design units (du); 1 staff space = 250 du in our 1000-UPM scale.",
   "coordinate_system": {
     "em": 1000,
     "y_up": true,
@@ -132,18 +132,18 @@
     {
       "rust_const": "DIVISIO_FINALIS",
       "font_name": "rh_divisio_finalis",
-      "width": 56,
+      "width": 120,
       "smufl": "chantDivisioFinalis",
       "smufl_codepoint": "U+E8F6",
-      "doc": "Final double bar; two equal-weight thin verticals."
+      "doc": "Final double bar; two equal-weight 16-du verticals separated by an 88-du gap (total 120 du). SMuFL-aligned 2026-04-19."
     },
     {
       "rust_const": "VIRGULA",
       "font_name": "rh_virgula",
-      "width": 12,
+      "width": 91,
       "smufl": "chantVirgula",
       "smufl_codepoint": "U+E8F7",
-      "doc": "Small tick breath mark above the staff."
+      "doc": "Breath mark above the top staff line. SMuFL-aligned to Bravura convention (width 91 du, y ∈ [+255, +500]) 2026-04-19."
     },
     {
       "rust_const": "PES_LINE",

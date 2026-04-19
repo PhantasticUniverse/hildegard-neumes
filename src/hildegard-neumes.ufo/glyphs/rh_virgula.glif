@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="rh_virgula" format="2">
-  <advance width="12"/>
+  <advance width="91"/>
   <unicode hex="E8F7"/>
   <outline>
     <contour>
-      <point x="0" y="200" type="line"/>
-      <point x="12" y="200" type="line"/>
-      <point x="12" y="500" type="line"/>
+      <point x="0" y="255" type="line"/>
+      <point x="91" y="255" type="line"/>
+      <point x="91" y="500" type="line"/>
       <point x="0" y="500" type="line"/>
     </contour>
   </outline>

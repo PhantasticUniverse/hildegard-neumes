@@ -52,11 +52,11 @@ Non-calligraphic primitives (divisio bars, virgula) and less-common atoms (F-cle
 
 | # | Glyph | Width | Notes |
 | --- | --- | --- | --- |
-| 13 | `rh_divisio_minima` | 16 | Thin short vertical bar (one staff space). Geometric. |
-| 14 | `rh_divisio_maior` | 16 | Thin bar spanning full 4-line staff. Geometric. |
-| 15 | `rh_divisio_maxima` | 16 | Thin bar extending above + below staff. Geometric. |
-| 16 | `rh_divisio_finalis` | 56 | Double vertical bar. Geometric. |
-| 17 | `rh_virgula` | 12 | Small tick breath mark above the staff. |
+| 13 | `rh_divisio_minima` | 16 | Thin bar (1 staff space, above top line). SMuFL-aligned per ADR-0009. |
+| 14 | `rh_divisio_maior` | 16 | Thin bar (2 staff spaces, centred on midline). SMuFL-aligned. |
+| 15 | `rh_divisio_maxima` | 16 | Thin bar (3 staff spaces, centred). SMuFL-aligned. |
+| 16 | `rh_divisio_finalis` | 120 | Two 16-du bars, 88-du gap. Width corrected 56→120 by ADR-0009 SMuFL alignment. |
+| 17 | `rh_virgula` | 91 | Breath mark above staff. Width corrected 12→91 by ADR-0009 SMuFL alignment. |
 | 18 | `rh_deminutum` | 100 | Tiny angular mark for diminutive liquescence. Smallest atom. |
 | 19 | `rh_f_clef` | 160 | F-clef for low-range antiphons. No direct reference image — extrapolate from C clef + standard F-clef convention. |
 

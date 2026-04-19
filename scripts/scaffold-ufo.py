@@ -5,12 +5,14 @@
 Reads src/glyph-names.json and src/widths.json and emits a valid UFO3
 directory. Each contract glyph is authored as either:
 
-- a **final geometric shape** (Phase B — the seven divisio bars,
-  virgula, pes_line, flexa_line) whose outline is authoritative and
-  matches docs/paleographic_drawing_briefs.md §§ 13–19; or
-- a **placeholder rectangle** (Phase A — the twelve calligraphic
-  atoms) sized to fit inside the advance width, which a designer later
-  replaces in FontForge per briefs §§ 1–12.
+- a **final geometric shape** (the seven tradition-agnostic atoms —
+  divisio family, virgula, pes_line, flexa_line). Tradition-agnostic
+  shapes adopt Bravura SMuFL conventions per ADR-0009; compositional
+  primitives (pes_line, flexa_line) keep their own conventions since
+  they have no SMuFL equivalent; or
+- a **placeholder rectangle** (the twelve calligraphic atoms) sized
+  to fit inside the advance width, which a designer later replaces
+  in FontForge per docs/paleographic_drawing_briefs.md §§ 1–12.
 
 Having both live in one deterministic script means re-running
 ``just rescaffold-ufo`` regenerates the seven geometric glyphs to
@@ -23,12 +25,10 @@ The output UFO3 opens cleanly in FontForge (or any UFO3-aware tool),
 builds to a valid OTF via scripts/build-font.sh, and exercises the
 full scripts/generate-rhena-glyphs.py codegen pipeline end-to-end.
 
-Bboxes fit inside the post-review advance widths (src/widths.json —
-``rh_virga`` 90, ``rh_liquescent_asc``/``_desc`` 160) so
-validate-font.py's bbox-vs-advance check passes. Phase B shapes
-follow the paleographic brief dimensions (divisio heights match
-staff-space units; flexa_line is a true descending diagonal, not a
-rotated rectangle).
+Design units (du) are the 1000-UPM font units. SMuFL uses staff
+spaces as its native measurement (1 ss = 0.25 em = 250 du in our
+scale); we use du for paths and quote staff spaces when referencing
+SMuFL conventions.
 
 Usage:
     python scripts/scaffold-ufo.py              # fails if UFO exists
@@ -46,8 +46,12 @@ import sys
 from pathlib import Path
 
 EM = 1000
-ASCENT = 800
-DESCENT = -200  # signed, font-native Y-up convention
+# SMuFL convention is a ≥ 2 em vertical box so tall music glyphs don't
+# clip. Bravura/Leland/Gootville use 2012/-2012 exactly; Petaluma uses
+# 1000/-1000. We round Bravura's value for cleanliness — 2 em even,
+# still SMuFL-conformant. See docs/adr/ADR-0009-smufl-alignment.md.
+ASCENT = 2000
+DESCENT = -2000  # signed, font-native Y-up convention
 
 # ---------------------------------------------------------------------------
 # Phase A: placeholder bboxes for the twelve calligraphic atoms
@@ -76,56 +80,71 @@ PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
 
 
 # ---------------------------------------------------------------------------
-# Phase B: final shapes for the seven geometric atoms
+# Final shapes for the seven geometric atoms (SMuFL-aligned)
 # ---------------------------------------------------------------------------
 #
 # Each entry is a list of contours; each contour is a list of
 # (x, y) points. Counter-clockwise winding in y-up coordinates
-# marks a filled interior (standard TrueType/CFF fill rule). A
-# counter-winding contour inside a fill would mark a cutout, but
-# none of our geometric shapes need cutouts — every contour here
-# is CCW and fills.
+# marks a filled interior (standard TrueType/CFF fill rule).
 #
-# Source: docs/paleographic_drawing_briefs.md §§ 13–19. A 4-line
-# Rhineland staff spans ~1000 em-units centred on y=0 (one staff
-# space ≈ 250 em-units), so divisio_maior covers the full staff at
-# y ∈ [-500, +500] and divisio_maxima extends ±250 past that.
+# **Tradition-agnostic glyphs** (divisio family, virgula) adopt
+# Bravura's SMuFL conventions per ADR-0009:
+# - staff space height = 250 du
+# - y=0 is the staff midline
+# - divisio_minima and virgula sit **above** the staff (y ∈ [+250, +500])
+# - divisio_maior/maxima/finalis are **centered** on the midline
+# - dimensions match Bravura's bravura_metadata.json bboxes
+# - y-positioning is **path-intrinsic** — the outline itself carries
+#   the SMuFL y-offsets so a consumer embedding the path gets correct
+#   placement with no additional transform
 #
-# rh_pes_line is LSB-0 per width-review § 5.6 (unified with the bar
-# family for consistency even though the brief § 18 specified
-# centred-origin). The width-review recommendation takes precedence
-# as the more recent targeted analysis.
+# Source: Bravura (SMuFL reference font) at
+# `reference-repos/musescore/fonts/bravura/bravura_metadata.json`.
+# We write off the abandoned `rhineland.rs` conventions (2x heights,
+# y=0 baselines, 12-du virgula) — those were unvalidated placeholder
+# decisions in code Rhena threw away.
+#
+# **Compositional primitives** (`rh_pes_line`, `rh_flexa_line`) have
+# no SMuFL equivalent; they keep their own conventions for Rhena's
+# resolver (rotated/scaled at render time).
 GEOMETRIC_FINAL_SHAPES: dict[str, list[list[tuple[int, int]]]] = {
     "rh_divisio_minima": [
-        # one staff space tall, LSB-0
-        [(0, 0), (16, 0), (16, 250), (0, 250)],
+        # 1 staff space, positioned above top line (SMuFL: [1.0, 2.0] ss)
+        [(0, 250), (16, 250), (16, 500), (0, 500)],
     ],
     "rh_divisio_maior": [
-        # full four-line staff
-        [(0, -500), (16, -500), (16, 500), (0, 500)],
+        # 2 staff spaces, centered on midline (SMuFL: [-1.0, 1.0] ss)
+        [(0, -250), (16, -250), (16, 250), (0, 250)],
     ],
     "rh_divisio_maxima": [
-        # full staff + 250 above + 250 below
-        [(0, -750), (16, -750), (16, 750), (0, 750)],
+        # 3 staff spaces, centered (SMuFL: [-1.5, 1.5] ss)
+        [(0, -375), (16, -375), (16, 375), (0, 375)],
     ],
     "rh_divisio_finalis": [
-        # two equal-weight bars, 24-unit gap between (16 wide + 24 gap + 16 wide = 56)
-        [(0, -750), (16, -750), (16, 750), (0, 750)],   # left bar
-        [(40, -750), (56, -750), (56, 750), (40, 750)],  # right bar
+        # Two 16-du bars separated by an 88-du gap (total 120 du wide),
+        # same height as divisio_maxima (3 staff spaces, centered).
+        # Matches Bravura chantDivisioFinalis bbox SW=[0,-1.5] NE=[0.48,1.5].
+        [(0, -375), (16, -375), (16, 375), (0, 375)],         # left bar
+        [(104, -375), (120, -375), (120, 375), (104, 375)],   # right bar
     ],
     "rh_virgula": [
-        # short breath mark above the staff (y ∈ [200, 500])
-        [(0, 200), (12, 200), (12, 500), (0, 500)],
+        # Breath mark above the top line. Bravura chantVirgula width 91 du,
+        # y ∈ [+255, +500] (just above the staff). Final shape in Bravura
+        # is a curvy hook; for v1 we use a rectangle at the same bbox —
+        # good-enough placeholder for SMuFL-compatible positioning.
+        [(0, 255), (91, 255), (91, 500), (0, 500)],
     ],
     "rh_pes_line": [
-        # thin ascending connector, one staff space tall, LSB-0
-        # (vertical source; renderer rotates/scales to span the interval)
+        # Thin ascending connector, one staff space tall, LSB-0. No SMuFL
+        # equivalent — compositional primitive; Rhena's resolver rotates
+        # and scales it at render time to span the interval of any pes.
         [(0, 0), (12, 0), (12, 250), (0, 250)],
     ],
     "rh_flexa_line": [
-        # descending diagonal parallelogram, 172 wide, 260 tall, 12 thick.
-        # Top edge at y=0, x ∈ [0, 12]; bottom edge at y=-260, x ∈ [160, 172].
-        # CCW starting at bottom-left corner of the slanted parallelogram.
+        # Descending diagonal parallelogram, 172 du wide, 260 du tall,
+        # 12 du thick. No SMuFL equivalent — compositional primitive.
+        # Top edge at y=0, x ∈ [0, 12]; bottom edge at y=-260,
+        # x ∈ [160, 172]. CCW from bottom-left corner.
         [(160, -260), (172, -260), (12, 0), (0, 0)],
     ],
 }

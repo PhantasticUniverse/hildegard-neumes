@@ -22,7 +22,8 @@ Short-form decision records for the Hildegard Neumes font project, following the
 | ADR-0006 | Licence: SIL OFL 1.1 with Reserved Font Name | Accepted |
 | ADR-0007 | OpenType/CFF outlines, not TrueType | Accepted |
 | ADR-0008 | Paleographic fidelity arbitration policy | Accepted |
+| ADR-0009 | SMuFL alignment for tradition-agnostic glyphs | Accepted |
 
 ## Coordination with Rhena
 
-Decisions that affect the Rhena project's code are staged in `../rhena-coordination/` rather than committed as ADRs in this repo. The Rhena-side switch to consuming this font's generated output is tracked there as `ADR-0009-generated-rhineland-glyphs.md`, awaiting Rhena's ADR committee to adopt it under Rhena's own numbering.
+Decisions that affect the Rhena project's code are staged in `../rhena-coordination/` rather than committed as ADRs in this repo. The Rhena-side switch to consuming this font's generated output is tracked there as `ADR-0009-generated-rhineland-glyphs.md`, awaiting Rhena's ADR committee to adopt it under Rhena's own numbering — note that this is **Rhena's** ADR-0009 (to be adopted into Rhena's sequence), distinct from **our** font-project ADR-0009 (SMuFL alignment) listed above.

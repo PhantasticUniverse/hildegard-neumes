@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
-  "description": "Authoritative advance widths (font units, em=1000) for the Hildegard Neumes OTF. Keyed by font-internal glyph name. The generate-rhena-glyphs.py script asserts the OTF matches these to within `tolerance` units; mismatch is a build error. Widths are frozen at v1 to preserve Rhena golden-snapshot stability — coordinate any change with the Rhena project for a single snapshot-update pass. 2026-04-14 width review (docs/planning/width-review-2026-04-14.md) corrected three overflow bugs: rh_virga 65→90, rh_liquescent_asc 140→160, rh_liquescent_desc 140→160. The font project now leads Rhena's rhineland.rs until the coordinated adoption PR lands in Rhena.",
+  "description": "Authoritative advance widths (design units, 1000 UPM) for the Hildegard Neumes OTF. Keyed by font-internal glyph name. The generate-rhena-glyphs.py script asserts the OTF matches these to within `tolerance` units; mismatch is a build error. 2026-04-14 width review corrected three overflow bugs: rh_virga 65→90, rh_liquescent_asc 140→160, rh_liquescent_desc 140→160 (docs/planning/width-review-2026-04-14.md). 2026-04-19 SMuFL alignment (docs/adr/ADR-0009-smufl-alignment.md) bumped two tradition-agnostic geometric glyph widths to match Bravura: rh_divisio_finalis 56→120, rh_virgula 12→91. Calligraphic atoms retain Rhineland-distinct widths per ADR-0008.",
   "em": 1000,
   "tolerance": 1,
   "widths": {
@@ -20,8 +20,8 @@
     "rh_divisio_minima": 16,
     "rh_divisio_maior": 16,
     "rh_divisio_maxima": 16,
-    "rh_divisio_finalis": 56,
-    "rh_virgula": 12,
+    "rh_divisio_finalis": 120,
+    "rh_virgula": 91,
     "rh_pes_line": 12,
     "rh_flexa_line": 172
   },

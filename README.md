@@ -1,6 +1,6 @@
 # Hildegard Neumes
 
-An OpenType font for the Rhineland neume notation used in Hildegard von Bingen's music manuscripts — **Dendermonde Cod. 9** (c. 1174/75) and **Wiesbaden Riesencodex Hs. 2** (c. 1180–85). Built to replace the abandoned experimental inline-Rust glyph attempt in the Rhena/Viriditas notation platform with a real, iterable, universally consumable font asset.
+An OpenType font for the Rhineland neume notation used in Hildegard von Bingen's music manuscripts — **Dendermonde Cod. 9** (c. 1174/75) and **Wiesbaden Riesencodex Hs. 2** (c. 1180–85). Built as a **SMuFL-conformant standalone OTF** usable by any SMuFL-aware consumer (Verovio, MuseScore, LilyPond, Illustrator, web `@font-face`). Primary current consumer is the Rhena/Viriditas notation platform, which integrates via a Python codegen path; other consumers use the OTF directly.
 
 ## Why this project exists
 
@@ -75,13 +75,13 @@ rh_f_clef               width 160
 rh_divisio_minima       width 16
 rh_divisio_maior        width 16
 rh_divisio_maxima       width 16
-rh_divisio_finalis      width 56
-rh_virgula              width 12
+rh_divisio_finalis      width 120   (SMuFL-aligned 2026-04-19; was 56)
+rh_virgula              width 91    (SMuFL-aligned 2026-04-19; was 12)
 rh_pes_line             width 12
 rh_flexa_line           width 172
 ```
 
-19 glyphs. Em = 1000, Y-up, Bravura convention. Three widths were corrected by the 2026-04-14 width review; the rest are frozen at v1 pending a v2 ADR. Details in `docs/planning/width-review-2026-04-14.md` and `rhena_integration_plan.md` § 3.
+19 glyphs. 1000-UPM design-units, Y-up, SMuFL conventions (em=1000, staff space=250 du, ≥2em vertical box per OS/2 ascender/descender). Three widths were corrected by the 2026-04-14 width review; two more were aligned with Bravura SMuFL conventions by ADR-0009 on 2026-04-19 (tradition-agnostic geometric glyphs). Calligraphic atoms retain Rhineland-distinct widths per ADR-0008. Details in `docs/planning/width-review-2026-04-14.md`, `docs/adr/ADR-0009-smufl-alignment.md`, and `rhena_integration_plan.md` § 3.
 
 ## Document map
 
@@ -166,14 +166,15 @@ hildegard-neumes/
 **Done**:
 - Source format fixed to UFO3 (ADR-0001).
 - **Phase A UFO3 scaffold landed (2026-04-19)**: `src/hildegard-neumes.ufo/` now contains `.notdef` + the 19 Rhineland atoms with SMuFL codepoints in the cmap and `public.glyphOrder` pinned. Produced by `scripts/scaffold-ufo.py` (Python + stdlib `plistlib`, no `defcon` / `fs` deps). Round-trip verified via `fontTools.ufoLib.UFOReader` in `tests/test_scaffold.py`.
-- **Phase B geometric shapes landed (2026-04-19)**: the seven non-calligraphic atoms (`rh_divisio_minima`, `_maior`, `_maxima`, `_finalis`, `rh_virgula`, `rh_pes_line`, `rh_flexa_line`) ship their final outlines from `scaffold-ufo.py`'s `GEOMETRIC_FINAL_SHAPES` table. Heights follow the staff-space convention in `docs/paleographic_drawing_briefs.md` §§ 13-19; `divisio_finalis` has two contours; `flexa_line` is a true descending-diagonal parallelogram. The twelve calligraphic atoms remain as Phase A placeholders pending Phase C.
+- **Phase B geometric shapes landed (2026-04-19)**: the seven non-calligraphic atoms (`rh_divisio_minima`, `_maior`, `_maxima`, `_finalis`, `rh_virgula`, `rh_pes_line`, `rh_flexa_line`) ship their final outlines from `scaffold-ufo.py`'s `GEOMETRIC_FINAL_SHAPES` table. The twelve calligraphic atoms remain as placeholders pending Phase C.
+- **SMuFL alignment landed (2026-04-19, ADR-0009)**: OS/2 ascender/descender bumped to ±2000 du (≥ 2 em vertical box per SMuFL convention). Tradition-agnostic geometric glyphs adopt Bravura's SMuFL dimensions and path-intrinsic y-positioning exactly (divisio_minima y ∈ [+250, +500] above staff; divisio_maior/maxima centred; divisio_finalis 120 du wide with two bars; virgula 91 du wide). Width contract bumped: `rh_divisio_finalis` 56→120, `rh_virgula` 12→91. The abandoned `rhineland.rs` dimensions (inherited from placeholder code Rhena wrote off) are no longer a reference.
 - **End-to-end pipeline verified locally**: `just build-font` produces a valid OTF (em=1000, CFF outlines, 20 glyphs, SMuFL cmap); `just validate-font` passes under `--strict-overflow`; `just generate-rhena` emits a 173-line `rhineland_glyphs.rs`; two consecutive builds are byte-identical. `scripts/build-font.sh` uses FontForge's Python API (the `-lang=ff` FF-script frontend segfaults on our UFO3 on macOS Homebrew FontForge 20251009; the Python path is equivalent and stable).
 - Build pipeline: `scripts/build-font.sh` (headless FontForge, `SOURCE_DATE_EPOCH=0`) and `scripts/generate-rhena-glyphs.py` (~790 lines, fontTools-based, hand-rolled path normalizer so no `svgpathtools` dependency).
 - Machine-readable contract: `src/glyph-names.json` + `src/widths.json`. Staged single-source-of-truth for Rhena adoption at `docs/rhena-coordination/rhineland.contract.json`.
 - Width review ran (2026-04-14, `docs/planning/width-review-2026-04-14.md`). Three overflow bugs found (`rh_virga` 65→90, `rh_liquescent_asc`/`desc` 140→160) and corrected in `src/widths.json` + the staged contract + the scaffolded UFO3. Rhena's in-tree widths still hold the pre-review values; the coordinated adoption PR catches them up.
 - Determinism: 5/5 ADR-0004 mitigations in place (contract-order iteration, round-half-up integer coords, canonical path commands, stripped-timestamp OTF hash, `SOURCE_DATE_EPOCH=0`). `justfile` `check-generated` recipe + `.github/workflows/reproducibility.yml` matrix byte-identity gate.
 - Test suite: 56 pytest cases (54 active + 2 recipe regression guards), parametrized over TTF/OTF fixtures for format-specific coverage plus Phase A UFO3 structure + round-trip tests. `tests/fixtures/make_minimal_ttf.py` synthesizes a quadratic TTF; `tests/fixtures/make_minimal_otf.py` synthesizes a cubic CFF OTF — both built programmatically via fontTools `FontBuilder`, not committed as binaries.
-- 8 ADRs (`docs/adr/ADR-0001`–`0008`): source format, codegen toolchain, contract ownership, determinism, width freeze, OFL 1.1 licence, OTF/CFF outlines, paleographic fidelity arbitration policy.
+- 9 ADRs (`docs/adr/ADR-0001`–`0009`): source format, codegen toolchain, contract ownership, determinism, width freeze, OFL 1.1 licence, OTF/CFF outlines, paleographic fidelity arbitration policy, SMuFL alignment for tradition-agnostic glyphs.
 - 6 CI workflows (`.github/workflows/`): lint-docs, validate-contract, build-font (headless FontForge), codegen (matrix over fmt), reproducibility (matrix over fmt), smoke-rhena (workflow_dispatch only, compile-level gate).
 - Licence: OFL 1.1 with Reserved Font Name "Hildegard Neumes" (`OFL.txt` + `FONTLOG.txt`, ADR-0006).
 - Rhena-safe smoke test: `tests/test_rhena_smoke.py` uses `shutil.copytree` into `tmp_path` — operates on a throwaway copy, never mutates the sibling Rhena repo.
