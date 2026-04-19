@@ -1,0 +1,80 @@
+FONTLOG for Hildegard Neumes
+
+This file provides detailed information on the Hildegard Neumes font.
+This information should be distributed along with the Hildegard Neumes
+font and any derivative works.
+
+Basic Font Information
+----------------------
+
+Hildegard Neumes is an OpenType font for the Rhineland neume notation
+used in Hildegard von Bingen's music manuscripts — the Dendermonde Codex
+(c. 1174/75) and the Wiesbaden Riesencodex Hs. 2 (c. 1180–85). It is
+designed as a drop-in replacement for the experimental inline-Rust
+Rhineland glyph module in the Rhena/Viriditas notation platform, and
+as a universally consumable OpenType artifact for any chant tool that
+wants paleographically faithful 12th-century German neume shapes.
+
+The font's v1 atomic inventory contains 19 glyphs covering puncta,
+virgae, quilismae, oriscus, strophicus, pressus, liquescents, clefs,
+division marks, and connector lines. Multi-component neume families
+(pes, flexa, climacus, torculus, porrectus, and the Hildegard-idiosyncratic
+compounds) are assembled by the consumer's resolver from these atoms.
+
+Glyph shapes are traced from direct reads of the manuscript facsimiles
+at Wiesbaden HLB RheinMain (Riesencodex, CC-BY 4.0) and the IMSLP
+Dendermonde facsimile (public domain), following the paleographic
+register documented in Gardiner 2022, van Poucke's Alamire facsimile
+introduction, and direct folio inspection.
+
+ChangeLog
+---------
+
+14 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers
+- Initial project scaffolding.
+- 19-glyph atomic inventory defined (rust_const / font_name / width /
+  SMuFL cross-reference), matching Rhena's existing Glyph struct API.
+- UFO3 source target established (ADR-0001). Headless FontForge build
+  pipeline with SOURCE_DATE_EPOCH=0 for reproducibility.
+- Python codegen pipeline to Rhena implemented (ADR-0002): parametrized
+  test suite over both TTF (quadratic) and OTF/CFF (cubic) fixtures.
+- Determinism strategy committed (ADR-0004): round-half-up integer
+  coordinates, stripped head.created/modified sha256, double-build CI
+  byte-identity gate.
+- Width review found and corrected three overflow bugs in the inherited
+  widths (rh_virga 65→90, rh_liquescent_asc / desc 140→160). Contract
+  now carries the corrected values; Rhena catches up via a coordinated
+  adoption PR.
+- OFL 1.1 licence adopted with Reserved Font Name "Hildegard Neumes"
+  (ADR-0006).
+- No glyph outlines yet authored. Drawing phase unblocked on all
+  infrastructure fronts; begins after UFO3 source scaffolding in
+  FontForge and the coordinated Rhena-side width PR.
+
+Acknowledgements
+----------------
+
+If you make modifications be sure to add your name (N), email (E), web
+address (if you have one) (W) and description (D). This list is in
+alphabetical order.
+
+N: Hildegard Neumes Project maintainers
+E: (project email — fill in when repo goes public)
+W: (project URL — fill in when repo goes public)
+D: initial project scaffolding, 19-atom glyph contract, ADR set
+   0001–0008, Python codegen pipeline with determinism guarantees,
+   pytest suite with parametrized TTF/OTF coverage, CI workflows,
+   paleographic research, drawing briefs, width review.
+
+References
+----------
+
+- Rhena/Viriditas notation platform:
+  https://github.com/<tbd>/hildegard
+- Dendermonde Cod. 9 facsimile (IMSLP, PD):
+  https://imslp.org/wiki/Dendermonde_Codex_(Hildegard)
+- Riesencodex digital facsimile (HLB RheinMain, CC-BY 4.0):
+  https://hlbrm.digitale-sammlungen.hebis.de/handschriften-hlbrm/content/titleinfo/449618
+- Katie Gardiner, A Conductor's Guide to the Music of Hildegard von Bingen
+  (DMA diss., Indiana University, 2022):
+  https://scholarworks.iu.edu/iuswrrest/api/core/bitstreams/1a626db3-354f-4a79-94c2-227cd959eec0/content

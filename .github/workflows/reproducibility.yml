@@ -1,0 +1,82 @@
+name: reproducibility
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/generate-rhena-glyphs.py'
+      - 'src/glyph-names.json'
+      - 'src/widths.json'
+      - 'tests/fixtures/make_minimal_ttf.py'
+      - 'tests/fixtures/make_minimal_otf.py'
+      - '.github/workflows/reproducibility.yml'
+  pull_request:
+    paths:
+      - 'scripts/generate-rhena-glyphs.py'
+      - 'src/glyph-names.json'
+      - 'src/widths.json'
+      - 'tests/fixtures/make_minimal_ttf.py'
+      - 'tests/fixtures/make_minimal_otf.py'
+
+# Double-build byte-identity gate per ADR-0004. Runs independently for
+# each fixture format — each format's own two runs must agree;
+# different formats naturally produce different output.
+#
+# Uses ${{ runner.temp }} instead of /tmp for path portability per
+# docs/planning/claude-review-3-2026-04-14.md § 6 — ubuntu-latest has
+# both, but if the matrix ever gains windows-latest the /tmp path
+# would break silently.
+
+jobs:
+  double-build-diff:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fmt: [ttf, otf]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
+
+      - name: Build minimal test ${{ matrix.fmt }} fixture
+        run: |
+          mkdir -p tests/fixtures
+          python tests/fixtures/make_minimal_${{ matrix.fmt }}.py \
+            --widths src/widths.json \
+            --out tests/fixtures/minimal.${{ matrix.fmt }}
+
+      - name: Run codegen (first pass) - ${{ matrix.fmt }}
+        env:
+          SOURCE_DATE_EPOCH: '0'
+        run: |
+          python scripts/generate-rhena-glyphs.py \
+            --in tests/fixtures/minimal.${{ matrix.fmt }} \
+            --names-map src/glyph-names.json \
+            --widths-table src/widths.json \
+            --out ${{ runner.temp }}/run1.${{ matrix.fmt }}.rs \
+            --timestamp 2026-01-01T00:00:00Z
+
+      - name: Run codegen (second pass) - ${{ matrix.fmt }}
+        env:
+          SOURCE_DATE_EPOCH: '0'
+        run: |
+          python scripts/generate-rhena-glyphs.py \
+            --in tests/fixtures/minimal.${{ matrix.fmt }} \
+            --names-map src/glyph-names.json \
+            --widths-table src/widths.json \
+            --out ${{ runner.temp }}/run2.${{ matrix.fmt }}.rs \
+            --timestamp 2026-01-01T00:00:00Z
+
+      - name: Byte-identity assertion (ADR-0004) - ${{ matrix.fmt }}
+        run: |
+          if ! diff -q "${{ runner.temp }}/run1.${{ matrix.fmt }}.rs" "${{ runner.temp }}/run2.${{ matrix.fmt }}.rs"; then
+            echo "::error::Determinism failure on ${{ matrix.fmt }} — two runs produced different output"
+            diff "${{ runner.temp }}/run1.${{ matrix.fmt }}.rs" "${{ runner.temp }}/run2.${{ matrix.fmt }}.rs" || true
+            exit 1
+          fi
+          echo "OK — byte-identical output across two runs for ${{ matrix.fmt }}"

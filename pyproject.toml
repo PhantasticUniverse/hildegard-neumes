@@ -1,0 +1,40 @@
+[project]
+name = "hildegard-neumes-tools"
+version = "0.1.0"
+description = "Build + codegen tooling for the Hildegard Neumes font project. Not a library — just scripts and tests that support the font build pipeline."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT OR Apache-2.0" }
+authors = [
+    { name = "Hildegard Neumes Project" },
+]
+dependencies = [
+    "fonttools>=4.50.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-xdist>=3.5",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: tests that are slow and/or require sibling projects (test_rhena_smoke.py)",
+]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:fontTools",
+    "ignore::DeprecationWarning:fontTools.*",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM"]

@@ -1,0 +1,46 @@
+# Font build artifacts — produced by scripts/build-font.sh from src/*.ufo
+build/*.otf
+build/*.woff2
+build/*.ttf
+
+# Generated Rhena consumer file — the committed version only exists post-v1,
+# after the real OTF ships. Until then, local runs produce a placeholder
+# generated/rhineland_glyphs.rs from minimal.ttf that should not be tracked.
+generated/rhineland_glyphs.rs
+
+# Test fixtures regenerated programmatically by conftest.py at session start.
+# Kept out of git to avoid binary blobs; make_minimal_*.py scripts are the source.
+tests/fixtures/minimal.ttf
+tests/fixtures/minimal.otf
+
+# check-generated justfile recipe output directory (§10 fix)
+build/_check/
+
+# FontForge autosave / backup files
+*.sfd~
+*.sfdir.bak
+src/*.bak
+
+# Python virtual environments (for scripts/)
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS / editor cruft
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node artifacts (none expected, but safe)
+node_modules/
+
+# Claude Code per-user settings (local allowlist; personal, not project state)
+.claude/settings.local.json

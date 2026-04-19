@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": 1,
+  "description": "Authoritative Rhineland glyph contract for the Rhena/Viriditas notation platform. Single source of truth for glyph names, advance widths, SMuFL cross-references, and documentation. Consumed by the hildegard-neumes font project (scripts/generate-rhena-glyphs.py) via a pinned copy. Rhena's render_ir::glyphs::rhineland module MUST agree with this file; a unit test in Rhena asserts the match. Proposed by hildegard-neumes ADR-0003 (contract ownership). Pending Rhena-side adoption. IMPORTANT (2026-04-14 width review): the corrected widths rh_virga=90, rh_liquescent_asc=160, rh_liquescent_desc=160 land here first. As of this update Rhena's crates/rhena-core/src/render_ir/glyphs/rhineland.rs still has the pre-review (buggy) values 65/140/140. The coordinated Rhena-side adoption PR brings the width changes AND the diplomatic-mode golden-snapshot updates together in one commit. This contract is the single source of truth; Rhena's in-tree rhineland.rs catches up via that PR.",
+  "coordinate_system": {
+    "em": 1000,
+    "y_up": true,
+    "comment": "Font authored Y-up; Rhena's SVG backend flips to Y-down at render time via a transform. See hildegard-neumes rhena_integration_plan.md § 3.3."
+  },
+  "width_tolerance": 1,
+  "glyphs": [
+    {
+      "rust_const": "PUNCTUM",
+      "font_name": "rh_punctum",
+      "width": 240,
+      "smufl": "chantPunctum",
+      "smufl_codepoint": "U+E990",
+      "doc": "Rhineland punctum: calligraphic parallelogram mark; basic single note."
+    },
+    {
+      "rust_const": "VIRGA",
+      "font_name": "rh_virga",
+      "width": 90,
+      "smufl": "chantPunctumVirga",
+      "smufl_codepoint": "U+E996",
+      "doc": "Rhineland virga: thin vertical pen stroke with angular foot."
+    },
+    {
+      "rust_const": "PUNCTUM_INCLINATUM",
+      "font_name": "rh_punctum_inclinatum",
+      "width": 120,
+      "smufl": "chantPunctumInclinatum",
+      "smufl_codepoint": "U+E991",
+      "doc": "Small tilted diamond for climacus descending notes."
+    },
+    {
+      "rust_const": "QUILISMA",
+      "font_name": "rh_quilisma",
+      "width": 170,
+      "smufl": "chantQuilisma",
+      "smufl_codepoint": "U+E99B",
+      "doc": "Wavy ornamental ascending note; 2–3 rounded calligraphic humps."
+    },
+    {
+      "rust_const": "ORISCUS",
+      "font_name": "rh_oriscus",
+      "width": 200,
+      "smufl": "chantOriscusAscending",
+      "smufl_codepoint": "U+E99C",
+      "doc": "Ornamental repercussion note; small punctum body with a wavy tail. Directional split deferred to v2."
+    },
+    {
+      "rust_const": "STROPHICUS",
+      "font_name": "rh_strophicus",
+      "width": 160,
+      "smufl": "chantStrophicus",
+      "smufl_codepoint": "U+E99F",
+      "doc": "Apostropha head; repeated by the renderer for bistropha and tristropha."
+    },
+    {
+      "rust_const": "PRESSUS",
+      "font_name": "rh_pressus",
+      "width": 300,
+      "smufl": null,
+      "smufl_codepoint": "U+F403",
+      "doc": "Rhineland pressus: vertical line attached to a short undulating line (Gardiner p. 94). No SMuFL equivalent."
+    },
+    {
+      "rust_const": "LIQUESCENT_ASC",
+      "font_name": "rh_liquescent_asc",
+      "width": 160,
+      "smufl": "chantAuctumAsc",
+      "smufl_codepoint": "U+E994",
+      "doc": "Ascending liquescent terminal; small head + upward calligraphic tail. Lighter stroke per Gardiner p. 92."
+    },
+    {
+      "rust_const": "LIQUESCENT_DESC",
+      "font_name": "rh_liquescent_desc",
+      "width": 160,
+      "smufl": "chantAuctumDesc",
+      "smufl_codepoint": "U+E995",
+      "doc": "Descending liquescent terminal; small head + downward calligraphic tail."
+    },
+    {
+      "rust_const": "DEMINUTUM",
+      "font_name": "rh_deminutum",
+      "width": 100,
+      "smufl": "chantPunctumDeminutum",
+      "smufl_codepoint": "U+E9A1",
+      "doc": "Small diminutive punctum for diminutive-liquescent positions."
+    },
+    {
+      "rust_const": "C_CLEF",
+      "font_name": "rh_c_clef",
+      "width": 110,
+      "smufl": "chantCclef",
+      "smufl_codepoint": "U+E906",
+      "doc": "Rhineland movable C clef: horizontal dash above a calligraphic C."
+    },
+    {
+      "rust_const": "F_CLEF",
+      "font_name": "rh_f_clef",
+      "width": 160,
+      "smufl": "chantFclef",
+      "smufl_codepoint": "U+E902",
+      "doc": "Rhineland F clef for low-range antiphons."
+    },
+    {
+      "rust_const": "DIVISIO_MINIMA",
+      "font_name": "rh_divisio_minima",
+      "width": 16,
+      "smufl": "chantDivisioMinima",
+      "smufl_codepoint": "U+E8F3",
+      "doc": "Short phrase break; thin bar spanning one staff space."
+    },
+    {
+      "rust_const": "DIVISIO_MAIOR",
+      "font_name": "rh_divisio_maior",
+      "width": 16,
+      "smufl": "chantDivisioMaior",
+      "smufl_codepoint": "U+E8F4",
+      "doc": "Medium phrase break; thin bar spanning the full 4-line staff."
+    },
+    {
+      "rust_const": "DIVISIO_MAXIMA",
+      "font_name": "rh_divisio_maxima",
+      "width": 16,
+      "smufl": "chantDivisioMaxima",
+      "smufl_codepoint": "U+E8F5",
+      "doc": "Long phrase break; thin bar extending above and below the staff."
+    },
+    {
+      "rust_const": "DIVISIO_FINALIS",
+      "font_name": "rh_divisio_finalis",
+      "width": 56,
+      "smufl": "chantDivisioFinalis",
+      "smufl_codepoint": "U+E8F6",
+      "doc": "Final double bar; two equal-weight thin verticals."
+    },
+    {
+      "rust_const": "VIRGULA",
+      "font_name": "rh_virgula",
+      "width": 12,
+      "smufl": "chantVirgula",
+      "smufl_codepoint": "U+E8F7",
+      "doc": "Small tick breath mark above the staff."
+    },
+    {
+      "rust_const": "PES_LINE",
+      "font_name": "rh_pes_line",
+      "width": 12,
+      "smufl": null,
+      "smufl_codepoint": null,
+      "doc": "Ascending stroke connector for pes/scandicus joins. Private, no SMuFL."
+    },
+    {
+      "rust_const": "FLEXA_LINE",
+      "font_name": "rh_flexa_line",
+      "width": 172,
+      "smufl": null,
+      "smufl_codepoint": null,
+      "doc": "Descending diagonal connector for flexa/clivis. Private, no SMuFL."
+    }
+  ],
+  "width_review": "docs/planning/width-review-2026-04-14.md"
+}

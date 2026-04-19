@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": 1,
+  "description": "Mapping between Rhena Rust constants, font-internal glyph names, and SMuFL cross-references for the Hildegard Neumes font. Order of `glyphs` is authoritative and defines Rhena's ALL_GLYPHS slice order. Do not reorder without coordinating with Rhena's `glyphs/mod.rs`.",
+  "glyphs": [
+    {
+      "rust_const": "PUNCTUM",
+      "font_name": "rh_punctum",
+      "smufl": "chantPunctum",
+      "smufl_codepoint": "U+E990",
+      "doc": "Rhineland punctum: calligraphic parallelogram mark; basic single note."
+    },
+    {
+      "rust_const": "VIRGA",
+      "font_name": "rh_virga",
+      "smufl": "chantPunctumVirga",
+      "smufl_codepoint": "U+E996",
+      "doc": "Rhineland virga: thin vertical pen stroke with angular foot."
+    },
+    {
+      "rust_const": "PUNCTUM_INCLINATUM",
+      "font_name": "rh_punctum_inclinatum",
+      "smufl": "chantPunctumInclinatum",
+      "smufl_codepoint": "U+E991",
+      "doc": "Small tilted diamond for climacus descending notes."
+    },
+    {
+      "rust_const": "QUILISMA",
+      "font_name": "rh_quilisma",
+      "smufl": "chantQuilisma",
+      "smufl_codepoint": "U+E99B",
+      "doc": "Wavy ornamental ascending note; 2–3 rounded calligraphic humps."
+    },
+    {
+      "rust_const": "ORISCUS",
+      "font_name": "rh_oriscus",
+      "smufl": "chantOriscusAscending",
+      "smufl_codepoint": "U+E99C",
+      "doc": "Ornamental repercussion note; small punctum body with a wavy tail. Directional split deferred."
+    },
+    {
+      "rust_const": "STROPHICUS",
+      "font_name": "rh_strophicus",
+      "smufl": "chantStrophicus",
+      "smufl_codepoint": "U+E99F",
+      "doc": "Apostropha head; repeated by the renderer for bistropha and tristropha."
+    },
+    {
+      "rust_const": "PRESSUS",
+      "font_name": "rh_pressus",
+      "smufl": null,
+      "smufl_codepoint": "U+F403",
+      "doc": "Rhineland pressus: vertical line attached to a short undulating line (Gardiner p. 94). No SMuFL equivalent."
+    },
+    {
+      "rust_const": "LIQUESCENT_ASC",
+      "font_name": "rh_liquescent_asc",
+      "smufl": "chantAuctumAsc",
+      "smufl_codepoint": "U+E994",
+      "doc": "Ascending liquescent terminal; small head + upward calligraphic tail. Lighter stroke per Gardiner p. 92."
+    },
+    {
+      "rust_const": "LIQUESCENT_DESC",
+      "font_name": "rh_liquescent_desc",
+      "smufl": "chantAuctumDesc",
+      "smufl_codepoint": "U+E995",
+      "doc": "Descending liquescent terminal; small head + downward calligraphic tail."
+    },
+    {
+      "rust_const": "DEMINUTUM",
+      "font_name": "rh_deminutum",
+      "smufl": "chantPunctumDeminutum",
+      "smufl_codepoint": "U+E9A1",
+      "doc": "Small diminutive punctum for diminutive-liquescent positions."
+    },
+    {
+      "rust_const": "C_CLEF",
+      "font_name": "rh_c_clef",
+      "smufl": "chantCclef",
+      "smufl_codepoint": "U+E906",
+      "doc": "Rhineland movable C clef: horizontal dash above a calligraphic C."
+    },
+    {
+      "rust_const": "F_CLEF",
+      "font_name": "rh_f_clef",
+      "smufl": "chantFclef",
+      "smufl_codepoint": "U+E902",
+      "doc": "Rhineland F clef for low-range antiphons."
+    },
+    {
+      "rust_const": "DIVISIO_MINIMA",
+      "font_name": "rh_divisio_minima",
+      "smufl": "chantDivisioMinima",
+      "smufl_codepoint": "U+E8F3",
+      "doc": "Short phrase break; thin bar spanning one staff space."
+    },
+    {
+      "rust_const": "DIVISIO_MAIOR",
+      "font_name": "rh_divisio_maior",
+      "smufl": "chantDivisioMaior",
+      "smufl_codepoint": "U+E8F4",
+      "doc": "Medium phrase break; thin bar spanning the full 4-line staff."
+    },
+    {
+      "rust_const": "DIVISIO_MAXIMA",
+      "font_name": "rh_divisio_maxima",
+      "smufl": "chantDivisioMaxima",
+      "smufl_codepoint": "U+E8F5",
+      "doc": "Long phrase break; thin bar extending above and below the staff."
+    },
+    {
+      "rust_const": "DIVISIO_FINALIS",
+      "font_name": "rh_divisio_finalis",
+      "smufl": "chantDivisioFinalis",
+      "smufl_codepoint": "U+E8F6",
+      "doc": "Final double bar; two equal-weight thin verticals."
+    },
+    {
+      "rust_const": "VIRGULA",
+      "font_name": "rh_virgula",
+      "smufl": "chantVirgula",
+      "smufl_codepoint": "U+E8F7",
+      "doc": "Small tick breath mark above the staff."
+    },
+    {
+      "rust_const": "PES_LINE",
+      "font_name": "rh_pes_line",
+      "smufl": null,
+      "smufl_codepoint": null,
+      "doc": "Ascending stroke connector for pes/scandicus joins. Private, no SMuFL."
+    },
+    {
+      "rust_const": "FLEXA_LINE",
+      "font_name": "rh_flexa_line",
+      "smufl": null,
+      "smufl_codepoint": null,
+      "doc": "Descending diagonal connector for flexa/clivis. Private, no SMuFL."
+    }
+  ]
+}

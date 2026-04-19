@@ -1,0 +1,354 @@
+{
+  "fontName": "Hildegard Neumes",
+  "fontVersion": "0.5.0",
+  "fontDescription": "An OpenType font for the Rhineland neume notation used in Hildegard von Bingen's music manuscripts (Dendermonde Cod. 9 and Wiesbaden Riesencodex Hs. 2). Designed for use with a forked rism-digital/verovio as the shaping and staff-drawing engine, with MEI neume-module input. SMuFL-aligned where overlap exists; Hildegard-specific forms live in private PUA block U+F400-U+F4FF.",
+  "fontCopyright": "TBD",
+  "fontLicense": "TBD (recommended: SIL OFL 1.1)",
+
+  "engravingDefaults": {
+    "__comment": "Values are placeholders; finalize after first .sfd pass. All in staff-space units (1 ss = distance between adjacent staff lines).",
+    "textFontFamily": ["EB Garamond", "Junicode", "Times New Roman", "serif"],
+    "staffLineThickness": 0.13,
+    "stemThickness": 0.12,
+    "beamThickness": 0.5,
+    "legerLineThickness": 0.16,
+    "legerLineExtension": 0.4,
+    "slurEndpointThickness": 0.1,
+    "slurMidpointThickness": 0.22,
+    "tieEndpointThickness": 0.1,
+    "tieMidpointThickness": 0.22,
+    "thinBarlineThickness": 0.16,
+    "thickBarlineThickness": 0.5,
+    "dashedBarlineThickness": 0.16,
+    "dashedBarlineDashLength": 0.5,
+    "dashedBarlineGapLength": 0.25,
+    "barlineSeparation": 0.4,
+    "thinThickBarlineSeparation": 0.4,
+    "repeatBarlineDotSeparation": 0.16,
+    "bracketThickness": 0.5,
+    "subBracketThickness": 0.16,
+    "hairpinThickness": 0.16,
+    "octaveLineThickness": 0.16,
+    "pedalLineThickness": 0.16,
+    "repeatEndingLineThickness": 0.16,
+    "arrowShaftThickness": 0.16,
+    "lyricLineThickness": 0.16,
+    "textEnclosureThickness": 0.16,
+    "tupletBracketThickness": 0.16
+  },
+
+  "glyphsWithAnchors": {
+    "__comment": "Populated as .sfd glyphs are authored. v1 does not use GPOS mark attachment; v2 may use cutOut anchors for kern refinement."
+  },
+
+  "glyphBBoxes": {
+    "__comment": "Populated from FontForge export. Each entry: { bBoxNE: [x, y], bBoxSW: [x, y] } in em-units (em = 2048)."
+  },
+
+  "glyphAdvanceWidths": {
+    "__comment": "Populated from FontForge export. Staff-space units."
+  },
+
+  "hildegardExtension": {
+    "version": "0.5.0",
+    "description": "Hildegard Rhineland neume private PUA allocations and paleographic provenance.",
+    "pueBlock": {
+      "start": "U+F400",
+      "end": "U+F4FF",
+      "description": "Hildegard Neume Private Extension — 256 codepoints reserved for Rhineland-specific forms not covered by SMuFL."
+    },
+
+    "smuflReuse": {
+      "__comment": "SMuFL codepoints occupied by this font. Semantics match SMuFL; visual register is Rhineland.",
+      "U+E8F0": "chantStaff",
+      "U+E8F3": "chantDivisioMinima",
+      "U+E8F4": "chantDivisioMaior",
+      "U+E8F5": "chantDivisioMaxima",
+      "U+E8F6": "chantDivisioFinalis",
+      "U+E8F7": "chantVirgula",
+      "U+E902": "chantFclef",
+      "U+E906": "chantCclef",
+      "U+E990": "chantPunctum",
+      "U+E996": "chantPunctumVirga",
+      "U+E99B": "chantQuilisma",
+      "U+E99C": "chantOriscusAscending",
+      "U+E99D": "chantOriscusDescending",
+      "U+E99E": "chantOriscusLiquescens",
+      "U+E99F": "chantStrophicus",
+      "U+E9A0": "chantStrophicusAuctus",
+      "U+E9A1": "chantPunctumDeminutum",
+      "U+E9D0": "chantIctusAbove",
+      "U+E9D1": "chantIctusBelow",
+      "U+E9D2": "chantCirculusAbove",
+      "U+E9D3": "chantCirculusBelow",
+      "U+E9D4": "chantSemicirculusAbove",
+      "U+E9D5": "chantSemicirculusBelow",
+      "U+E9D6": "chantAccentusAbove",
+      "U+E9D7": "chantAccentusBelow",
+      "U+E9D8": "chantEpisema",
+      "U+E9D9": "chantAugmentum",
+      "U+EA04": "chantCustosStemUpPosLowest",
+      "U+EA05": "chantCustosStemUpPosLow",
+      "U+EA06": "chantCustosStemUpPosMiddle",
+      "U+EA07": "chantCustosStemDownPosMiddle",
+      "U+EA08": "chantCustosStemDownPosHigh",
+      "U+EA09": "chantCustosStemDownPosHighest"
+    },
+
+    "smuflRegisterDivergence": {
+      "U+E99B": {
+        "smuflIntent": "chantQuilisma — square-notation three-lobed form (Liber Usualis convention).",
+        "hildegardForm": "Rhineland jagged-wave core attached to a smooth ascending tail. Never free-standing.",
+        "source": "Gardiner 2022 pp. 94–95: 'two small jagged-looking waves with a gracefully curved line ascending the distance of a third or sometimes a fourth… connected to a smooth upward ascending stroke.'"
+      }
+    },
+
+    "privatePua": {
+      "__comment": "Hildegard-specific glyphs in PUA U+F400-U+F4FF. Each entry: { name, inventoryRef, description, paleographicSource }.",
+
+      "U+F400": {
+        "name": "hildegardDotPunctum",
+        "inventoryRef": "Component (new v0.5)",
+        "description": "Rhineland detached dot for climacus/scandicus chains. Visually distinct from chantPunctum at U+E990.",
+        "paleographicSource": "Gardiner Fig. 6 p. 91 (climacus, scandicus labels); ISHvBS editorial methodology at hildegard-society.org/p/music.html."
+      },
+      "U+F401": {
+        "name": "hildegardTractulus",
+        "inventoryRef": "RN-027",
+        "description": "Short horizontal dash single-tone sign.",
+        "paleographicSource": "Humdrum Hildegard representation (https://www.humdrum.org/Humdrum/representations/hildegard.rep.html). NOT in Gardiner — verify against Dendermonde/Riesencodex before final commit."
+      },
+      "U+F402": {
+        "name": "hildegardRoundedLiquescentTerminal",
+        "inventoryRef": "Component (new v0.5)",
+        "description": "Rounded, lighter-stroke liquescent ending shared across cephalicus, epiphonus, pes_liquescens, pressus_liquescens, and RN-022.",
+        "paleographicSource": "Gardiner 2022 p. 92: 'characterized by a rounded off, lighter stroke.'"
+      },
+      "U+F403": {
+        "name": "hildegardPressusCore",
+        "inventoryRef": "Component (new v0.5)",
+        "description": "Vertical line attached to a short undulating line. Shared across pressus, pressus_liquescens, pressus_subpunctis, RN-021, RN-022.",
+        "paleographicSource": "Gardiner 2022 p. 94: 'a vertical line attached to a short undulating line.'"
+      },
+      "U+F404": {
+        "name": "hildegardQuilismaJaggedCore",
+        "inventoryRef": "Component (new v0.5)",
+        "description": "Jagged-wave core of the quilisma. Never free-standing — always occurs attached to an ascending tail.",
+        "paleographicSource": "Gardiner 2022 pp. 94–95."
+      },
+      "U+F405": {
+        "name": "hildegardAscendingTailConnector",
+        "inventoryRef": "Component (new v0.5)",
+        "description": "Smooth upward stroke used as quilisma tail.",
+        "paleographicSource": "Gardiner 2022 pp. 94–95."
+      },
+      "U+F406": {
+        "name": "hildegardSubpunctisTail",
+        "inventoryRef": "Component",
+        "description": "Descending chain of dot-puncta; variable length handled by renderer.",
+        "paleographicSource": "Gardiner 2022 p. 82 ('subpunctis constructions', generic); Humdrum."
+      },
+      "U+F407": {
+        "name": "hildegardTorculusRoundHead",
+        "inventoryRef": "Component",
+        "description": "Round pen-drawn up-down head (for torculus rotundus).",
+        "paleographicSource": "Humdrum split. Verify in manuscripts."
+      },
+      "U+F408": {
+        "name": "hildegardTorculusSquareHead",
+        "inventoryRef": "Component",
+        "description": "Angular up-down head (for torculus quadratus).",
+        "paleographicSource": "Humdrum split. Verify in manuscripts."
+      },
+
+      "U+F420": {
+        "name": "hildegardPes",
+        "inventoryRef": "RN-005",
+        "description": "Two-note ascent. Span variants TBD (question § 4.1 in smufl_codepoint_mapping.md).",
+        "paleographicSource": "Gardiner Fig. 6 p. 91."
+      },
+      "U+F421": {
+        "name": "hildegardPesFlexus",
+        "inventoryRef": "RN-006",
+        "description": "Up-down three-note. Distinguished from flexa by slight uplift in tail.",
+        "paleographicSource": "Gardiner p. 15, Fig. 1."
+      },
+      "U+F422": {
+        "name": "hildegardFlexa",
+        "inventoryRef": "RN-007",
+        "description": "Two-note descent. Gardiner calls it 'clivis' in Fig. 6.",
+        "paleographicSource": "Gardiner Fig. 6 p. 91; p. 15 Fig. 1."
+      },
+      "U+F423": {
+        "name": "hildegardFlexaResupina",
+        "inventoryRef": "RN-008",
+        "description": "Down-up rebound. Gardiner treats porrectus and flexa resupina as synonyms.",
+        "paleographicSource": "Gardiner Fig. 6 p. 91 ('porrectus')."
+      },
+      "U+F424": {
+        "name": "hildegardBistropha",
+        "inventoryRef": "RN-010",
+        "description": "Same pitch twice.",
+        "paleographicSource": "Gardiner p. 91 ('repercussive neumes'); Humdrum."
+      },
+      "U+F425": {
+        "name": "hildegardTristropha",
+        "inventoryRef": "RN-011",
+        "description": "Same pitch three times.",
+        "paleographicSource": "Gardiner p. 91; Humdrum."
+      },
+
+      "U+F440": {
+        "name": "hildegardTorculusRotundus",
+        "inventoryRef": "RN-029",
+        "description": "Round-headed up-down-up. Verify split against manuscripts — Humdrum-only distinction.",
+        "paleographicSource": "Humdrum Hildegard representation. NOT explicitly in Gardiner."
+      },
+      "U+F441": {
+        "name": "hildegardTorculusQuadratus",
+        "inventoryRef": "RN-030",
+        "description": "Angular up-down-up. Verify split against manuscripts.",
+        "paleographicSource": "Humdrum. NOT in Gardiner."
+      },
+      "U+F442": {
+        "name": "hildegardTorculusResupinus",
+        "inventoryRef": "RN-031",
+        "description": "Up-down-up-up with resupination.",
+        "paleographicSource": "Gardiner Fig. 5 p. 77 (square-notation comparison); Humdrum."
+      },
+      "U+F443": {
+        "name": "hildegardPorrectus",
+        "inventoryRef": "RN-032",
+        "description": "Down-up with connecting diagonal body.",
+        "paleographicSource": "Gardiner Fig. 6 p. 91."
+      },
+      "U+F444": {
+        "name": "hildegardPorrectusFlexus",
+        "inventoryRef": "RN-033",
+        "description": "Down-up-down with descent after resupination.",
+        "paleographicSource": "Inferred from standard chant paleography. NOT explicitly in Gardiner."
+      },
+
+      "U+F460": {
+        "name": "hildegardCephalicus",
+        "inventoryRef": "RN-012",
+        "description": "Descending two-note liquescent. Uses rounded-liquescent-terminal component.",
+        "paleographicSource": "Gardiner p. 60 — O viridissima virga, Ex. 9, Riesencodex f. 474v, word 'frumentum'."
+      },
+      "U+F461": {
+        "name": "hildegardEpiphonus",
+        "inventoryRef": "RN-013",
+        "description": "Ascending two-note liquescent.",
+        "paleographicSource": "Humdrum. NOT explicitly in Gardiner — verify against manuscripts."
+      },
+      "U+F462": {
+        "name": "hildegardPesLiquescens",
+        "inventoryRef": "RN-014",
+        "description": "Pes with liquescent terminal.",
+        "paleographicSource": "Gardiner p. 92 (liquescent description, generic); Humdrum."
+      },
+      "U+F463": {
+        "name": "hildegardPesFlexusLiquescens",
+        "inventoryRef": "RN-015",
+        "description": "Pes flexus with liquescent terminal.",
+        "paleographicSource": "Gardiner p. 92 (generic); Humdrum."
+      },
+      "U+F464": {
+        "name": "hildegardPesSubpunctis",
+        "inventoryRef": "RN-035",
+        "description": "Pes with descending subpunctis tail.",
+        "paleographicSource": "Gardiner p. 82 ('subpunctis constructions', generic); Humdrum. Medium confidence."
+      },
+
+      "U+F480": {
+        "name": "hildegardPressus",
+        "inventoryRef": "RN-016",
+        "description": "Pressus — built on pressus-core component.",
+        "paleographicSource": "Gardiner p. 94."
+      },
+      "U+F481": {
+        "name": "hildegardPressusLiquescens",
+        "inventoryRef": "RN-017",
+        "description": "Pressus core + rounded liquescent terminal.",
+        "paleographicSource": "Gardiner p. 60 (contrasted with cephalicus in O viridissima virga); pp. 93–94."
+      },
+      "U+F482": {
+        "name": "hildegardPressusSubpunctis",
+        "inventoryRef": "RN-018",
+        "description": "Pressus core + subpunctis tail.",
+        "paleographicSource": "Gardiner p. 82 (generic); Humdrum."
+      },
+
+      "U+F4A0": {
+        "name": "hildegardFlexaResupinaPressusSubbipunctis",
+        "inventoryRef": "RN-021",
+        "description": "Hildegard-idiosyncratic compound: flexa resupina + pressus core + subbipunctis tail. Dedicated glyph, not an assembly.",
+        "paleographicSource": "Gardiner p. 16: 'elaborate compound flexus respinus/pressus/subbipunctis' (sic — Gardiner writes 'respinus' without the 'u'; corrected to 'resupina' in production naming)."
+      },
+      "U+F4A1": {
+        "name": "hildegardFlexaResupinaPressusLiquescens",
+        "inventoryRef": "RN-022",
+        "description": "Hildegard-idiosyncratic compound: flexa resupina + pressus core + rounded liquescent terminal. Dedicated glyph.",
+        "paleographicSource": "Gardiner p. 16: 'flexus respina/pressus liquescens' (sic). Flagged as 'idiosyncratic neumes… challenging to decipher.'"
+      }
+    },
+
+    "manuscriptSources": {
+      "dendermonde": {
+        "shelfmark": "Dendermonde, St.-Pieters-en-Paulusabdij, Cod. 9",
+        "date": "c. 1174/75",
+        "digitalSurrogate": "https://imslp.org/wiki/Dendermonde_Codex_(Hildegard)",
+        "directPdf": "https://imslp.org/wiki/File:PMLP1425654-B-DEa_MS_9.pdf",
+        "teneoRepository": "https://repository.teneo.libis.be/delivery/DeliveryManagerServlet?dps_pid=IE15126695",
+        "cantusDatabase": "https://cantusdatabase.org/source/588309",
+        "license": "Public domain"
+      },
+      "riesencodex": {
+        "shelfmark": "Wiesbaden, HLB RheinMain, Hs. 2",
+        "date": "c. 1180–85",
+        "landingPage": "https://hlbrm.digitale-sammlungen.hebis.de/handschriften-hlbrm/content/titleinfo/449618",
+        "fullPdf": "https://hlbrm.digitale-sammlungen.hebis.de/download/pdf/449618.pdf",
+        "urn": "urn:nbn:de:hebis:43-972",
+        "cantusDatabase": "https://cantusdatabase.org/source/588308",
+        "license": "CC-BY 4.0",
+        "keyFolios": {
+          "f.470r": {
+            "description": "Basic-neume reference plate (Gardiner 2022 Fig. 6)",
+            "pageviewUrl": "https://hlbrm.digitale-sammlungen.hebis.de/handschriften-hlbrm/content/pageview/450574"
+          },
+          "f.474r": {
+            "description": "O viridissima virga, start",
+            "pageviewUrl": "https://hlbrm.digitale-sammlungen.hebis.de/handschriften-hlbrm/content/pageview/450582"
+          },
+          "f.474v": {
+            "description": "O viridissima virga continued; cephalicus + pressus liquescens contrast (Gardiner Ex. 9, p. 60)",
+            "pageviewUrl": "https://hlbrm.digitale-sammlungen.hebis.de/handschriften-hlbrm/content/pageview/450583"
+          }
+        }
+      }
+    },
+
+    "references": {
+      "gardiner2022": {
+        "citation": "Gardiner, Katie. A Conductor's Guide to the Music of Hildegard von Bingen. DMA diss., Indiana University, 2022.",
+        "url": "https://scholarworks.iu.edu/iuswrrest/api/core/bitstreams/1a626db3-354f-4a79-94c2-227cd959eec0/content"
+      },
+      "humdrumHildegard": {
+        "citation": "Humdrum Hildegard Representation",
+        "url": "https://www.humdrum.org/Humdrum/representations/hildegard.rep.html"
+      },
+      "ishvbs": {
+        "citation": "International Society of Hildegard von Bingen Studies — Music page",
+        "url": "https://www.hildegard-society.org/p/music.html"
+      },
+      "smufl": {
+        "citation": "SMuFL — Standard Music Font Layout",
+        "url": "https://w3c.github.io/smufl/latest/"
+      },
+      "meiNeumes": {
+        "citation": "MEI Guidelines, Neume Notation chapter",
+        "url": "https://music-encoding.org/guidelines/v5/content/neumes.html"
+      }
+    }
+  }
+}

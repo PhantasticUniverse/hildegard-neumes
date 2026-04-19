@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": 1,
+  "description": "Authoritative advance widths (font units, em=1000) for the Hildegard Neumes OTF. Keyed by font-internal glyph name. The generate-rhena-glyphs.py script asserts the OTF matches these to within `tolerance` units; mismatch is a build error. Widths are frozen at v1 to preserve Rhena golden-snapshot stability — coordinate any change with the Rhena project for a single snapshot-update pass. 2026-04-14 width review (docs/planning/width-review-2026-04-14.md) corrected three overflow bugs: rh_virga 65→90, rh_liquescent_asc 140→160, rh_liquescent_desc 140→160. The font project now leads Rhena's rhineland.rs until the coordinated adoption PR lands in Rhena.",
+  "em": 1000,
+  "tolerance": 1,
+  "widths": {
+    "rh_punctum": 240,
+    "rh_virga": 90,
+    "rh_punctum_inclinatum": 120,
+    "rh_quilisma": 170,
+    "rh_oriscus": 200,
+    "rh_strophicus": 160,
+    "rh_pressus": 300,
+    "rh_liquescent_asc": 160,
+    "rh_liquescent_desc": 160,
+    "rh_deminutum": 100,
+    "rh_c_clef": 110,
+    "rh_f_clef": 160,
+    "rh_divisio_minima": 16,
+    "rh_divisio_maior": 16,
+    "rh_divisio_maxima": 16,
+    "rh_divisio_finalis": 56,
+    "rh_virgula": 12,
+    "rh_pes_line": 12,
+    "rh_flexa_line": 172
+  },
+  "width_review": "docs/planning/width-review-2026-04-14.md"
+}

@@ -1,0 +1,81 @@
+name: build-font
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/hildegard-neumes.ufo/**'
+      - 'scripts/build-font.sh'
+      - '.github/workflows/build-font.yml'
+  pull_request:
+    paths:
+      - 'src/hildegard-neumes.ufo/**'
+      - 'scripts/build-font.sh'
+  workflow_dispatch:
+
+# Builds the OTF + WOFF2 from the UFO3 source (per ADR-0001) via headless
+# FontForge, then runs scripts/validate-font.py against the output.
+#
+# During the pre-drawing phase, src/hildegard-neumes.ufo/ does not yet
+# exist. In that case the job emits a ::notice:: annotation explaining
+# why the real build steps are being skipped, and ends green. The
+# annotation gives PR reviewers a visible yellow banner so "skipped"
+# doesn't look like "ran and passed". Per round-3 review § 5.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install FontForge
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fontforge python3-fontforge
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps for validate-font
+        run: pip install fonttools
+
+      - name: Check UFO3 source exists
+        id: check_ufo
+        run: |
+          if [ ! -d src/hildegard-neumes.ufo ]; then
+            echo "UFO3 source not yet authored — real build steps will be skipped"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Annotate skipped build (pre-drawing phase)
+        if: steps.check_ufo.outputs.skip == 'true'
+        run: |
+          echo "::notice title=build-font skipped::src/hildegard-neumes.ufo/ not found. This is expected in the pre-drawing phase. The real build + validate + upload steps activate once the UFO3 source is authored. See README.md § v1 status snapshot and ADR-0001."
+
+      - name: Build OTF + WOFF2
+        if: steps.check_ufo.outputs.skip == 'false'
+        env:
+          SOURCE_DATE_EPOCH: '0'
+        run: bash scripts/build-font.sh
+
+      - name: Validate font
+        if: steps.check_ufo.outputs.skip == 'false'
+        run: |
+          python scripts/validate-font.py \
+            --in build/hildegard-neumes.otf \
+            --names-map src/glyph-names.json \
+            --widths-table src/widths.json
+
+      - name: Upload OTF artifact
+        if: steps.check_ufo.outputs.skip == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: hildegard-neumes-otf
+          path: |
+            build/hildegard-neumes.otf
+            build/hildegard-neumes.woff2
+          retention-days: 14
