@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="rh_punctum" format="2">
-  <advance width="240"/>
+  <advance width="160"/>
   <unicode hex="E990"/>
   <outline>
     <contour>
-      <point x="-47" y="-61" type="curve"/>
-      <point x="-47" y="-61"/>
-      <point x="-45" y="-68"/>
-      <point x="-114" y="-3" type="curve"/>
-      <point x="-115" y="-2" type="line"/>
-      <point x="-41" y="57" type="line"/>
-      <point x="-41" y="57"/>
-      <point x="22" y="-3"/>
-      <point x="26" y="-8" type="curve"/>
-      <point x="26" y="-9" type="line"/>
-      <point x="31" y="-9"/>
-      <point x="115" y="19"/>
-      <point x="115" y="19" type="curve"/>
-      <point x="116" y="18" type="line"/>
-      <point x="50" y="-27" type="line"/>
-      <point x="50" y="-27"/>
-      <point x="-42" y="-61"/>
+      <point x="-9" y="-35" type="curve"/>
+      <point x="-9" y="-35"/>
+      <point x="-8" y="-39"/>
+      <point x="-49" y="0" type="curve"/>
+      <point x="-50" y="1" type="line"/>
+      <point x="-5" y="36" type="line"/>
+      <point x="-5" y="36"/>
+      <point x="33" y="0"/>
+      <point x="35" y="-3" type="curve"/>
+      <point x="35" y="-4" type="line"/>
+      <point x="38" y="-4"/>
+      <point x="80" y="10"/>
+      <point x="80" y="10" type="curve"/>
+      <point x="81" y="9" type="line"/>
+      <point x="49" y="-14" type="line"/>
+      <point x="49" y="-14"/>
+      <point x="-6" y="-35"/>
     </contour>
   </outline>
 </glyph>

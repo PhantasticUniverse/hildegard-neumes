@@ -30,6 +30,36 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — trace-at-scale
+- Adopted trace-at-scale methodology for Phase C calligraphic atoms.
+  With 12 staff-space horizontal guidelines now visible in every
+  glyph editor (y ∈ ±250, ±500, ±750 whole staff spaces; ±125, ±375,
+  ±625 half staff spaces), the authoring workflow for each glyph is:
+    1. Import the manuscript reference image to the Background layer
+    2. Scale the image so its own staff lines align with our font's
+       staff-space guidelines (calibrating glyph-to-staff ratio by
+       construction)
+    3. Trace the glyph on Fore at that calibrated scale
+    4. Measure the resulting body bbox
+    5. Set the contract advance width from the measurement
+  This supersedes "draw to the brief's stated dimensions" — paleographic
+  measurement is now the contract authority per ADR-0008.
+- First two glyphs re-measured via trace-at-scale:
+  - rh_punctum 240 → 160 du (body bbox 130 × 71 du, asymmetric
+    body+tail). Matches Bravura chantPunctum exactly.
+  - rh_virga 240 → 120 du (head 91 wide, stem + foot total height
+    186 du). Narrower than the punctum when traced side-by-side at
+    the same staff scale — earlier "virga head ≈ punctum breadth"
+    was close-enough eyeball but traced measurement shows the virga
+    head is about 70% of punctum width.
+- src/hildegard-neumes.ufo/glyphs/rh_punctum.glif and rh_virga.glif
+  replaced with the scale-corrected traces. widths.json, contract
+  file, glyph_priority_sheet.md, README width table, scaffold-ufo.py
+  PLACEHOLDER_BBOX, and paleographic briefs §§ 1 & 2 updated.
+- Remaining calligraphic atoms (punctum_inclinatum, quilisma, oriscus,
+  strophicus, pressus, liquescents, deminutum, clefs) will be measured
+  via trace-at-scale as drawn.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — paleographic correction
 - rh_virga advance widened 90 → 240 du after direct manuscript
   comparison. The user photographed a virga and a punctum side-by-side

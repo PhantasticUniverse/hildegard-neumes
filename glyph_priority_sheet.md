@@ -12,8 +12,8 @@ These are the glyphs needed to render the first line of **O Ecclesia** from Dend
 
 | # | Glyph | Width | Why first |
 | --- | --- | --- | --- |
-| 1 | `rh_punctum` | 240 | Highest frequency atom. Its calligraphic register sets the visual language for all other atoms. Nail this first and the rest follow. |
-| 2 | `rh_virga` | 240 | The defining Rhineland gesture. Drives visual identity of the whole font. Head breadth matches `rh_punctum` (a "little punctum on top of a stem" is the paleographic reading). Width corrected 65→90 by the 2026-04-14 review (foot overflow), then 90→240 by 2026-04-19 direct manuscript comparison (head is punctum-breadth, not thin). |
+| 1 | `rh_punctum` | 160 | Highest frequency atom. Its calligraphic register sets the visual language for all other atoms. Width 160 (body 130) set 2026-04-19 via trace-at-scale from punctum.png. |
+| 2 | `rh_virga` | 120 | The defining Rhineland gesture. Head + thin descending stem + small foot hook. Width 120 (head 91 wide) set 2026-04-19 via trace-at-scale from virda.png; measured narrower than the punctum when calibrated to staff guidelines (earlier 240 "head matches punctum" assumption was eyeball-based and over-sized). |
 | 3 | `rh_c_clef` | 110 | Every line of chant begins with a clef. Without it you cannot render a staff. Reference image: `docs/research/images/c_clef.png` (Dendermonde). |
 | 4 | `rh_punctum_inclinatum` | 120 | Required for the climacus that appears in O Ecclesia line 1. Cheap to draw once `rh_punctum` is settled — it's a smaller, sharper sibling. |
 | 5 | `rh_quilisma` | 170 | Line 1 has at least one quilisma. Its calligraphic undulation is distinctive and is a test of the designer's handling of wavy components, which informs `rh_oriscus` and `rh_pressus` next. |

@@ -60,8 +60,8 @@ Rhena's existing research captures are at `hildegard/docs/research/images/` — 
 The font must emit a `rhineland_glyphs.rs` file preserving this exact shape (all constants, names, widths) so Rhena's resolver in `crates/rhena-core/src/render_ir/glyphs/mod.rs` can consume it without changes:
 
 ```
-rh_punctum              width 240
-rh_virga                width 240   (paleographic correction 2026-04-19; was 90)
+rh_punctum              width 160   (trace-at-scale 2026-04-19; was 240)
+rh_virga                width 120   (trace-at-scale 2026-04-19; was 240)
 rh_punctum_inclinatum   width 120
 rh_quilisma             width 170
 rh_oriscus              width 200

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
-  "description": "Authoritative Rhineland glyph contract for the Hildegard Neumes font project. Single source of truth for glyph names, advance widths, SMuFL cross-references, and documentation. Consumed by scripts/generate-rhena-glyphs.py to emit the Rust Glyph table for Rhena adoption. 2026-04-14 width review corrected three overflow bugs: rh_virga=90, rh_liquescent_asc=160, rh_liquescent_desc=160 (docs/planning/width-review-2026-04-14.md). 2026-04-19 SMuFL alignment (docs/adr/ADR-0009-smufl-alignment.md) bumped two tradition-agnostic geometric widths to match Bravura conventions: rh_divisio_finalis=120, rh_virgula=91. 2026-04-19 paleographic correction: rh_virga=240 (was 90) — direct manuscript comparison confirmed virga head ≈ punctum breadth. Calligraphic atoms retain Rhineland-distinct widths per ADR-0008. Units are design units (du); 1 staff space = 250 du in our 1000-UPM scale.",
+  "description": "Authoritative Rhineland glyph contract for the Hildegard Neumes font project. Single source of truth for glyph names, advance widths, SMuFL cross-references, and documentation. Consumed by scripts/generate-rhena-glyphs.py to emit the Rust Glyph table for Rhena adoption. 2026-04-19 trace-at-scale workflow adopted for calligraphic atoms: each glyph's width is measured directly by tracing the manuscript reference image scaled to align with the font's staff-space guidelines (1 ss = 250 du). First measured widths: rh_punctum 160 (body 130), rh_virga 120 (body 91 at the head). Tradition-agnostic geometric widths remain Bravura-aligned per ADR-0009. Calligraphic atoms retain Rhineland-distinct widths per ADR-0008. Units are design units (du); 1 staff space = 250 du in our 1000-UPM scale.",
   "coordinate_system": {
     "em": 1000,
     "y_up": true,
@@ -12,18 +12,18 @@
     {
       "rust_const": "PUNCTUM",
       "font_name": "rh_punctum",
-      "width": 240,
+      "width": 160,
       "smufl": "chantPunctum",
       "smufl_codepoint": "U+E990",
-      "doc": "Rhineland punctum: calligraphic parallelogram mark; basic single note."
+      "doc": "Rhineland punctum: calligraphic parallelogram mark (body + tail); basic single note. Width 160 du (body 130) set 2026-04-19 via trace-at-scale from punctum.png, matching Bravura chantPunctum convention."
     },
     {
       "rust_const": "VIRGA",
       "font_name": "rh_virga",
-      "width": 240,
+      "width": 120,
       "smufl": "chantPunctumVirga",
       "smufl_codepoint": "U+E996",
-      "doc": "Rhineland virga: calligraphic punctum-breadth head + thin descending stem + small rightward foot hook. Head shape and width match rh_punctum; stem descends from head's right side. Width 240 du set 2026-04-19 after direct manuscript comparison (superseded earlier 90)."
+      "doc": "Rhineland virga: calligraphic head + thin descending stem + small rightward foot hook. Width 120 du (head 91 wide) set 2026-04-19 via trace-at-scale from virda.png; virga head is notably narrower than the punctum when traced at staff scale."
     },
     {
       "rust_const": "PUNCTUM_INCLINATUM",
