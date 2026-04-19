@@ -38,11 +38,24 @@ fi
 
 mkdir -p "$BUILD_DIR"
 
-fontforge -lang=ff -c "
-    Open(\"$UFO_SOURCE\");
-    Generate(\"$BUILD_DIR/hildegard-neumes.otf\");
-    Generate(\"$BUILD_DIR/hildegard-neumes.woff2\");
-" 2>&1 | grep -v '^Copyright' | grep -v '^Based on sources' || true
+# Drive FontForge via its Python API rather than the -lang=ff FF-script
+# frontend. On macOS Homebrew FontForge 20251009, the FF-script engine
+# segfaults on Open() against a well-formed UFO3 while the Python API
+# loads and generates cleanly. The two paths are equivalent for headless
+# export; Python is the stable one.
+fontforge -script - "$UFO_SOURCE" "$BUILD_DIR" <<'PYEOF' 2>&1 \
+    | grep -v '^Copyright' \
+    | grep -v '^Based on sources' \
+    | grep -v "^Core python package 'pkg_resources'" \
+    || true
+import sys
+import fontforge
+ufo_path, build_dir = sys.argv[1], sys.argv[2]
+font = fontforge.open(ufo_path)
+font.generate(f"{build_dir}/hildegard-neumes.otf")
+font.generate(f"{build_dir}/hildegard-neumes.woff2")
+font.close()
+PYEOF
 
 echo "Built:"
 ls -la "$BUILD_DIR"/hildegard-neumes.{otf,woff2} 2>/dev/null || true

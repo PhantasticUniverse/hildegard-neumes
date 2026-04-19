@@ -3,24 +3,32 @@
 """scaffold-ufo.py — create src/hildegard-neumes.ufo/ from the 19-atom contract.
 
 Reads src/glyph-names.json and src/widths.json and emits a valid UFO3
-directory with all 19 Rhineland atom glyph slots populated with
-placeholder rectangle outlines at their declared advance widths.
+directory. Each contract glyph is authored as either:
+
+- a **final geometric shape** (Phase B — the seven divisio bars,
+  virgula, pes_line, flexa_line) whose outline is authoritative and
+  matches docs/paleographic_drawing_briefs.md §§ 13–19; or
+- a **placeholder rectangle** (Phase A — the twelve calligraphic
+  atoms) sized to fit inside the advance width, which a designer later
+  replaces in FontForge per briefs §§ 1–12.
+
+Having both live in one deterministic script means re-running
+``just rescaffold-ufo`` regenerates the seven geometric glyphs to
+their canonical shapes and resets the twelve calligraphic
+placeholders — exactly what you want after a contract change. The
+script is the single source of truth for every non-calligraphic
+shape in the font.
 
 The output UFO3 opens cleanly in FontForge (or any UFO3-aware tool),
-builds to a valid OTF via scripts/build-font.sh, and exercises the full
-scripts/generate-rhena-glyphs.py codegen pipeline end-to-end. The
-placeholder shapes preserve the width contract and are distinct enough
-at a glance to identify glyphs in FontForge's glyph grid. The final
-calligraphic shapes are the designer's job (Phase C). Phase B upgrades
-the seven geometric glyphs (divisio bars, virgula, connector lines) to
-their final shapes in pure Python.
+builds to a valid OTF via scripts/build-font.sh, and exercises the
+full scripts/generate-rhena-glyphs.py codegen pipeline end-to-end.
 
-This is Phase A per the 2026-04-19 plan. Placeholder bboxes fit
-conservatively inside the post-review advance widths (src/widths.json
-— `rh_virga` 90, `rh_liquescent_asc`/`_desc` 160) so validate-font.py's
-bbox-vs-advance check passes, and hint at the final registration where
-the paleographic brief specifies it (tall virga stem, tall-left
-pressus, directional liquescent tails).
+Bboxes fit inside the post-review advance widths (src/widths.json —
+``rh_virga`` 90, ``rh_liquescent_asc``/``_desc`` 160) so
+validate-font.py's bbox-vs-advance check passes. Phase B shapes
+follow the paleographic brief dimensions (divisio heights match
+staff-space units; flexa_line is a true descending diagonal, not a
+rotated rectangle).
 
 Usage:
     python scripts/scaffold-ufo.py              # fails if UFO exists
@@ -41,16 +49,17 @@ EM = 1000
 ASCENT = 800
 DESCENT = -200  # signed, font-native Y-up convention
 
-# Placeholder bbox per glyph, keyed by font_name. Tuple: (xmin, ymin,
-# xmax, ymax). Chosen per docs/planning/width-review-2026-04-14.md § 1,
-# conservatively inside the post-review advance widths. Centred-origin
-# glyphs straddle x=0; LSB-0 glyphs sit at x >= 2 (leaves a 2-unit LSB
-# margin so the advance check has slack). Heights hint at the intended
-# vertical extent from the paleographic briefs without committing to
-# final shapes.
+# ---------------------------------------------------------------------------
+# Phase A: placeholder bboxes for the twelve calligraphic atoms
+# ---------------------------------------------------------------------------
+#
+# Keyed by font_name. Tuple: (xmin, ymin, xmax, ymax). A designer
+# replaces these with real calligraphic shapes in FontForge per
+# docs/paleographic_drawing_briefs.md §§ 1–12. Bboxes are conservative
+# — they fit inside the post-review advance widths and hint at the
+# intended vertical extent from the brief (tall virga stem, tall-left
+# pressus asymmetry, directional liquescent tails).
 PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
-    # Centred-origin glyphs (convention inherited from abandoned attempt;
-    # v1 preserves the mix; v2 may unify to LSB-0).
     "rh_punctum":            (-100,  -40,  100,   40),
     "rh_virga":              ( -35,  -40,   35,  500),
     "rh_punctum_inclinatum": ( -50,  -35,   50,   35),
@@ -61,17 +70,92 @@ PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
     "rh_liquescent_asc":     ( -65,  -30,   65,  240),
     "rh_liquescent_desc":    ( -65, -240,   65,   30),
     "rh_deminutum":          ( -40,  -30,   40,   30),
-    # LSB-0 glyphs (rh_pes_line redrawn LSB-0 per width-review § 5.6).
     "rh_c_clef":             (   5,    0,  105,  250),
     "rh_f_clef":             (   5,    0,  155,  250),
-    "rh_divisio_minima":     (   2,    0,   14,  125),
-    "rh_divisio_maior":      (   2,    0,   14,  500),
-    "rh_divisio_maxima":     (   2, -125,   14,  625),
-    "rh_divisio_finalis":    (   2,    0,   54,  500),
-    "rh_virgula":            (   2,  400,   10,  500),
-    "rh_pes_line":           (   2,    0,   10,  125),
-    "rh_flexa_line":         (   2,    0,  170,  125),
 }
+
+
+# ---------------------------------------------------------------------------
+# Phase B: final shapes for the seven geometric atoms
+# ---------------------------------------------------------------------------
+#
+# Each entry is a list of contours; each contour is a list of
+# (x, y) points. Counter-clockwise winding in y-up coordinates
+# marks a filled interior (standard TrueType/CFF fill rule). A
+# counter-winding contour inside a fill would mark a cutout, but
+# none of our geometric shapes need cutouts — every contour here
+# is CCW and fills.
+#
+# Source: docs/paleographic_drawing_briefs.md §§ 13–19. A 4-line
+# Rhineland staff spans ~1000 em-units centred on y=0 (one staff
+# space ≈ 250 em-units), so divisio_maior covers the full staff at
+# y ∈ [-500, +500] and divisio_maxima extends ±250 past that.
+#
+# rh_pes_line is LSB-0 per width-review § 5.6 (unified with the bar
+# family for consistency even though the brief § 18 specified
+# centred-origin). The width-review recommendation takes precedence
+# as the more recent targeted analysis.
+GEOMETRIC_FINAL_SHAPES: dict[str, list[list[tuple[int, int]]]] = {
+    "rh_divisio_minima": [
+        # one staff space tall, LSB-0
+        [(0, 0), (16, 0), (16, 250), (0, 250)],
+    ],
+    "rh_divisio_maior": [
+        # full four-line staff
+        [(0, -500), (16, -500), (16, 500), (0, 500)],
+    ],
+    "rh_divisio_maxima": [
+        # full staff + 250 above + 250 below
+        [(0, -750), (16, -750), (16, 750), (0, 750)],
+    ],
+    "rh_divisio_finalis": [
+        # two equal-weight bars, 24-unit gap between (16 wide + 24 gap + 16 wide = 56)
+        [(0, -750), (16, -750), (16, 750), (0, 750)],   # left bar
+        [(40, -750), (56, -750), (56, 750), (40, 750)],  # right bar
+    ],
+    "rh_virgula": [
+        # short breath mark above the staff (y ∈ [200, 500])
+        [(0, 200), (12, 200), (12, 500), (0, 500)],
+    ],
+    "rh_pes_line": [
+        # thin ascending connector, one staff space tall, LSB-0
+        # (vertical source; renderer rotates/scales to span the interval)
+        [(0, 0), (12, 0), (12, 250), (0, 250)],
+    ],
+    "rh_flexa_line": [
+        # descending diagonal parallelogram, 172 wide, 260 tall, 12 thick.
+        # Top edge at y=0, x ∈ [0, 12]; bottom edge at y=-260, x ∈ [160, 172].
+        # CCW starting at bottom-left corner of the slanted parallelogram.
+        [(160, -260), (172, -260), (12, 0), (0, 0)],
+    ],
+}
+
+
+def _assert_contract_coverage(contract_glyph_names: list[str]) -> None:
+    """Every contract glyph must appear in exactly one shape table."""
+    placeholder = set(PLACEHOLDER_BBOX)
+    geometric = set(GEOMETRIC_FINAL_SHAPES)
+    both = placeholder & geometric
+    if both:
+        raise RuntimeError(
+            f"glyph(s) defined in both PLACEHOLDER_BBOX and "
+            f"GEOMETRIC_FINAL_SHAPES: {sorted(both)}. Each glyph belongs "
+            f"in exactly one table."
+        )
+    contract = set(contract_glyph_names)
+    uncovered = contract - (placeholder | geometric)
+    if uncovered:
+        raise RuntimeError(
+            f"contract glyph(s) missing from both shape tables: "
+            f"{sorted(uncovered)}. Add to PLACEHOLDER_BBOX (calligraphic) "
+            f"or GEOMETRIC_FINAL_SHAPES (geometric)."
+        )
+    extra = (placeholder | geometric) - contract
+    if extra:
+        raise RuntimeError(
+            f"shape table(s) reference glyph(s) not in the contract: "
+            f"{sorted(extra)}. Remove them or add to src/glyph-names.json."
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -194,41 +278,59 @@ def render_glif(
     glyph_name: str,
     advance_width: int,
     unicode_codepoint: str | None,
-    bbox: tuple[int, int, int, int],
+    contours: list[list[tuple[int, int]]],
 ) -> str:
-    """Render a .glif v2 XML string for one placeholder glyph.
+    """Render a .glif v2 XML string from one or more closed contours.
 
-    Outline is a single counter-clockwise closed rectangle sized to the
-    bbox tuple (xmin, ymin, xmax, ymax). All four corners are line points
-    (no curves). Winding matches the filled-interior convention for
-    TrueType/CFF.
+    ``contours`` is a list of contour definitions; each contour is a
+    list of integer (x, y) points. Every point is written with
+    ``type="line"`` — no curves at the scaffold stage. Winding
+    direction is the caller's responsibility (counter-clockwise fills,
+    clockwise cuts; TrueType/CFF convention).
 
-    `unicode_codepoint` is a "U+NNNN" string or None; None means the glyph
-    has no cmap entry (accessed by glyph name only — applies to
-    `rh_pes_line`, `rh_flexa_line`, and `.notdef`).
+    ``unicode_codepoint`` is a "U+NNNN" string or None. None means the
+    glyph has no cmap entry and is accessed by glyph name only —
+    applies to ``rh_pes_line``, ``rh_flexa_line``, and ``.notdef``.
     """
-    xmin, ymin, xmax, ymax = bbox
     unicode_line = ""
     if unicode_codepoint:
         hex_digits = unicode_codepoint.upper().removeprefix("U+")
         unicode_line = f'  <unicode hex="{hex_digits}"/>\n'
 
-    # Counter-clockwise in y-up coords: BL -> BR -> TR -> TL
+    contour_xml_parts: list[str] = []
+    for contour in contours:
+        points_xml = "\n".join(
+            f'      <point x="{x}" y="{y}" type="line"/>' for x, y in contour
+        )
+        contour_xml_parts.append(f"    <contour>\n{points_xml}\n    </contour>")
+    contours_xml = "\n".join(contour_xml_parts)
+
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         f'<glyph name="{glyph_name}" format="2">\n'
         f'  <advance width="{advance_width}"/>\n'
         f'{unicode_line}'
         '  <outline>\n'
-        '    <contour>\n'
-        f'      <point x="{xmin}" y="{ymin}" type="line"/>\n'
-        f'      <point x="{xmax}" y="{ymin}" type="line"/>\n'
-        f'      <point x="{xmax}" y="{ymax}" type="line"/>\n'
-        f'      <point x="{xmin}" y="{ymax}" type="line"/>\n'
-        '    </contour>\n'
+        f'{contours_xml}\n'
         '  </outline>\n'
         '</glyph>\n'
     )
+
+
+def contours_for(glyph_name: str) -> list[list[tuple[int, int]]]:
+    """Return the contour list for a contract glyph.
+
+    Final geometric shapes from GEOMETRIC_FINAL_SHAPES take precedence;
+    otherwise falls back to a single CCW rectangle derived from
+    PLACEHOLDER_BBOX. Raises KeyError if the glyph isn't covered by
+    either table — :func:`_assert_contract_coverage` catches this
+    earlier with a clearer message, but the fallback is defensive.
+    """
+    if glyph_name in GEOMETRIC_FINAL_SHAPES:
+        return GEOMETRIC_FINAL_SHAPES[glyph_name]
+    xmin, ymin, xmax, ymax = PLACEHOLDER_BBOX[glyph_name]
+    # Counter-clockwise in y-up: BL -> BR -> TR -> TL.
+    return [[(xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]]
 
 
 def render_notdef_glif() -> str:
@@ -238,27 +340,16 @@ def render_notdef_glif() -> str:
     (subtracts, producing the hollow frame). Width 500, height spans the
     full ascender box.
     """
-    return (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<glyph name=".notdef" format="2">\n'
-        '  <advance width="500"/>\n'
-        '  <outline>\n'
-        # Outer frame, counter-clockwise
-        '    <contour>\n'
-        '      <point x="50"  y="0"   type="line"/>\n'
-        '      <point x="450" y="0"   type="line"/>\n'
-        '      <point x="450" y="700" type="line"/>\n'
-        '      <point x="50"  y="700" type="line"/>\n'
-        '    </contour>\n'
-        # Inner cutout, clockwise (opposite winding = subtracted)
-        '    <contour>\n'
-        '      <point x="100" y="50"  type="line"/>\n'
-        '      <point x="100" y="650" type="line"/>\n'
-        '      <point x="400" y="650" type="line"/>\n'
-        '      <point x="400" y="50"  type="line"/>\n'
-        '    </contour>\n'
-        '  </outline>\n'
-        '</glyph>\n'
+    return render_glif(
+        glyph_name=".notdef",
+        advance_width=500,
+        unicode_codepoint=None,
+        contours=[
+            # Outer frame, counter-clockwise (fills)
+            [(50, 0), (450, 0), (450, 700), (50, 700)],
+            # Inner cutout, clockwise (subtracts — opposite winding)
+            [(100, 50), (100, 650), (400, 650), (400, 50)],
+        ],
     )
 
 
@@ -277,6 +368,9 @@ def scaffold(
     names_raw = json.loads(names_map_path.read_text(encoding="utf-8"))
     widths_raw = json.loads(widths_path.read_text(encoding="utf-8"))
     widths = widths_raw["widths"]
+
+    contract_names = [g["font_name"] for g in names_raw["glyphs"]]
+    _assert_contract_coverage(contract_names)
 
     out_path.mkdir(parents=True)
 
@@ -310,13 +404,14 @@ def scaffold(
     (glyphs_dir / notdef_filename).write_text(render_notdef_glif(), encoding="utf-8")
     contents[".notdef"] = notdef_filename
 
-    # The 19 contract glyphs
+    # The 19 contract glyphs. Seven are authored as final geometric
+    # shapes from GEOMETRIC_FINAL_SHAPES; the other twelve as
+    # placeholder rectangles from PLACEHOLDER_BBOX. Coverage guard in
+    # _assert_contract_coverage ensures exactly one match per glyph.
     for entry in names_raw["glyphs"]:
         name = entry["font_name"]
         if name not in widths:
             raise KeyError(f"widths.json missing entry for {name!r}")
-        if name not in PLACEHOLDER_BBOX:
-            raise KeyError(f"PLACEHOLDER_BBOX missing entry for {name!r}")
 
         filename = glif_filename(name)
         (glyphs_dir / filename).write_text(
@@ -324,7 +419,7 @@ def scaffold(
                 glyph_name=name,
                 advance_width=widths[name],
                 unicode_codepoint=entry.get("smufl_codepoint"),
-                bbox=PLACEHOLDER_BBOX[name],
+                contours=contours_for(name),
             ),
             encoding="utf-8",
         )

@@ -30,6 +30,30 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — continued
+- Phase B geometric shapes landed. The seven non-calligraphic atoms
+  (rh_divisio_minima/_maior/_maxima/_finalis, rh_virgula, rh_pes_line,
+  rh_flexa_line) now ship their final outlines in scripts/scaffold-ufo.py
+  via a GEOMETRIC_FINAL_SHAPES dict. divisio_finalis has two contours
+  (the two parallel bars); flexa_line is a true descending-diagonal
+  parallelogram, not a rotated rectangle. Heights derive from the
+  staff-space convention in docs/paleographic_drawing_briefs.md §§ 13-19
+  (one staff space ≈ 250 em-units).
+- End-to-end pipeline verified locally: scripts/build-font.sh produces
+  build/hildegard-neumes.otf (CFF outlines, em=1000, 20 glyphs, cmap
+  maps SMuFL codepoints), build validates under --strict-overflow, the
+  generated rhineland_glyphs.rs is 173 lines, and two consecutive
+  builds produce byte-identical OTF + Rust output.
+- scripts/build-font.sh switched from fontforge -lang=ff -c "..." to
+  fontforge -script - <<PYEOF. The FF-script frontend segfaults on
+  Open() against our UFO3 on macOS Homebrew FontForge 20251009; the
+  Python API is equivalent for headless export and does not crash.
+- Reference glyph captures added at docs/reference/images/ — 11
+  paleographic reference plates (punctum, virga, climacus, flexa,
+  pes short/long, pressus, quilisma, quilisma+pressus, c_clef).
+  Formerly sourced from the sibling Rhena project; now co-located
+  for Phase C drawing sessions.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers
 - Phase A UFO3 scaffold landed. src/hildegard-neumes.ufo/ now exists
   with 20 glyph slots (.notdef + 19 Rhineland atoms), placeholder
