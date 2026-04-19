@@ -30,6 +30,22 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_c_clef Rhineland trace; Tier 1 fully authentic
+- rh_c_clef: the Bravura placeholder has been REPLACED with a
+  Rhineland trace from c_clef.png. Advance 134 → 150 du (body
+  122 × 158, dramatically more compact than Bravura's 134 × 442 —
+  the Rhineland C clef is a small scribal mark, not an engraved
+  square-notation clef). 24-point single contour, LSB-0 origin.
+- **Tier 1 now 6/6 authentic Rhineland traces** (no placeholders in
+  the MVP set). The font no longer depends on any Bravura outline
+  for glyph data; OFL attribution for Bravura is no longer needed
+  (dropping the Rhena NOTICE requirement that was added for the
+  Bravura-placeholder period).
+- This makes the font a well-formed standalone Rhineland OTF ready
+  for O Ecclesia line 1 visual validation in Rhena, per the ADR-0004
+  validation plan and glyph_priority_sheet.md Tier 1 completion
+  criterion.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_liquescent_desc (cephalicus) traced
 - rh_liquescent_desc (cephalicus in Hildegard paleographic terms):
   advance 160 → 150 du (body 120 × 238 measured from manuscript crop

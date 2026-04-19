@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
-  "description": "Authoritative advance widths (design units, 1000 UPM) for the Hildegard Neumes OTF. Keyed by font-internal glyph name. The generate-rhena-glyphs.py script asserts the OTF matches these to within `tolerance` units; mismatch is a build error. 2026-04-14 width review corrected three overflow bugs from the abandoned rhineland.rs (docs/planning/width-review-2026-04-14.md). 2026-04-19 SMuFL alignment (docs/adr/ADR-0009-smufl-alignment.md) adopted Bravura widths for tradition-agnostic geometric glyphs. 2026-04-19 trace-at-scale workflow adopted: calligraphic widths set from direct traces of manuscript reference images scaled to match the font's staff-space guidelines (1 ss = 250 du). Measured widths: rh_punctum 160 (body 130), rh_virga 120 (body 91), rh_pressus 300→240 (body 207×219), rh_punctum_inclinatum 120→140 (body 110×65), rh_quilisma 170→280 (body 247×276, significantly wider and taller than the earlier flat-ribbon spec), rh_strophicus 160→110 (body 73×54; daintier than inclinatum), rh_liquescent_desc (cephalicus) 160→150 (body 120×238; round-loop head + descending curl, TWO contours with interior void). 2026-04-19 temporary placeholder: rh_c_clef 110→134 — outline extracted from Bravura chantCclef (OFL 1.1, Steinberg) as a stand-in pending Rhineland trace. Remaining calligraphic atoms will be measured via trace-at-scale as drawn.",
+  "description": "Authoritative advance widths (design units, 1000 UPM) for the Hildegard Neumes OTF. Keyed by font-internal glyph name. The generate-rhena-glyphs.py script asserts the OTF matches these to within `tolerance` units; mismatch is a build error. 2026-04-14 width review corrected three overflow bugs from the abandoned rhineland.rs (docs/planning/width-review-2026-04-14.md). 2026-04-19 SMuFL alignment (docs/adr/ADR-0009-smufl-alignment.md) adopted Bravura widths for tradition-agnostic geometric glyphs. 2026-04-19 trace-at-scale workflow adopted: calligraphic widths set from direct traces of manuscript reference images scaled to match the font's staff-space guidelines (1 ss = 250 du). Measured widths: rh_punctum 160 (body 130), rh_virga 120 (body 91), rh_pressus 300→240 (body 207×219), rh_punctum_inclinatum 120→140 (body 110×65), rh_quilisma 170→280 (body 247×276, significantly wider and taller than the earlier flat-ribbon spec), rh_strophicus 160→110 (body 73×54; daintier than inclinatum), rh_liquescent_desc (cephalicus) 160→150 (body 120×238; round-loop head + descending curl, TWO contours with interior void). 2026-04-19 rh_c_clef Bravura placeholder REPLACED with Rhineland trace-at-scale from c_clef.png: advance 134→150, body 122×158 (much more compact than Bravura's 134×442); font no longer depends on Bravura for any glyph outline. Remaining calligraphic atoms (epiphonus, oriscus, deminutum, f_clef) pending references.",
   "em": 1000,
   "tolerance": 1,
   "widths": {
@@ -15,7 +15,7 @@
     "rh_liquescent_asc": 160,
     "rh_liquescent_desc": 150,
     "rh_deminutum": 100,
-    "rh_c_clef": 134,
+    "rh_c_clef": 150,
     "rh_f_clef": 160,
     "rh_divisio_minima": 16,
     "rh_divisio_maior": 16,

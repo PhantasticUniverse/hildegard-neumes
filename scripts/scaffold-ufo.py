@@ -74,11 +74,10 @@ PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
     "rh_liquescent_asc":     ( -65,  -30,   65,  240),
     "rh_liquescent_desc":    ( -60, -195,   65,   45),
     "rh_deminutum":          ( -40,  -30,   40,   30),
-    # Bravura chantCclef bbox approximately (0, -221) to (134, 221). Scaffold
-    # placeholder mimics its extent so a reset (just rescaffold-ufo) gives a
-    # reasonable-looking box; the actual .glif carries Bravura's canonical
-    # outline as a temporary pre-Rhineland-trace stand-in.
-    "rh_c_clef":             (   0, -221,  134,  221),
+    # Rhineland C clef, traced at scale from c_clef.png 2026-04-19.
+    # Compact dash + calligraphic C, LSB-0 origin, body extends above
+    # and below y=0 (the designated C line).
+    "rh_c_clef":             (   0,  -95,  125,   70),
     "rh_f_clef":             (   5,    0,  155,  250),
 }
 

@@ -70,7 +70,7 @@ rh_pressus              width 240   (trace-at-scale 2026-04-19; was 300)
 rh_liquescent_asc       width 160   (post-review; was 140)
 rh_liquescent_desc      width 150   (trace-at-scale 2026-04-19; was 160)
 rh_deminutum            width 100
-rh_c_clef               width 134   (Bravura placeholder 2026-04-19; was 110; Rhineland trace pending)
+rh_c_clef               width 150   (Rhineland trace-at-scale 2026-04-19; replaces Bravura placeholder)
 rh_f_clef               width 160
 rh_divisio_minima       width 16
 rh_divisio_maior        width 16

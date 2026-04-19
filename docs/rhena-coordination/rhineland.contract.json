@@ -92,10 +92,10 @@
     {
       "rust_const": "C_CLEF",
       "font_name": "rh_c_clef",
-      "width": 134,
+      "width": 150,
       "smufl": "chantCclef",
       "smufl_codepoint": "U+E906",
-      "doc": "TEMPORARY PLACEHOLDER (2026-04-19): outline extracted from Bravura chantCclef (OFL 1.1, Steinberg). Pending replacement with a Rhineland trace from docs/reference/images/c_clef.png — advance may change when the Rhineland version is drawn and measured at staff scale. Brief § 11 describes the target Rhineland shape (dash + calligraphic C with thick-thin pen register)."
+      "doc": "Rhineland movable C clef: compact calligraphic form (dash above a thick-thin C opening right). Width 150 du (body 122×158) set 2026-04-19 via trace-at-scale from c_clef.png — replaces the earlier Bravura placeholder. Significantly more compact than Bravura chantCclef (134×442) because the Rhineland C clef is a smaller scribal mark than a square-notation engraved one. LSB-0 origin; the C body sits above and below y=0 (the line the clef designates)."
     },
     {
       "rust_const": "F_CLEF",
