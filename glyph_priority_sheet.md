@@ -16,7 +16,7 @@ These are the glyphs needed to render the first line of **O Ecclesia** from Dend
 | 2 | `rh_virga` | 120 | The defining Rhineland gesture. Head + thin descending stem + small foot hook. Width 120 (head 91 wide) set 2026-04-19 via trace-at-scale from virda.png; measured narrower than the punctum when calibrated to staff guidelines (earlier 240 "head matches punctum" assumption was eyeball-based and over-sized). |
 | 3 | `rh_c_clef` | 134 | **Placeholder**: outline extracted from Bravura chantCclef (OFL 1.1) 2026-04-19 pending a Rhineland trace from `docs/reference/images/c_clef.png`. Functional stand-in so every staff has a clef during Phase C; replace with Rhineland shape when drawing time permits. |
 | 4 | `rh_punctum_inclinatum` | 140 | Width 140 (body 110×65, ~85% of `rh_punctum`) set 2026-04-19 via trace-at-scale from `climacus.png`. Sharper left/right points than the punctum. Rhena stamps this atom N times for climacus cascades. |
-| 5 | `rh_quilisma` | 170 | Line 1 has at least one quilisma. Its calligraphic undulation is distinctive and is a test of the designer's handling of wavy components, which informs `rh_oriscus` and `rh_pressus` next. |
+| 5 | `rh_quilisma` | 280 | Width 280 (body 247×276) set 2026-04-19 via trace-at-scale from `quilisma.png`. Rising ornamental gesture with rounded humps — larger and more vertical than the earlier "flat ribbon" spec suggested; manuscript trace is authoritative. |
 | 6 | `rh_pressus` | 240 | Line 1 has a pressus. Width 240 (body 207×219) set 2026-04-19 via trace-at-scale from `pressus.png`. 28-point single contour. Exercises the vertical+wave vocabulary that gates `rh_oriscus` and the liquescents. |
 
 **Tier 1 completion criterion**: the Rhena CLI command

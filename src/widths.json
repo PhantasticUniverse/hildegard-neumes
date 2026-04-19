@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
-  "description": "Authoritative advance widths (design units, 1000 UPM) for the Hildegard Neumes OTF. Keyed by font-internal glyph name. The generate-rhena-glyphs.py script asserts the OTF matches these to within `tolerance` units; mismatch is a build error. 2026-04-14 width review corrected three overflow bugs from the abandoned rhineland.rs (docs/planning/width-review-2026-04-14.md). 2026-04-19 SMuFL alignment (docs/adr/ADR-0009-smufl-alignment.md) adopted Bravura widths for tradition-agnostic geometric glyphs. 2026-04-19 trace-at-scale workflow adopted: calligraphic widths set from direct traces of manuscript reference images scaled to match the font's staff-space guidelines (1 ss = 250 du). Measured widths: rh_punctum 160 (body 130), rh_virga 120 (body 91), rh_pressus 300→240 (body 207×219), rh_punctum_inclinatum 120→140 (body 110×65). 2026-04-19 temporary placeholder: rh_c_clef 110→134 — outline extracted from Bravura chantCclef (OFL 1.1, Steinberg) as a stand-in pending Rhineland trace. Remaining calligraphic atoms will be measured via trace-at-scale as drawn.",
+  "description": "Authoritative advance widths (design units, 1000 UPM) for the Hildegard Neumes OTF. Keyed by font-internal glyph name. The generate-rhena-glyphs.py script asserts the OTF matches these to within `tolerance` units; mismatch is a build error. 2026-04-14 width review corrected three overflow bugs from the abandoned rhineland.rs (docs/planning/width-review-2026-04-14.md). 2026-04-19 SMuFL alignment (docs/adr/ADR-0009-smufl-alignment.md) adopted Bravura widths for tradition-agnostic geometric glyphs. 2026-04-19 trace-at-scale workflow adopted: calligraphic widths set from direct traces of manuscript reference images scaled to match the font's staff-space guidelines (1 ss = 250 du). Measured widths: rh_punctum 160 (body 130), rh_virga 120 (body 91), rh_pressus 300→240 (body 207×219), rh_punctum_inclinatum 120→140 (body 110×65), rh_quilisma 170→280 (body 247×276, significantly wider and taller than the earlier flat-ribbon spec). 2026-04-19 temporary placeholder: rh_c_clef 110→134 — outline extracted from Bravura chantCclef (OFL 1.1, Steinberg) as a stand-in pending Rhineland trace. Remaining calligraphic atoms will be measured via trace-at-scale as drawn.",
   "em": 1000,
   "tolerance": 1,
   "widths": {
     "rh_punctum": 160,
     "rh_virga": 120,
     "rh_punctum_inclinatum": 140,
-    "rh_quilisma": 170,
+    "rh_quilisma": 280,
     "rh_oriscus": 200,
     "rh_strophicus": 160,
     "rh_pressus": 240,

@@ -36,10 +36,10 @@
     {
       "rust_const": "QUILISMA",
       "font_name": "rh_quilisma",
-      "width": 170,
+      "width": 280,
       "smufl": "chantQuilisma",
       "smufl_codepoint": "U+E99B",
-      "doc": "Wavy ornamental ascending note; 2–3 rounded calligraphic humps."
+      "doc": "Rhineland quilisma: compact rising ornamental gesture with rounded humps. Width 280 du (body 247 × 276) set 2026-04-19 via trace-at-scale from quilisma.png — notably larger and more vertical than the earlier 'flat 3:1 ribbon' spec, which was inherited from the abandoned module and not paleographically verified."
     },
     {
       "rust_const": "ORISCUS",
