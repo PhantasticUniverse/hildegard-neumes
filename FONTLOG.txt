@@ -30,6 +30,15 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_punctum_inclinatum traced
+- rh_punctum_inclinatum advance 120 → 140 (body 110 × 65 du measured
+  from climacus.png trace-at-scale). 12-point single contour with
+  cubic segments. Body is ~85% of rh_punctum width — visibly smaller
+  when side-by-side in a climacus cascade. Sharper left/right points
+  than the punctum (brief § 3 visual distinction). Fourth Tier 1
+  calligraphic atom drawn via trace-at-scale. Rhena's resolver
+  stamps this atom N times at descending pitches to render climacus.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_pressus traced
 - rh_pressus advance 300 → 240 (body 207 × 219 du measured from
   pressus.png trace-at-scale). 28-point single contour, asymmetric

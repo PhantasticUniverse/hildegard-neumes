@@ -28,10 +28,10 @@
     {
       "rust_const": "PUNCTUM_INCLINATUM",
       "font_name": "rh_punctum_inclinatum",
-      "width": 120,
+      "width": 140,
       "smufl": "chantPunctumInclinatum",
       "smufl_codepoint": "U+E991",
-      "doc": "Small tilted diamond for climacus descending notes."
+      "doc": "Small tilted diamond for climacus descending notes. Sharper left/right points than rh_punctum. Width 140 du (body 110 × 65, ~85% of rh_punctum width) set 2026-04-19 via trace-at-scale from climacus.png. Rhena's resolver stamps this atom N times at descending y-positions to form climacus compounds; this glyph is a single inclinatum, not a cascade."
     },
     {
       "rust_const": "QUILISMA",
