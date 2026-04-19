@@ -69,7 +69,7 @@ PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
     "rh_punctum_inclinatum": ( -40,  -35,   70,   35),
     "rh_quilisma":           (-125,  -20,  125,  260),
     "rh_oriscus":            ( -85,  -35,   85,   35),
-    "rh_strophicus":         ( -70,  -35,   70,   35),
+    "rh_strophicus":         ( -35,  -30,   45,   30),
     "rh_pressus":            (-115, -190,   95,   35),
     "rh_liquescent_asc":     ( -65,  -30,   65,  240),
     "rh_liquescent_desc":    ( -65, -240,   65,   30),

@@ -30,6 +30,23 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_strophicus (apostropha) traced
+- rh_strophicus (apostropha in Hildegard paleographic terms): advance
+  160 → 110 du (body 73 × 54 measured via trace-at-scale from the
+  Lomer Hildegard-Symphonia transcription chart row 5). 9-point
+  single contour. Daintier than inclinatum (body 110×65). Rhena's
+  resolver stamps this atom 1×/2×/3× for apostropha/bistropha/
+  tristropha; the glyph is a single mark. Tier 2 #1.
+- Advance includes extra breathing room (~37 du vs our usual 30)
+  so bistropha/tristropha have readable gaps between stamped repeats.
+- Lomer chart (Hildegard_of_Bingen_Symphonia_Neume_Transcription_
+  Chart.jpg in project root) formally adopted as a paleographic
+  authority for Hildegard-specific neume vocabulary — it confirms
+  apostropha/bistropha/tristropha, cephalicus, epiphonus are all
+  attested in Hildegard's corpus. Oriscus is NOT separately charted
+  by Lomer and remains deferred (rh_oriscus placeholder kept per
+  brief § 5 note).
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_quilisma traced; Tier 1 complete
 - rh_quilisma advance 170 → 280 du (body 247 × 276 measured from
   quilisma.png trace-at-scale). 36-point single contour with cubic

@@ -36,7 +36,7 @@ Enough to render the full O Ecclesia antiphon (both lines) and typical Hildegard
 | # | Glyph | Width | Notes |
 | --- | --- | --- | --- |
 | 7 | `rh_oriscus` | 200 | Small punctum body + wavy tail (Gardiner pp. 93–94). Extrapolates from pressus wave work. Directional split (asc/desc) deferred to v2. |
-| 8 | `rh_strophicus` | 160 | Apostropha/bistropha/tristropha all collapse to this atom in Rhena's resolver. Slight upturned flick distinguishes from plain punctum. |
+| 8 | `rh_strophicus` | 110 | Apostropha (Hildegard name); stamped 1×/2×/3× by Rhena for apostropha/bistropha/tristropha. Width 110 (body 73×54) set 2026-04-19 via trace-at-scale from the Lomer Symphonia chart row 5. |
 | 9 | `rh_liquescent_asc` | 160 | Ascending liquescent (epiphonus). Small head + curved upward tail. Lighter stroke per Gardiner p. 92. Width corrected 140→160 by the 2026-04-14 review (tail overflow). |
 | 10 | `rh_liquescent_desc` | 160 | Descending liquescent (cephalicus). Mirror of ascending. Used in *O viridissima virga* f. 474v. Width corrected 140→160 by the 2026-04-14 review. |
 | 11 | `rh_pes_line` | 12 | Thin ascending connector. Near-geometric hairline. |

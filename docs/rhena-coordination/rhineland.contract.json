@@ -52,10 +52,10 @@
     {
       "rust_const": "STROPHICUS",
       "font_name": "rh_strophicus",
-      "width": 160,
+      "width": 110,
       "smufl": "chantStrophicus",
       "smufl_codepoint": "U+E99F",
-      "doc": "Apostropha head; repeated by the renderer for bistropha and tristropha."
+      "doc": "Rhineland apostropha: small calligraphic mark with asymmetric flick. Rhena's resolver stamps this atom 1× (apostropha), 2× (bistropha), or 3× (tristropha); the glyph itself is a single mark. Width 110 du (body 73×54, daintier than inclinatum) set 2026-04-19 via trace-at-scale from the Lomer Hildegard-Symphonia transcription chart (row 5). Advance includes extra breathing room (~37 du) for readable gaps between stamped repeats."
     },
     {
       "rust_const": "PRESSUS",
