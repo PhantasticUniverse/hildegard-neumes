@@ -282,9 +282,35 @@ def fontinfo_dict(version: str) -> dict:
         # --- note field for humans
         "note": (
             f"Scaffolded from the 19-atom contract at v{version}. "
-            "Placeholder rectangles — Phase A. Final calligraphic shapes "
-            "authored per docs/paleographic_drawing_briefs.md."
+            "Seven tradition-agnostic atoms (divisio family, virgula, "
+            "pes_line, flexa_line) ship as final shapes per ADR-0009. "
+            "Twelve calligraphic atoms start as placeholder rectangles "
+            "and are authored in FontForge per "
+            "docs/paleographic_drawing_briefs.md."
         ),
+        # --- staff-space guidelines (horizontal lines at ±0.5, ±1, ±1.5,
+        # ±2, ±2.5, ±3 staff spaces from the pitch-anchor baseline y=0).
+        # 1 ss = 250 du in our 1000-UPM SMuFL-conformant scale (per
+        # ADR-0009). Shown in all glyph editors as a staff-relative
+        # scaffold so calligraphic atoms are drawn to the correct
+        # height on first pass. Whole staff-spaces are bolder; half
+        # positions (space between lines) are fainter.
+        # Horizontal guidelines specify only `y` per UFO3 spec; `angle` is
+        # only valid when both x and y are given (for oblique guides).
+        "guidelines": [
+            {"y":  750, "name": "+3 ss",   "color": "0.6,0.6,0.9,0.5"},
+            {"y":  625, "name": "+2.5 ss", "color": "0.8,0.8,0.95,0.35"},
+            {"y":  500, "name": "+2 ss",   "color": "0.6,0.6,0.9,0.6"},
+            {"y":  375, "name": "+1.5 ss", "color": "0.8,0.8,0.95,0.4"},
+            {"y":  250, "name": "+1 ss",   "color": "0.5,0.5,0.9,0.7"},
+            {"y":  125, "name": "+0.5 ss", "color": "0.8,0.8,0.95,0.45"},
+            {"y": -125, "name": "-0.5 ss", "color": "0.8,0.8,0.95,0.45"},
+            {"y": -250, "name": "-1 ss",   "color": "0.5,0.5,0.9,0.7"},
+            {"y": -375, "name": "-1.5 ss", "color": "0.8,0.8,0.95,0.4"},
+            {"y": -500, "name": "-2 ss",   "color": "0.6,0.6,0.9,0.6"},
+            {"y": -625, "name": "-2.5 ss", "color": "0.8,0.8,0.95,0.35"},
+            {"y": -750, "name": "-3 ss",   "color": "0.6,0.6,0.9,0.5"},
+        ],
     }
 
 
