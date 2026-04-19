@@ -61,7 +61,7 @@ The font must emit a `rhineland_glyphs.rs` file preserving this exact shape (all
 
 ```
 rh_punctum              width 240
-rh_virga                width 90    (post-review; was 65)
+rh_virga                width 240   (paleographic correction 2026-04-19; was 90)
 rh_punctum_inclinatum   width 120
 rh_quilisma             width 170
 rh_oriscus              width 200

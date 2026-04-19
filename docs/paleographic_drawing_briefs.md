@@ -102,18 +102,18 @@ Every glyph in this font MUST respect this single pen angle. Visualize a rectang
 - **Registration**: centred on origin. Bounding box ~(-120, -65) to (+120, +65). Pitch anchor = geometric centre of body.
 - **NOT**: square filled rectangle (square notation); sharp four-pointed diamond (that's the inclinatum, #3); ellipse or oval (modern notation); rigid straight edges.
 
-### 2. `rh_virga` (width 90)
+### 2. `rh_virga` (width 240 — matches `rh_punctum`)
 
-- **Reference**: `virda.png` (filename typo, this IS the virga); virga instances throughout `o_ecclesia_rhineland_line_01.png`. Tall thin vertical pen stroke with small head at top, long thin stem, small angular foot at bottom curving slightly right. One continuous gesture.
+- **Reference**: `virda.png` (filename typo, this IS the virga); virga instances throughout `o_ecclesia_rhineland_line_01.png`. **Direct manuscript comparison 2026-04-19 (virga adjacent to a punctum on the same staff) confirmed that the virga head is the same breadth as a punctum.** Earlier brief and contract under-sized the head — corrected here. Bravura follows the same convention (`chantPunctum` and `chantPunctumVirga` both 160 du). The virga is essentially a **small punctum with a stem and foot below it**, drawn as one continuous pen gesture.
 - **Shape**: three joined segments drawn with one pen motion.
-  - **Top — HEAD**: small calligraphic flag ~60–80 em-units tall. Starts at upper-left, pulls down and very slightly right, forming a little flag or triangular cap. The pitch-bearing mark.
-  - **Middle — STEM**: from the head's lower-right corner, a thin near-vertical stem descends ~500 em-units, tapering just a hair thinner as it goes. ~3–5° right lean.
-  - **Bottom — FOOT**: pen turns rightward and slightly downward for ~40 em-units, creating a tiny angular hook, then terminates. Not a flat serif, not a sharp point — a calligraphic ductus finish with a blunt-ish end.
-- **Stroke register**: head: full nib, dark, ~75-unit nib at 28°. Stem: narrow, ~18–22 em-units wide (vertical strokes hit the nib across its narrow axis). Foot: brief return to fuller weight as the pen rotates into the ductus finish. Head:stem:foot thick-thin contrast ~4:1:3.
-- **Key features**: (1) Single continuous gesture — head, stem, foot must feel like one pen movement; (2) distinct HEAD flag at top (distinguishes virga from a divisio bar); (3) FOOT hooks right — the "angular foot extension", distinguishes Rhineland from footless Metz-style.
-- **Proportions**: width 90 em-units (post-review width; head is widest component), total height ~620 (head 80 + stem 500 + foot 40).
-- **Registration**: origin (0, 0) at the centre of the HEAD, NOT the bottom of the foot. Head spans ~(-20, -40) to (+45, +40). Stem runs from (0, -40) down to (0, -540). Foot extends to ~(+40, -560). Pitch anchor = head.
-- **NOT**: thick rectangular nail-head Hufnagel virga (13th-century, too heavy); stem with no head (that's a divisio bar); symmetric flag (the head leans right); foot as a flat horizontal serif (it's an angular hook, same pen motion as the stem).
+  - **Top — HEAD**: calligraphic parallelogram ~200 du wide × ~80–100 du tall. Same calligraphic character as `rh_punctum` (broad nib at 28°, tilted, blunt ends, softened long edges) — a *little punctum* at the top of the gesture. The pitch-bearing mark.
+  - **Middle — STEM**: from the head's lower-right region, a thin near-vertical stem descends ~500 du, tapering just a hair thinner as it goes. ~3–5° right lean. Width ~20 du (the nib's narrow-axis projection when pen motion is vertical).
+  - **Bottom — FOOT**: pen turns rightward and slightly downward for ~25–35 du, creating a tiny angular hook, then terminates. Calligraphic ductus finish with a blunt-ish end — not a flat serif, not a sharp point.
+- **Stroke register**: head is a full-pressure punctum-like mark; stem is the thinning continuation of the same pen as motion becomes vertical; foot is a brief ductus flick as the pen turns right before lifting. All one continuous movement. Head:stem:foot thick-thin contrast ~4:1:3, emerging naturally from a single rectangular nib swept along a head-to-foot centerline (see Expand Stroke technique in briefs header).
+- **Key features**: (1) **Head breadth ≈ punctum breadth** — this is what distinguishes a virga from a divisio bar paleographically; (2) single continuous gesture; (3) foot hooks right — the "angular foot extension" that distinguishes Rhineland from footless Metz-style.
+- **Proportions**: advance width 240 du; body bbox approximately (-100, -560) to (+120, +50). Head ~200 wide × 100 tall; stem ~20 wide × 500 tall; foot ~25 wide × 20 tall.
+- **Registration**: origin (0, 0) at the geometric centre of the HEAD (i.e., the pitch-bearing mass). Head spans roughly (-100, -50) to (+100, +50) — identical envelope to `rh_punctum`. Stem descends from approximately (+80, -50) down to (+90, -540), slightly right of head centre. Foot extends to ~(+115, -560). Pitch anchor = head centre.
+- **NOT**: thick rectangular nail-head Hufnagel virga (13th-century, too heavy); stem with no head (that's a divisio bar); a head narrower than a punctum (the earlier 90-du spec was wrong); foot as a flat horizontal serif (it's an angular hook, same pen motion as the stem).
 
 ### 3. `rh_punctum_inclinatum` (width 120)
 

@@ -65,7 +65,7 @@ DESCENT = -2000  # signed, font-native Y-up convention
 # pressus asymmetry, directional liquescent tails).
 PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
     "rh_punctum":            (-100,  -40,  100,   40),
-    "rh_virga":              ( -35,  -40,   35,  500),
+    "rh_virga":              ( -30, -540,   30,   40),
     "rh_punctum_inclinatum": ( -50,  -35,   50,   35),
     "rh_quilisma":           ( -75,  -25,   75,   25),
     "rh_oriscus":            ( -85,  -35,   85,   35),

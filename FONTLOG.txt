@@ -30,6 +30,27 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — paleographic correction
+- rh_virga advance widened 90 → 240 du after direct manuscript
+  comparison. The user photographed a virga and a punctum side-by-side
+  on the same folio; the virga head was clearly the same breadth as
+  the adjacent punctum, not the narrow ~90-du head our brief and
+  contract had specified. Bravura follows the same convention
+  (chantPunctum and chantPunctumVirga both 160 du in its scale), so
+  our correction aligns with the SMuFL reference as well.
+- Paleographic brief § 2 rewritten: head is now "a small punctum on
+  top of a stem" — same calligraphic character and breadth as
+  rh_punctum, descending into a thin stem with a small foot hook.
+  Body bbox updated to (-100, -560) to (+120, +50).
+- Widths contract (src/widths.json and docs/rhena-coordination/
+  rhineland.contract.json), scaffold placeholder bbox, glyph priority
+  sheet, and README width table all updated to match.
+- Per ADR-0008 paleographic fidelity policy: direct manuscript
+  inspection is the authority for visual-shape questions. The earlier
+  90-du value was inherited from the abandoned rhineland.rs (65) and
+  bumped via bbox-only width review without paleographic verification
+  against manuscript sources.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — SMuFL alignment
 - ADR-0009 landed: SMuFL alignment for tradition-agnostic glyphs. Font
   positioned as a standalone SMuFL-conformant Rhineland OTF usable by
