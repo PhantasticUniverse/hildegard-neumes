@@ -33,6 +33,8 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -200,11 +202,47 @@ def main(argv: list[str] | None = None) -> int:
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text("".join(parts), encoding="utf-8")
+
+    # Run rustfmt as a final pass so the committed file is byte-identical to
+    # what `cargo fmt` produces on Rhena's side after adoption. Without this,
+    # every alpha tag regeneration would arrive in Rhena's tree as "dirty"
+    # and require an immediate `cargo fmt` commit to stabilise. Skipped
+    # gracefully if rustfmt is absent (install via https://rustup.rs).
+    _format_with_rustfmt(args.out)
+
     print(
         f"Emitted {len(contract['glyphs'])} glyphs "
         f"({len(compositional)} with compositional metadata) to {args.out}"
     )
     return 0
+
+
+def _format_with_rustfmt(path: Path) -> None:
+    """Run rustfmt on the emitted Rust file, if available.
+
+    Matches downstream `cargo fmt` output byte-for-byte, so the committed
+    `generated/rhineland.rs` in this repo lines up with whatever Rhena's
+    tree contains after their usual fmt pass. Consumes the ``--edition``
+    2021 flag since Rhena targets edition 2021.
+    """
+    rustfmt = shutil.which("rustfmt")
+    if not rustfmt:
+        sys.stderr.write(
+            "warning: rustfmt not found on PATH; emitted file is valid Rust "
+            "but not canonical-formatted. Downstream consumers running "
+            "cargo fmt will see a diff. Install rustfmt (https://rustup.rs) "
+            "for byte-identical output.\n"
+        )
+        return
+    result = subprocess.run(
+        [rustfmt, "--edition", "2021", str(path)],
+        check=False,
+    )
+    if result.returncode != 0:
+        sys.stderr.write(
+            f"warning: rustfmt exited {result.returncode}; emitted file may "
+            "be unformatted or syntactically invalid.\n"
+        )
 
 
 if __name__ == "__main__":

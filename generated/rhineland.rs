@@ -17,7 +17,7 @@
 
 #![allow(clippy::unreadable_literal)]
 
-use super::{Glyph, Anchor, ComposeAnchors, StemChannel, CompositionalMetadata};
+use super::{Anchor, ComposeAnchors, CompositionalMetadata, Glyph, StemChannel};
 
 /// Rhineland punctum: calligraphic parallelogram mark (body + tail); basic single note.
 pub const PUNCTUM: Glyph = Glyph {
@@ -146,48 +146,133 @@ pub const FLEXA_LINE: Glyph = Glyph {
 };
 
 /// All 25 Rhineland glyphs in contract order.
-pub const ALL_GLYPHS: &[&Glyph] = &[&PUNCTUM, &VIRGA, &PUNCTUM_INCLINATUM, &QUILISMA, &ORISCUS, &STROPHICUS, &PRESSUS, &LIQUESCENT_ASC, &LIQUESCENT_DESC, &DEMINUTUM, &C_CLEF, &F_CLEF, &DIVISIO_MINIMA, &DIVISIO_MAIOR, &DIVISIO_MAXIMA, &DIVISIO_FINALIS, &VIRGULA, &PES_SHORT, &PES_FOOT, &PES_HEAD, &PES_LINE, &FLEXA_SHORT, &FLEXA_HEAD, &FLEXA_FOOT, &FLEXA_LINE];
+pub const ALL_GLYPHS: &[&Glyph] = &[
+    &PUNCTUM,
+    &VIRGA,
+    &PUNCTUM_INCLINATUM,
+    &QUILISMA,
+    &ORISCUS,
+    &STROPHICUS,
+    &PRESSUS,
+    &LIQUESCENT_ASC,
+    &LIQUESCENT_DESC,
+    &DEMINUTUM,
+    &C_CLEF,
+    &F_CLEF,
+    &DIVISIO_MINIMA,
+    &DIVISIO_MAIOR,
+    &DIVISIO_MAXIMA,
+    &DIVISIO_FINALIS,
+    &VIRGULA,
+    &PES_SHORT,
+    &PES_FOOT,
+    &PES_HEAD,
+    &PES_LINE,
+    &FLEXA_SHORT,
+    &FLEXA_HEAD,
+    &FLEXA_FOOT,
+    &FLEXA_LINE,
+];
 
 pub static PES_SHORT_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_pes_short",
-    compose_anchors: ComposeAnchors { pitch_top: Some(Anchor { x: 56, y: 125 }), pitch_bottom: Some(Anchor { x: 56, y: 0 }), ..ComposeAnchors::EMPTY },
+    compose_anchors: ComposeAnchors {
+        pitch_top: Some(Anchor { x: 56, y: 125 }),
+        pitch_bottom: Some(Anchor { x: 56, y: 0 }),
+        ..ComposeAnchors::EMPTY
+    },
     stem_channel: None,
 };
 pub static PES_FOOT_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_pes_foot",
-    compose_anchors: ComposeAnchors { pitch_bottom: Some(Anchor { x: 56, y: 0 }), stem_top: Some(Anchor { x: 56, y: 71 }), ..ComposeAnchors::EMPTY },
-    stem_channel: Some(StemChannel { x_min: 36, x_max: 76 }),
+    compose_anchors: ComposeAnchors {
+        pitch_bottom: Some(Anchor { x: 56, y: 0 }),
+        stem_top: Some(Anchor { x: 56, y: 71 }),
+        ..ComposeAnchors::EMPTY
+    },
+    stem_channel: Some(StemChannel {
+        x_min: 36,
+        x_max: 76,
+    }),
 };
 pub static PES_HEAD_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_pes_head",
-    compose_anchors: ComposeAnchors { pitch_top: Some(Anchor { x: 56, y: 0 }), stem_bottom: Some(Anchor { x: 56, y: -80 }), ..ComposeAnchors::EMPTY },
-    stem_channel: Some(StemChannel { x_min: 36, x_max: 76 }),
+    compose_anchors: ComposeAnchors {
+        pitch_top: Some(Anchor { x: 56, y: 0 }),
+        stem_bottom: Some(Anchor { x: 56, y: -80 }),
+        ..ComposeAnchors::EMPTY
+    },
+    stem_channel: Some(StemChannel {
+        x_min: 36,
+        x_max: 76,
+    }),
 };
 pub static PES_LINE_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_pes_line",
-    compose_anchors: ComposeAnchors { base: Some(Anchor { x: 56, y: 0 }), tip: Some(Anchor { x: 56, y: 250 }), ..ComposeAnchors::EMPTY },
-    stem_channel: Some(StemChannel { x_min: 36, x_max: 76 }),
+    compose_anchors: ComposeAnchors {
+        base: Some(Anchor { x: 56, y: 0 }),
+        tip: Some(Anchor { x: 56, y: 250 }),
+        ..ComposeAnchors::EMPTY
+    },
+    stem_channel: Some(StemChannel {
+        x_min: 36,
+        x_max: 76,
+    }),
 };
 pub static FLEXA_SHORT_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_flexa_short",
-    compose_anchors: ComposeAnchors { pitch_top: Some(Anchor { x: 50, y: 0 }), pitch_bottom: Some(Anchor { x: 50, y: -125 }), ..ComposeAnchors::EMPTY },
+    compose_anchors: ComposeAnchors {
+        pitch_top: Some(Anchor { x: 50, y: 0 }),
+        pitch_bottom: Some(Anchor { x: 50, y: -125 }),
+        ..ComposeAnchors::EMPTY
+    },
     stem_channel: None,
 };
 pub static FLEXA_HEAD_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_flexa_head",
-    compose_anchors: ComposeAnchors { pitch_top: Some(Anchor { x: 50, y: 0 }), stem_bottom: Some(Anchor { x: 50, y: -125 }), ..ComposeAnchors::EMPTY },
-    stem_channel: Some(StemChannel { x_min: 31, x_max: 69 }),
+    compose_anchors: ComposeAnchors {
+        pitch_top: Some(Anchor { x: 50, y: 0 }),
+        stem_bottom: Some(Anchor { x: 50, y: -125 }),
+        ..ComposeAnchors::EMPTY
+    },
+    stem_channel: Some(StemChannel {
+        x_min: 31,
+        x_max: 69,
+    }),
 };
 pub static FLEXA_FOOT_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_flexa_foot",
-    compose_anchors: ComposeAnchors { pitch_bottom: Some(Anchor { x: 50, y: -119 }), stem_top: Some(Anchor { x: 50, y: 0 }), ..ComposeAnchors::EMPTY },
-    stem_channel: Some(StemChannel { x_min: 31, x_max: 69 }),
+    compose_anchors: ComposeAnchors {
+        pitch_bottom: Some(Anchor { x: 50, y: -119 }),
+        stem_top: Some(Anchor { x: 50, y: 0 }),
+        ..ComposeAnchors::EMPTY
+    },
+    stem_channel: Some(StemChannel {
+        x_min: 31,
+        x_max: 69,
+    }),
 };
 pub static FLEXA_LINE_META: CompositionalMetadata = CompositionalMetadata {
     name: "rh_flexa_line",
-    compose_anchors: ComposeAnchors { base: Some(Anchor { x: 50, y: -125 }), tip: Some(Anchor { x: 50, y: 0 }), ..ComposeAnchors::EMPTY },
-    stem_channel: Some(StemChannel { x_min: 31, x_max: 69 }),
+    compose_anchors: ComposeAnchors {
+        base: Some(Anchor { x: 50, y: -125 }),
+        tip: Some(Anchor { x: 50, y: 0 }),
+        ..ComposeAnchors::EMPTY
+    },
+    stem_channel: Some(StemChannel {
+        x_min: 31,
+        x_max: 69,
+    }),
 };
 
 /// All 8 atoms carrying compositional metadata (pes + flexa families).
-pub const ALL_COMPOSITIONAL_META: &[&CompositionalMetadata] = &[&PES_SHORT_META, &PES_FOOT_META, &PES_HEAD_META, &PES_LINE_META, &FLEXA_SHORT_META, &FLEXA_HEAD_META, &FLEXA_FOOT_META, &FLEXA_LINE_META];
+pub const ALL_COMPOSITIONAL_META: &[&CompositionalMetadata] = &[
+    &PES_SHORT_META,
+    &PES_FOOT_META,
+    &PES_HEAD_META,
+    &PES_LINE_META,
+    &FLEXA_SHORT_META,
+    &FLEXA_HEAD_META,
+    &FLEXA_FOOT_META,
+    &FLEXA_LINE_META,
+];
