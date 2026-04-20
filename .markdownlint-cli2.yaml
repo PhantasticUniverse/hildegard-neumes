@@ -1,0 +1,24 @@
+# markdownlint-cli2 config for Hildegard Neumes.
+#
+# Relaxes a few default rules that don't suit technical documentation:
+#   * MD013 (line-length) disabled — our docs carry long URLs, tables,
+#     and code blocks that can't be reflowed to 80 columns cleanly.
+#   * MD033 (no-inline-html) disabled — we embed occasional HTML in
+#     markdown tables / figures.
+#   * MD041 (first-line-heading) disabled — ADR files lead with YAML
+#     frontmatter or a context paragraph before the title.
+#
+# All other defaults stand. Adjust further only with justification.
+
+config:
+  MD013: false
+  MD033: false
+  MD041: false
+
+globs:
+  - "**/*.md"
+
+ignores:
+  - "node_modules/**"
+  - "build/**"
+  - "docs/archive/**"

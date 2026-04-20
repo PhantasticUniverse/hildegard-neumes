@@ -13,8 +13,10 @@ on:
       - 'scripts/build-font.sh'
   workflow_dispatch:
 
-# Builds the OTF + WOFF2 from the UFO3 source (per ADR-0001) via headless
-# FontForge, then runs scripts/validate-font.py against the output.
+# Builds OTF + WOFF + WOFF2 from the UFO3 source (per ADR-0001) via
+# headless FontForge, then runs scripts/validate-font.py against the
+# output. Rhena ADR-0012 expects both WOFF flavours shipped (WOFF2
+# preferred, WOFF fallback) — we emit and attach both.
 #
 # During the pre-drawing phase, src/hildegard-neumes.ufo/ does not yet
 # exist. In that case the job emits a ::notice:: annotation explaining
@@ -56,26 +58,40 @@ jobs:
         run: |
           echo "::notice title=build-font skipped::src/hildegard-neumes.ufo/ not found. This is expected in the pre-drawing phase. The real build + validate + upload steps activate once the UFO3 source is authored. See README.md § v1 status snapshot and ADR-0001."
 
-      - name: Build OTF + WOFF2
+      - name: Build OTF + WOFF + WOFF2
         if: steps.check_ufo.outputs.skip == 'false'
         env:
           SOURCE_DATE_EPOCH: '0'
         run: bash scripts/build-font.sh
 
-      - name: Validate font
+      - name: Validate OTF
         if: steps.check_ufo.outputs.skip == 'false'
         run: |
           python scripts/validate-font.py \
             --in build/hildegard-neumes.otf \
-            --names-map src/glyph-names.json \
-            --widths-table src/widths.json
+            --contract docs/rhena-coordination/rhineland.contract.json
 
-      - name: Upload OTF artifact
+      - name: Validate WOFF
+        if: steps.check_ufo.outputs.skip == 'false'
+        run: |
+          python scripts/validate-font.py \
+            --in build/hildegard-neumes.woff \
+            --contract docs/rhena-coordination/rhineland.contract.json
+
+      - name: Validate WOFF2
+        if: steps.check_ufo.outputs.skip == 'false'
+        run: |
+          python scripts/validate-font.py \
+            --in build/hildegard-neumes.woff2 \
+            --contract docs/rhena-coordination/rhineland.contract.json
+
+      - name: Upload font artifacts
         if: steps.check_ufo.outputs.skip == 'false'
         uses: actions/upload-artifact@v4
         with:
-          name: hildegard-neumes-otf
+          name: hildegard-neumes-font
           path: |
             build/hildegard-neumes.otf
+            build/hildegard-neumes.woff
             build/hildegard-neumes.woff2
           retention-days: 14

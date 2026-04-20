@@ -229,7 +229,7 @@ Build the smart renderer as a **Verovio extension / SMuFL font swap**, not green
 - [SMuFL spec](https://w3c.github.io/smufl/latest/) — chant ranges at U+E990–U+E9DF and U+EA00–U+EA1F.
 - [Verovio](https://www.verovio.org/) — web-first MEI engraver.
 - [Neon (DDMAL)](https://github.com/DDMAL/Neon) — Verovio-based neume editor.
-- [MEI schema, neumes module](https://music-encoding.org/schema/dev/mei-all.html).
+- [MEI guidelines (neumes module in the Content section)](https://music-encoding.org/guidelines/).
 - [HarfBuzz shaping features](https://harfbuzz.github.io/shaping-opentype-features.html).
 
 ---

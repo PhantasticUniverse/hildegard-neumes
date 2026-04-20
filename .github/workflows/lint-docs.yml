@@ -19,7 +19,9 @@ jobs:
       - name: Install markdownlint-cli2
         run: npm install -g markdownlint-cli2
       - name: Lint markdown
-        run: markdownlint-cli2 "**/*.md" "#node_modules" "#build" "#docs/archive"
+        # Uses .markdownlint-cli2.yaml in repo root for config (MD013
+        # line-length and related tech-docs-hostile rules disabled there).
+        run: markdownlint-cli2
 
   lychee:
     runs-on: ubuntu-latest
@@ -28,5 +30,7 @@ jobs:
       - name: Run lychee link checker
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --verbose --no-progress './**/*.md' --exclude-path docs/archive
+          # Uses lychee.toml in repo root for accept-code config (429 and
+          # 503 treated as transient, not broken).
+          args: --config lychee.toml --verbose --no-progress './**/*.md'
           fail: true

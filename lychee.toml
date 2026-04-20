@@ -1,0 +1,23 @@
+# lychee config for link checking in lint-docs.yml.
+#
+# Rationale for the non-default settings:
+#
+# accept = [200-299, 429, 503]
+#   Rate limiting (429) and transient server errors (503) from upstream
+#   archives and academic servers should not gate CI. A dead link is a
+#   404; a rate-limited or overloaded server is a flake.
+#
+# timeout = 20
+#   Default 20s already; spelled out for clarity.
+#
+# max_retries = 3
+#   Three attempts before flagging a link as broken.
+#
+# exclude_path
+#   docs/archive/ is history — broken links there are expected
+#   (superseded docs cite URLs that may have since moved).
+
+accept = ["200..=299", 429, 503]
+timeout = 20
+max_retries = 3
+exclude_path = ["docs/archive"]
