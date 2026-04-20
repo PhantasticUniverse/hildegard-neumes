@@ -24,10 +24,19 @@ accept = [
     301, 302, 303, 307, 308,
     429, 500, 503,
 ]
-timeout = 20
-max_retries = 3
-retry_wait_time = 2
+
+# HLB RheinMain and other academic-library servers are genuinely slow
+# (90s+ cold-cache responses aren't unusual). Without a generous
+# timeout + retry budget CI flakes on what are live, valid URLs.
+timeout = 60
+max_retries = 5
+retry_wait_time = 3
+
 exclude = [
+    # Google CAPTCHA rate-limits the hildegard-society.org URL from
+    # CI runner IPs, producing 302 → 429 redirect chains that lychee
+    # still flags even when 429 is in the accept list. Site works
+    # fine from a browser.
     'hildegard-society\.org',
     'google\.com/sorry',
 ]
