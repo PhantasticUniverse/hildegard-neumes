@@ -455,7 +455,7 @@ four pre-drawing blockers. Adding this review's findings:
 | 4 | Codegen test suite | ADR-0002, round-1 §7 |
 | 5 | **CFF/OTF test fixture** | this review §1 |
 | 6 | **Rhena-safe smoke test (copy, don't mutate)** | this review §2 |
-| 7 | **Remove `|| true` from `smoke-rhena.yml` cargo test step** | this review §3 |
+| 7 | **Remove `\|\| true` from `smoke-rhena.yml` cargo test step** | this review §3 |
 | 8 | **Reconcile ADR-0009 (sfd→ufo) + contract widths + field names** | this review §§4–6 |
 | 9 | **README + justfile doc refresh** | this review §§7–8 |
 

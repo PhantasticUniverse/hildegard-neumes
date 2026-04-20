@@ -30,18 +30,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install FontForge
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y fontforge python3-fontforge
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Python deps for validate-font
-        run: pip install fonttools
+      - name: Install Python deps
+        # fontTools + ufo2ft + ufoLib2 give us a pure-Python UFO → OTF
+        # build path that works in CI without depending on Ubuntu apt's
+        # FontForge (which ships 20230101 and segfaults on our UFO3).
+        # brotli is required for WOFF2 flavour compression.
+        run: pip install fonttools ufo2ft ufoLib2 brotli
 
       - name: Check UFO3 source exists
         id: check_ufo
@@ -62,7 +61,7 @@ jobs:
         if: steps.check_ufo.outputs.skip == 'false'
         env:
           SOURCE_DATE_EPOCH: '0'
-        run: bash scripts/build-font.sh
+        run: python scripts/build-font.py
 
       - name: Validate OTF
         if: steps.check_ufo.outputs.skip == 'false'
