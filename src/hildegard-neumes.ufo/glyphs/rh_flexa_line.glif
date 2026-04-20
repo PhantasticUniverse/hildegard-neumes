@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="rh_flexa_line" format="2">
-  <advance width="172"/>
+  <advance width="12"/>
+  <unicode hex="F408"/>
   <outline>
     <contour>
-      <point x="160" y="-260" type="line"/>
-      <point x="172" y="-260" type="line"/>
-      <point x="12" y="0" type="line"/>
-      <point x="0" y="0" type="line"/>
+      <point x="31" y="-125" type="line"/>
+      <point x="69" y="-125" type="line"/>
+      <point x="69" y="0" type="line"/>
+      <point x="31" y="0" type="line"/>
     </contour>
   </outline>
 </glyph>

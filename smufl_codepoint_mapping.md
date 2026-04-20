@@ -4,7 +4,7 @@ Status: v0.1 sketch, 2026-04-14.
 Scope: codepoint allocation plan for the Hildegard/Rhineland neume font. Maps each inventory item from `glyph_inventory_v0.5.md` to either an existing SMuFL codepoint (reused) or a private PUA codepoint (Hildegard-specific).
 Companion docs: `research_synthesis.md`, `glyph_inventory_v0.5.md`.
 
-Verified against SMuFL `glyphnames.json` and `ranges.json` at `/Users/xaviermac/Documents/2_Areas/Coding-Projects/reference-repos/smufl-gh-pages/metadata/`.
+Verified against SMuFL `glyphnames.json` and `ranges.json` at `../reference-repos/smufl-gh-pages/metadata/`.
 
 ---
 

@@ -4,7 +4,7 @@ An OpenType font for the Rhineland neume notation used in Hildegard von Bingen's
 
 ## Why this project exists
 
-The **Rhena/Viriditas** project at `/Users/xaviermac/Documents/2_Areas/Coding-Projects/hildegard` is a compiler-first, Hildegard-first notation platform. It parses a custom Rhena DSL into a witness-aware semantic IR, projects to a Render IR, and renders diplomatic (Rhineland) and normalized (square) output. ADR-0004 fixes the dual-glyph strategy: **Rhineland for diplomatic mode, SMuFL/Bravura for normalized mode.**
+The **Rhena/Viriditas** project at `../hildegard` is a compiler-first, Hildegard-first notation platform. It parses a custom Rhena DSL into a witness-aware semantic IR, projects to a Render IR, and renders diplomatic (Rhineland) and normalized (square) output. ADR-0004 fixes the dual-glyph strategy: **Rhineland for diplomatic mode, SMuFL/Bravura for normalized mode.**
 
 Rhena already ships Bravura paths for square notation. Its Rhineland path is an experimental attempt that was abandoned: 19 hand-typed SVG path strings in `crates/rhena-core/src/render_ir/glyphs/rhineland.rs`, baked into Rust source, with crude geometric approximations of calligraphic forms. The approach was abandoned for three kinds of reasons — aesthetic (the shapes are placeholders), structural (glyph design baked into code, no font-editor workflow, no external consumability), and doctrinal (violates constitution Rule 7: *"Do not make the project depend on one renderer forever"*).
 
@@ -38,7 +38,7 @@ If you're opening this project to author the first glyphs, read in order:
 2. `docs/paleographic_drawing_briefs.md` — per-atom drawing guidance distilled from manuscript study.
 3. `docs/planning/width-review-2026-04-14.md` — the advance-width analysis; three widths were corrected (`rh_virga` 65→90, `rh_liquescent_asc` / `desc` 140→160) and live in `src/widths.json`.
 4. `rhena_integration_plan.md` — the full build pipeline and Rhena integration architecture.
-5. Manuscript reference images in the sibling Rhena project at `/Users/xaviermac/Documents/2_Areas/Coding-Projects/hildegard/docs/research/images/` — direct traces from Dendermonde fol. 168v.
+5. Manuscript reference images in the sibling Rhena project at `../hildegard/docs/research/images/` — direct traces from Dendermonde fol. 168v.
 
 Then: open `src/hildegard-neumes.ufo/` in FontForge (or any UFO3-aware editor). The scaffold is already in place — every glyph is a placeholder rectangle at its target advance width with the correct SMuFL codepoint. Double-click a glyph to enter the outline editor and redraw. If you ever need to regenerate the scaffold from scratch (e.g. after a contract change), run `just rescaffold-ufo`.
 

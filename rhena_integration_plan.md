@@ -1,7 +1,7 @@
 # Rhena Integration Plan — PRIMARY consumer
 
 Status: v1, 2026-04-14.
-Scope: how the Hildegard Neume font integrates with the Rhena/Viriditas Rust project at `/Users/xaviermac/Documents/2_Areas/Coding-Projects/hildegard`. This is the **primary** integration path for the font.
+Scope: how the Hildegard Neume font integrates with the Rhena/Viriditas Rust project at `../hildegard`. This is the **primary** integration path for the font.
 Supersedes: `verovio_integration_plan.md` (demoted to secondary-consumer reference).
 Companion: `README.md`, `glyph_inventory_v0.5.md` § 0.2.
 

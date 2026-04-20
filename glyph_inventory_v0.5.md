@@ -8,7 +8,7 @@ Companion docs: `README.md`, `rhena_integration_plan.md`, `research_synthesis.md
 
 ## 0.2 — v0.5b Rhena alignment (2026-04-14)
 
-A second correction pass, folding in the discovery that the font's **primary consumer** is the Rhena/Viriditas Rust notation platform (`/Users/xaviermac/Documents/2_Areas/Coding-Projects/hildegard`), which has an existing (abandoned) Rhineland glyph module at `crates/rhena-core/src/render_ir/glyphs/rhineland.rs` and a component-level atomic resolver at `glyphs/mod.rs`.
+A second correction pass, folding in the discovery that the font's **primary consumer** is the Rhena/Viriditas Rust notation platform (`../hildegard`), which has an existing (abandoned) Rhineland glyph module at `crates/rhena-core/src/render_ir/glyphs/rhineland.rs` and a component-level atomic resolver at `glyphs/mod.rs`.
 
 ### What this changes
 

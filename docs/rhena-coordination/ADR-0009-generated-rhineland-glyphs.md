@@ -170,7 +170,7 @@ Rhena MUST source its Rhineland glyph path data from the external `hildegard-neu
 - Constitution §10.1 — deterministic output requirement.
 - Constitution §12 Rule 7 — do not depend on one renderer forever.
 - Constitution §13.1 — Gregorio parity matrix.
-- `hildegard-neumes` project: `/Users/xaviermac/Documents/2_Areas/Coding-Projects/hildegard-neumes` (sibling repository).
+- `hildegard-neumes` project: `../hildegard-neumes` (sibling repository).
 - `hildegard-neumes/rhena_integration_plan.md` — the font project's integration plan for Rhena.
 - `hildegard-neumes/scripts/generate-rhena-glyphs.py` — the codegen script.
 - `hildegard-neumes/src/glyph-names.json` and `src/widths.json` — the machine-readable contract.

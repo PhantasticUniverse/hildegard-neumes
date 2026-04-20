@@ -20,18 +20,19 @@ scaffold-ufo:
 rescaffold-ufo:
     python scripts/scaffold-ufo.py --force
 
-# Build the OTF + WOFF2 from src/hildegard-neumes.ufo/ via FontForge (headless, UFO3 source per ADR-0001)
+# Build the OTF + WOFF + WOFF2 from src/hildegard-neumes.ufo/ via FontForge
+# (headless, UFO3 source per ADR-0001; dual WOFF delivery per Rhena ADR-0012)
 build-font:
     bash scripts/build-font.sh
 
-# Generate rhineland_glyphs.rs from build/hildegard-neumes.otf
+# Generate rhineland.rs from the authoritative contract (post-ADR-0012: no
+# more OTF-to-Rust path codegen; the font IS the artifact, this script just
+# emits codepoint + composition metadata)
 generate-rhena:
     mkdir -p generated
     python scripts/generate-rhena-glyphs.py \
-        --in build/hildegard-neumes.otf \
-        --names-map src/glyph-names.json \
-        --widths-table src/widths.json \
-        --out generated/rhineland_glyphs.rs
+        --contract docs/rhena-coordination/rhineland.contract.json \
+        --out generated/rhineland.rs
 
 # Full pipeline: build font then regenerate Rhena glyphs
 build: build-font generate-rhena
@@ -46,30 +47,32 @@ copy-to-rhena RHENA="../hildegard":
         echo "error: Rhena project not found at {{RHENA}}" >&2
         exit 2
     fi
-    if [ ! -f generated/rhineland_glyphs.rs ]; then
-        echo "error: generated/rhineland_glyphs.rs not found. Run 'just generate-rhena' first." >&2
+    if [ ! -f generated/rhineland.rs ]; then
+        echo "error: generated/rhineland.rs not found. Run 'just generate-rhena' first." >&2
         exit 2
     fi
-    cp generated/rhineland_glyphs.rs "$target"
+    cp generated/rhineland.rs "$target"
     echo "Copied to $target"
     echo "Next: cd {{RHENA}} && just check  (review and accept golden snapshot diffs)"
 
 # Remove build artifacts and generated files
 clean:
-    rm -rf build/*.otf build/*.woff2 build/*.ttf
-    rm -f generated/rhineland_glyphs.rs
+    rm -rf build/*.otf build/*.woff build/*.woff2 build/*.ttf build/_check
+    rm -f generated/rhineland.rs
 
-# Check that the generated file is up to date with the font source (useful in CI)
-check-generated: build-font
+# Check that the generated file is up to date with the contract (useful in CI).
+# Uses a pinned SOURCE_DATE_EPOCH so the @generated-header timestamp is
+# deterministic across runs.
+check-generated:
+    #!/usr/bin/env bash
+    set -euo pipefail
     mkdir -p build/_check
-    python scripts/generate-rhena-glyphs.py \
-        --in build/hildegard-neumes.otf \
-        --names-map src/glyph-names.json \
-        --widths-table src/widths.json \
-        --out build/_check/rhineland_glyphs.rs \
-        --timestamp 2026-01-01T00:00:00Z
-    diff -q build/_check/rhineland_glyphs.rs generated/rhineland_glyphs.rs || \
-        (echo "error: generated/rhineland_glyphs.rs is stale. Run 'just build' and commit." >&2; exit 1)
+    SOURCE_DATE_EPOCH=$(python3 -c 'import datetime; print(int(datetime.datetime(2026, 4, 20, tzinfo=datetime.timezone.utc).timestamp()))') \
+        python scripts/generate-rhena-glyphs.py \
+            --contract docs/rhena-coordination/rhineland.contract.json \
+            --out build/_check/rhineland.rs
+    diff -q build/_check/rhineland.rs generated/rhineland.rs || \
+        (echo "error: generated/rhineland.rs is stale. Run 'just generate-rhena' (with the pinned epoch if needed) and commit." >&2; exit 1)
 
 # Print the glyph contract (names + widths)
 show-contract:
@@ -83,12 +86,17 @@ test:
 test-rhena-smoke:
     pytest -v tests/test_rhena_smoke.py
 
-# Validate the built OTF against the contract (bbox vs advance, path commands)
+# Validate the built OTF against the contract (cmap + advance-width checks)
 validate-font:
     python scripts/validate-font.py \
         --in build/hildegard-neumes.otf \
-        --names-map src/glyph-names.json \
-        --widths-table src/widths.json
+        --contract docs/rhena-coordination/rhineland.contract.json
+    python scripts/validate-font.py \
+        --in build/hildegard-neumes.woff \
+        --contract docs/rhena-coordination/rhineland.contract.json
+    python scripts/validate-font.py \
+        --in build/hildegard-neumes.woff2 \
+        --contract docs/rhena-coordination/rhineland.contract.json
 
 # Full CI-style check: build, validate, generate, test
 ci-check: build-font validate-font generate-rhena test check-generated

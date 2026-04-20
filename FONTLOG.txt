@@ -30,6 +30,96 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+20 April 2026 (v0.2.0-alpha.1) — Hildegard Neumes Project maintainers — pre-release tag: pes/flexa compositional families, ADR-0012 alignment, 25-atom contract
+
+This is the first pre-release tag, cutting the font for Rhena integration
+under ADR-0012 (@font-face + codepoint delivery). 21 of 25 atoms are
+finalized Rhineland traces; 4 (oriscus, liquescent_asc/epiphonus,
+deminutum, f_clef) ship as placeholder rectangles until reference images
+can be traced, and will be superseded in v0.2.0 or later alpha iterations.
+
+Atom inventory: 19 → 25
+- rh_pes_short, rh_pes_foot, rh_pes_head added as a compositional pes
+  family alongside the existing rh_pes_line. rh_pes_short is an
+  integrated one-gesture glyph for the 2nd interval; rh_pes_foot +
+  stretched rh_pes_line + rh_pes_head compose wider intervals.
+  Paleographic fidelity per ADR-0008 — Hildegard pes bottom is a hook
+  (not a punctum) and its top is a head without a virga-terminator
+  hook. The integrated short variant is required for 2nds because the
+  combined foot/head stem stubs exceed a 125-du 2nd interval.
+- rh_flexa_short, rh_flexa_head, rh_flexa_foot added paralleling the
+  pes family for descending compounds. rh_flexa_line redesigned from
+  the abandoned-rhineland.rs 172-du diagonal parallelogram to a
+  vertical stem after paleographic review of the tall-flexa manuscript
+  reference confirmed Hildegard's flexa stem is vertical, not diagonal.
+
+New contract metadata for compositional atoms
+- compose_anchors: each compositional atom declares pitch anchors
+  (pitch_top / pitch_bottom) and stem-joint anchors (stem_top /
+  stem_bottom for foot+head atoms, base/tip for _line atoms) in
+  atom-local Y-up em-square coordinates (1000 UPM). Pitch anchors
+  normalized so pitch_x == stem_x within each family (pes=56,
+  flexa=50); composed stems align automatically in a single vertical
+  column with no per-family branching or inter-note offset needed in
+  the consumer's resolver.
+- stem_channel { x_min, x_max }: added to foot / head / _line atoms
+  as the x-band of the calligraphic stem. Enables Rhena's ADR-0012
+  renderer to draw native SVG <line> connectors with correct position
+  and thickness. Pes: x=[36, 76] (40 du thick). Flexa: x=[31, 69]
+  (38 du thick).
+
+Codepoint assignment — SMuFL extension block U+F400..F40F
+- All 9 Rhineland non-SMuFL atoms consolidated into a single block for
+  Verovio / LilyPond / @font-face interop: rh_pes_short U+F400,
+  rh_pes_foot U+F401, rh_pes_head U+F402, rh_pressus U+F403 (stable),
+  rh_pes_line U+F404, rh_flexa_short U+F405, rh_flexa_head U+F406,
+  rh_flexa_foot U+F407, rh_flexa_line U+F408. SMuFL-mapped atoms
+  (punctum, virga, clefs, divisios, virgula, etc.) keep their
+  existing SMuFL codepoints.
+
+Build pipeline
+- just build-font now emits OTF + WOFF + WOFF2 from the single UFO3
+  source (FontForge Python driver; dual WOFF flavour generation via
+  font.generate() with extension inference). Rhena ADR-0012 expects
+  both WOFFs served via @font-face with WOFF2 preferred and WOFF as
+  a legacy SVG-consumer fallback.
+- scripts/generate-rhena-glyphs.py rewritten against the ADR-0012
+  contract. Path-extraction machinery retired; the script now emits
+  two parallel Rust tables from the authoritative contract JSON:
+  Glyph { name, codepoint: char } for all 25 atoms, and
+  CompositionalMetadata { name, compose_anchors, stem_channel } for
+  the 8 pes/flexa family atoms that participate in composition.
+  The Glyph struct stays pure-rendering-primitive (no compose_anchors
+  None boilerplate on non-compositional atoms), per Rhena v2 feedback.
+  codepoint emits as Rust char literal ('\u{F401}'), matching Rhena's
+  existing pub codepoint: char type from ADR-0012; no chant.rs churn
+  on adoption.
+- Generator supports SOURCE_DATE_EPOCH for reproducible @generated-header
+  timestamps; default is wall-clock UTC. just check-generated pins the
+  epoch for CI determinism.
+- Output path renamed generated/rhineland_glyphs.rs →
+  generated/rhineland.rs to match Rhena's adoption destination
+  (crates/rhena-core/src/render_ir/glyphs/rhineland.rs), reducing
+  adoption friction to a single verbatim file copy.
+
+Known limitations / follow-ups
+- scripts/validate-font.py and tests/test_*.py were written for the
+  path-extraction codegen and reference the old 19-atom inventory;
+  they haven't been updated for the ADR-0012 metadata emission or
+  the 25-atom contract. Validation will run fine against the OTF
+  glyph inventory check but its SVG-path-command validation is
+  obsolete. Test suite refactor deferred to a post-alpha pass.
+- 4 placeholder-rectangle atoms still need paleographic references
+  and traces: rh_oriscus, rh_liquescent_asc, rh_deminutum, rh_f_clef.
+  These are shipped as sized rectangles so consumers can integrate
+  against the full 25-atom inventory; they'll be swapped for traces
+  in a future alpha without contract changes.
+- Flexa-of-3rd composition leaves only 6 du for the stretched
+  rh_flexa_line (foot + head stubs total 244 du vs 250-du interval).
+  Paleographically this is probably correct (Hildegard's 3rd-flexa
+  has stems that nearly touch), but deserves a visual check against
+  the Dendermonde facsimile once we have an integration render.
+
 19 April 2026 (v0.1.0-dev) — Hildegard Neumes Project maintainers — rh_c_clef Rhineland trace; Tier 1 fully authentic
 - rh_c_clef: the Bravura placeholder has been REPLACED with a
   Rhineland trace from c_clef.png. Advance 134 → 150 du (body

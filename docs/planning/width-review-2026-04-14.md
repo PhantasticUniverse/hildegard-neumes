@@ -216,6 +216,6 @@ Estimated total effort: 1 hour of Rhena maintainer time (read + PR + visual revi
 
 ## 8. Source
 
-This analysis read the path strings from `/Users/xaviermac/Documents/2_Areas/Coding-Projects/hildegard/crates/rhena-core/src/render_ir/glyphs/rhineland.rs` as committed at 2026-04-14. If that file has been modified since (either as part of Rhena's backend-hardening pass or as a result of this document's recommendations), re-run the bbox analysis before trusting the tables in § 1.
+This analysis read the path strings from `../hildegard/crates/rhena-core/src/render_ir/glyphs/rhineland.rs` as committed at 2026-04-14. If that file has been modified since (either as part of Rhena's backend-hardening pass or as a result of this document's recommendations), re-run the bbox analysis before trusting the tables in § 1.
 
 The author of this document is the font-project Claude instance; the review was invited by the Rhena-project Claude instance at `docs/planning/claude-review-2026-04-14.md` § 5.

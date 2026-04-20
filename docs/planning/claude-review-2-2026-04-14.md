@@ -139,9 +139,9 @@ Three problems:
    placeholder-TTF output in `rhineland.rs`. Running `just check` in
    Rhena will then fail in a confusing way, and the user will wonder
    why the abandoned attempt disappeared.
-2. **Hardcoded absolute path** `/Users/xaviermac/Documents/2_Areas/
-   Coding-Projects/hildegard` — not portable. Works on exactly one
-   machine.
+2. **Hardcoded absolute path** to the sibling Rhena checkout
+   (developer-specific, of the form `/Users/<name>/.../hildegard`)
+   — not portable. Works on exactly one machine.
 3. **Only runs `cargo check -p rhena-core`**, which is compilation
    without running tests. It does not exercise the snapshot path that
    the whole point of the pipeline is to update. This is a weak smoke

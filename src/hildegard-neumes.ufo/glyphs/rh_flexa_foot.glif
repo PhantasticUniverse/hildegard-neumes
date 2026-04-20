@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="rh_flexa_foot" format="2">
+  <advance width="90"/>
+  <unicode hex="F407"/>
+  <outline>
+    <contour>
+      <point x="69" y="0" type="line"/>
+      <point x="69" y="-75" type="line"/>
+      <point x="69" y="-123" type="line"/>
+      <point x="93" y="-121" type="line"/>
+      <point x="31" y="-163" type="line"/>
+      <point x="31" y="-162"/>
+      <point x="31" y="-123"/>
+      <point x="31" y="-75" type="curve"/>
+      <point x="31" y="-51"/>
+      <point x="31" y="-25"/>
+      <point x="31" y="0" type="curve"/>
+    </contour>
+  </outline>
+</glyph>

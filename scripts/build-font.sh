@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# build-font.sh — export hildegard-neumes.otf (+.woff2) from the UFO3 source
-# at src/hildegard-neumes.ufo/ (per ADR-0001 in docs/adr/).
+# build-font.sh — export hildegard-neumes.otf (+.woff, .woff2) from the
+# UFO3 source at src/hildegard-neumes.ufo/ (per ADR-0001 in docs/adr/).
+# Rhena ADR-0012 @font-face delivery expects both WOFF and WOFF2 served
+# alongside each other (WOFF2 preferred, WOFF fallback for legacy SVG
+# consumers).
 #
 # Requires FontForge installed and on PATH. On macOS:
 #     brew install fontforge
@@ -53,9 +56,10 @@ import fontforge
 ufo_path, build_dir = sys.argv[1], sys.argv[2]
 font = fontforge.open(ufo_path)
 font.generate(f"{build_dir}/hildegard-neumes.otf")
+font.generate(f"{build_dir}/hildegard-neumes.woff")
 font.generate(f"{build_dir}/hildegard-neumes.woff2")
 font.close()
 PYEOF
 
 echo "Built:"
-ls -la "$BUILD_DIR"/hildegard-neumes.{otf,woff2} 2>/dev/null || true
+ls -la "$BUILD_DIR"/hildegard-neumes.{otf,woff,woff2} 2>/dev/null || true

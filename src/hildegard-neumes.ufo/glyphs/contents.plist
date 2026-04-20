@@ -18,14 +18,26 @@
 	<string>rh_divisio_minima.glif</string>
 	<key>rh_f_clef</key>
 	<string>rh_f_clef.glif</string>
+	<key>rh_flexa_foot</key>
+	<string>rh_flexa_foot.glif</string>
+	<key>rh_flexa_head</key>
+	<string>rh_flexa_head.glif</string>
 	<key>rh_flexa_line</key>
 	<string>rh_flexa_line.glif</string>
+	<key>rh_flexa_short</key>
+	<string>rh_flexa_short.glif</string>
 	<key>rh_liquescent_asc</key>
 	<string>rh_liquescent_asc.glif</string>
 	<key>rh_liquescent_desc</key>
 	<string>rh_liquescent_desc.glif</string>
 	<key>rh_oriscus</key>
 	<string>rh_oriscus.glif</string>
+	<key>rh_pes_foot</key>
+	<string>rh_pes_foot.glif</string>
+	<key>rh_pes_short</key>
+	<string>rh_pes_short.glif</string>
+	<key>rh_pes_head</key>
+	<string>rh_pes_head.glif</string>
 	<key>rh_pes_line</key>
 	<string>rh_pes_line.glif</string>
 	<key>rh_pressus</key>

@@ -81,10 +81,17 @@ class TestUFOStructure:
         assert glyphs.is_dir()
         assert (glyphs / "contents.plist").is_file()
 
-    def test_one_glif_per_glyph(self, scaffolded_ufo: Path):
+    def test_one_glif_per_glyph(
+        self, scaffolded_ufo: Path, names_map_path: Path
+    ):
+        import json
+        n_contract = len(json.loads(names_map_path.read_text())["glyphs"])
+        expected = n_contract + 1  # +1 for .notdef
         glifs = sorted((scaffolded_ufo / "glyphs").glob("*.glif"))
-        # 19 contract glyphs + .notdef
-        assert len(glifs) == 20, f"expected 20 .glif files, got {len(glifs)}"
+        assert len(glifs) == expected, (
+            f"expected {expected} .glif files ({n_contract} atoms + .notdef), "
+            f"got {len(glifs)}"
+        )
 
     def test_notdef_filename_is_sanitized(self, scaffolded_ufo: Path):
         # UFO3 requires leading-dot replacement; `.notdef` → `_notdef.glif`.
@@ -102,12 +109,16 @@ class TestUFOStructure:
         layers = plistlib.loads((scaffolded_ufo / "layercontents.plist").read_bytes())
         assert ["public.default", "glyphs"] in layers
 
-    def test_glyph_order_starts_with_notdef(self, scaffolded_ufo: Path):
+    def test_glyph_order_starts_with_notdef(
+        self, scaffolded_ufo: Path, names_map_path: Path
+    ):
+        import json
         import plistlib
+        n_contract = len(json.loads(names_map_path.read_text())["glyphs"])
         lib = plistlib.loads((scaffolded_ufo / "lib.plist").read_bytes())
         order = lib.get("public.glyphOrder", [])
         assert order[0] == ".notdef", "public.glyphOrder must start with .notdef"
-        assert len(order) == 20
+        assert len(order) == n_contract + 1
 
 
 @pytest.mark.skipif(
@@ -178,13 +189,17 @@ class TestUFORoundTrip:
                     f"{name}: expected U+{want:04X}, UFO has {actual}"
                 )
 
-    def test_placeholder_paths_fit_within_advance(
+    def test_placeholder_paths_non_empty(
         self, scaffolded_ufo: Path, widths_path: Path
     ):
-        """Every placeholder must satisfy body_width <= advance.
+        """Every scaffolded glyph must have a non-empty outline.
 
-        validate-font.py runs the same check against the built OTF. If
-        this test passes at the UFO stage, validate-font will pass too.
+        The older "body width <= advance" invariant was dropped post-
+        2026-04-20: PLACEHOLDER_BBOX in scaffold-ufo.py now mirrors the
+        drawn calligraphic bboxes for accurate regeneration, and
+        calligraphic glyphs routinely have hooks/flicks extending beyond
+        their advance. That's a normal font-design property (negative
+        LSB, RSB overflow) not a bug.
         """
         from fontTools.pens.basePen import BasePen
 
@@ -221,15 +236,12 @@ class TestUFORoundTrip:
         glyph_set = reader.getGlyphSet()
         expected = json.loads(widths_path.read_text())["widths"]
 
-        for name, advance in expected.items():
+        for name in expected:
             pen = BoundsPen(glyph_set)
             glyph_set[name].draw(pen)
             assert pen.xmin is not None, f"{name}: empty outline"
             body = pen.xmax - pen.xmin
-            assert body <= advance, (
-                f"{name}: placeholder body width {body} "
-                f"(x ∈ [{pen.xmin}, {pen.xmax}]) exceeds advance {advance}"
-            )
+            assert body > 0, f"{name}: degenerate outline (zero width)"
 
 
 class TestGuardrails:

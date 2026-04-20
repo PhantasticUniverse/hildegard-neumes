@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="rh_pes_line" format="2">
   <advance width="12"/>
+  <unicode hex="F404"/>
   <outline>
     <contour>
-      <point x="0" y="0" type="line"/>
-      <point x="12" y="0" type="line"/>
-      <point x="12" y="250" type="line"/>
-      <point x="0" y="250" type="line"/>
+      <point x="36" y="250" type="line"/>
+      <point x="76" y="250" type="line"/>
+      <point x="76" y="0" type="line"/>
+      <point x="36" y="0" type="line"/>
     </contour>
   </outline>
 </glyph>

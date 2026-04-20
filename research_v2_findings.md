@@ -165,7 +165,7 @@ The Verovio agent did not clone the repo; its line-number references are approxi
 - Font build pipeline → `fonts/generate.py`, `fonts/generate_all.sh`, `fonts/supported.xml`
 - Reference font directory → `fonts/Bravura/` (model for `fonts/Hildegard/`)
 
-Local reference material already in place at `/Users/xaviermac/Documents/2_Areas/Coding-Projects/reference-repos/`:
+Local reference material already in place at `../reference-repos/`:
 - `music-encoding-develop/source/docs/06-neumes.xml` — MEI Neumes Module chapter, including the Tübingen/Hildegard origin note.
 - `music-encoding-develop/source/examples/neumes/neumes-sample169.txt` — validated full MEI skeleton; basis for our test corpus.
 - `music-encoding-develop/customizations/mei-neumes.xml` — ODD customization reference if any schema-level tweaks become necessary.

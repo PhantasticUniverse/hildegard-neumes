@@ -114,7 +114,7 @@
 	<key>italicAngle</key>
 	<real>0.0</real>
 	<key>note</key>
-	<string>Scaffolded from the 19-atom contract at v0.1.0-dev. Placeholder rectangles — Phase A. Final calligraphic shapes authored per docs/paleographic_drawing_briefs.md.</string>
+	<string>Scaffolded from the 25-atom contract at v0.2.0-alpha.1. Seven tradition-agnostic atoms (divisio family, virgula, pes_line, flexa_line) ship as final shapes per ADR-0009. Eighteen calligraphic atoms are authored in FontForge per docs/paleographic_drawing_briefs.md — 14 traced, 4 remaining as placeholder rectangles (oriscus, liquescent_asc, deminutum, f_clef). Pes and flexa compositional families added 2026-04-20 with compose_anchors metadata in rhineland.contract.json.</string>
 	<key>openTypeHheaAscender</key>
 	<integer>2000</integer>
 	<key>openTypeHheaDescender</key>
@@ -129,6 +129,8 @@
 	<string>https://openfontlicense.org/</string>
 	<key>openTypeNameManufacturer</key>
 	<string>Hildegard Neumes Project</string>
+	<key>openTypeNameVersion</key>
+	<string>Version 0.002-alpha.1</string>
 	<key>openTypeOS2Panose</key>
 	<array>
 		<integer>5</integer>
@@ -181,7 +183,7 @@
 	<key>versionMajor</key>
 	<integer>0</integer>
 	<key>versionMinor</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>xHeight</key>
 	<integer>500</integer>
 </dict>

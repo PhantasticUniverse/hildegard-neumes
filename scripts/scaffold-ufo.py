@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""scaffold-ufo.py — create src/hildegard-neumes.ufo/ from the 19-atom contract.
+"""scaffold-ufo.py — create src/hildegard-neumes.ufo/ from the 25-atom contract.
 
 Reads src/glyph-names.json and src/widths.json and emits a valid UFO3
 directory. Each contract glyph is authored as either:
@@ -10,13 +10,13 @@ directory. Each contract glyph is authored as either:
   shapes adopt Bravura SMuFL conventions per ADR-0009; compositional
   primitives (pes_line, flexa_line) keep their own conventions since
   they have no SMuFL equivalent; or
-- a **placeholder rectangle** (the twelve calligraphic atoms) sized
+- a **placeholder rectangle** (the eighteen calligraphic atoms) sized
   to fit inside the advance width, which a designer later replaces
-  in FontForge per docs/paleographic_drawing_briefs.md §§ 1–12.
+  in FontForge per docs/paleographic_drawing_briefs.md §§ 1–18.
 
 Having both live in one deterministic script means re-running
 ``just rescaffold-ufo`` regenerates the seven geometric glyphs to
-their canonical shapes and resets the twelve calligraphic
+their canonical shapes and resets the eighteen calligraphic
 placeholders — exactly what you want after a contract change. The
 script is the single source of truth for every non-calligraphic
 shape in the font.
@@ -79,6 +79,41 @@ PLACEHOLDER_BBOX: dict[str, tuple[int, int, int, int]] = {
     # and below y=0 (the designated C line).
     "rh_c_clef":             (   0,  -95,  125,   70),
     "rh_f_clef":             (   5,    0,  155,  250),
+    # Pes atoms (added 2026-04-20, drawings finalized 2026-04-20).
+    # rh_pes_short is the integrated continuous-gesture variant for
+    # pes-of-2nd (hook + short stem + head in one glyph, origin at the
+    # bottom note's pitch anchor y=0, top pitch at y=+125 for a 2nd).
+    # rh_pes_foot and rh_pes_head are composition partners for pes-of-
+    # 3rd-or-wider: foot is a hook at y=0 with upward stem stub to y=71,
+    # head has its body above y=0 with downward stem stub to y=-80.
+    # Stem channel is uniformly x=[36, 76] (40 du thick) across
+    # foot/head/line for seamless compositional joins. Rhena's resolver
+    # picks PES_SHORT for 2nds; composes FOOT + stretched PES_LINE +
+    # HEAD for wider intervals. Bboxes below reflect drawn outlines —
+    # --force would overwrite drawn calligraphic content with size-
+    # accurate placeholder rectangles (use only if intentionally
+    # resetting; see feedback memory about --force hazards).
+    "rh_pes_short":          (-116,  -81,  116,  130),
+    "rh_pes_foot":           (-103,  -45,   76,   71),
+    "rh_pes_head":           (  17,  -80,   90,   30),
+    # Flexa atoms (added 2026-04-20, drawings finalized 2026-04-20).
+    # Paralleling the pes family but for descending compound neumes,
+    # with an origin-at-top convention (origin = upper attachment
+    # point) mirroring the top-down pen direction. rh_flexa_short is
+    # the integrated 'n'-shape variant for flexa-of-2nd (image 16).
+    # rh_flexa_head has top pitch at origin y=0 with stem stub
+    # descending to y=-125 (stub is longer than pes_head's 80 du
+    # because flexa stem proportionally carries the descending
+    # gesture's weight). rh_flexa_foot uses stem-top at origin y=0,
+    # with stem descending to y=-75 and foot hook body below to
+    # y=-163; bottom pitch anchor lives inside the foot body at
+    # y=-119. Stem channel for the flexa family is x=[31, 69]
+    # (38 du thick), narrower than pes's x=[36, 76] (40 du). Bboxes
+    # below reflect drawn outlines; --force would overwrite drawn
+    # calligraphic content with size-accurate placeholder rectangles.
+    "rh_flexa_short":        ( -60, -155,   94,   21),
+    "rh_flexa_head":         ( -65, -128,   69,   24),
+    "rh_flexa_foot":         ( -60, -166,   99,    0),
 }
 
 
@@ -138,17 +173,27 @@ GEOMETRIC_FINAL_SHAPES: dict[str, list[list[tuple[int, int]]]] = {
         [(0, 255), (91, 255), (91, 500), (0, 500)],
     ],
     "rh_pes_line": [
-        # Thin ascending connector, one staff space tall, LSB-0. No SMuFL
-        # equivalent — compositional primitive; Rhena's resolver rotates
-        # and scales it at render time to span the interval of any pes.
-        [(0, 0), (12, 0), (12, 250), (0, 250)],
+        # Rhineland pes stem connector, traced at scale from the tall-pes
+        # manuscript reference (image 14) 2026-04-20. Stem channel at
+        # x=[36, 76] (40 du thick) aligns with rh_pes_foot and
+        # rh_pes_head stem stubs for seamless compositional joins. One
+        # staff space tall (y=[0, 250]); Rhena's resolver stretches
+        # vertically to span any interval ≥ 3rd. Advance width kept at
+        # 12 (the original placeholder) — compositional atom, Rhena
+        # stamps at x=0 and doesn't use advance for layout. No SMuFL
+        # equivalent.
+        [(36, 0), (76, 0), (76, 250), (36, 250)],
     ],
     "rh_flexa_line": [
-        # Descending diagonal parallelogram, 172 du wide, 260 du tall,
-        # 12 du thick. No SMuFL equivalent — compositional primitive.
-        # Top edge at y=0, x ∈ [0, 12]; bottom edge at y=-260,
-        # x ∈ [160, 172]. CCW from bottom-left corner.
-        [(160, -260), (172, -260), (12, 0), (0, 0)],
+        # Rhineland flexa stem connector, traced at scale from image 17
+        # 2026-04-20. Vertical 38-du-thick stem at x=[31, 69], 125 du
+        # tall extending DOWNWARD from origin: y=0 (top, tip) to
+        # y=-125 (bottom, base). Origin-at-top convention mirrors the
+        # flexa gesture's top-down pen direction. Narrower than pes
+        # stem (38 vs 40 du) and at a slightly different x-channel
+        # (31-69 vs 36-76) per image 17's traced scale. Rhena
+        # stretches vertically to span flexa intervals ≥ 3rd.
+        [(31, -125), (69, -125), (69, 0), (31, 0)],
     ],
 }
 
@@ -240,7 +285,7 @@ def fontinfo_dict(version: str) -> dict:
         "styleMapStyleName": "regular",
         # --- version / provenance
         "versionMajor": 0,
-        "versionMinor": 1,
+        "versionMinor": 2,
         "copyright": (
             "Copyright 2026 Hildegard Neumes Project. "
             "Licensed under the SIL Open Font License 1.1."
@@ -284,10 +329,10 @@ def fontinfo_dict(version: str) -> dict:
         "postscriptUnderlinePosition": -100,
         # --- note field for humans
         "note": (
-            f"Scaffolded from the 19-atom contract at v{version}. "
+            f"Scaffolded from the 25-atom contract at v{version}. "
             "Seven tradition-agnostic atoms (divisio family, virgula, "
             "pes_line, flexa_line) ship as final shapes per ADR-0009. "
-            "Twelve calligraphic atoms start as placeholder rectangles "
+            "Eighteen calligraphic atoms start as placeholder rectangles "
             "and are authored in FontForge per "
             "docs/paleographic_drawing_briefs.md."
         ),
@@ -482,7 +527,7 @@ def main(argv: list[str] | None = None) -> int:
     project_root = Path(__file__).resolve().parent.parent
 
     parser = argparse.ArgumentParser(
-        description="Scaffold src/hildegard-neumes.ufo/ from the 19-atom contract.",
+        description="Scaffold src/hildegard-neumes.ufo/ from the 25-atom contract.",
     )
     parser.add_argument(
         "--out", type=Path,

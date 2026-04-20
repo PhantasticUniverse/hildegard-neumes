@@ -123,18 +123,60 @@
       "doc": "Small tick breath mark above the staff."
     },
     {
+      "rust_const": "PES_SHORT",
+      "font_name": "rh_pes_short",
+      "smufl": null,
+      "smufl_codepoint": "U+F400",
+      "doc": "Rhineland pes (integrated variant, interval of a 2nd): hook + short stem + head as one continuous calligraphic gesture. Rhena's resolver stamps this for pes-of-2nd; wider intervals compose rh_pes_foot + rh_pes_line + rh_pes_head. PUA U+F400 in the Rhineland non-SMuFL block."
+    },
+    {
+      "rust_const": "PES_FOOT",
+      "font_name": "rh_pes_foot",
+      "smufl": null,
+      "smufl_codepoint": "U+F401",
+      "doc": "Rhineland pes foot: bottom hook + small upward stem stub. Composed with rh_pes_line (stretched) + rh_pes_head by Rhena's resolver to form a pes-of-3rd-or-wider. Paleographic fidelity per ADR-0008 — the Hildegard pes bottom is a hook, not a punctum parallelogram. PUA U+F401."
+    },
+    {
+      "rust_const": "PES_HEAD",
+      "font_name": "rh_pes_head",
+      "smufl": null,
+      "smufl_codepoint": "U+F402",
+      "doc": "Rhineland pes head: calligraphic head + rightward foot flick + small downward stem stub. No virga-style foot hook (that's a standalone-gesture terminator). Composed with rh_pes_foot + rh_pes_line by Rhena's resolver. PUA U+F402."
+    },
+    {
       "rust_const": "PES_LINE",
       "font_name": "rh_pes_line",
       "smufl": null,
-      "smufl_codepoint": null,
-      "doc": "Ascending stroke connector for pes/scandicus joins. Private, no SMuFL."
+      "smufl_codepoint": "U+F404",
+      "doc": "Ascending stroke connector for pes/scandicus joins. PUA U+F404 (skipping U+F403 which is PRESSUS)."
+    },
+    {
+      "rust_const": "FLEXA_SHORT",
+      "font_name": "rh_flexa_short",
+      "smufl": null,
+      "smufl_codepoint": "U+F405",
+      "doc": "Rhineland flexa (integrated variant, interval of a 2nd descending): head + short stem + foot as one continuous 'n'-shape calligraphic gesture. Rhena's resolver stamps this for flexa-of-2nd; wider intervals compose head+line+foot instead. PUA U+F405."
+    },
+    {
+      "rust_const": "FLEXA_HEAD",
+      "font_name": "rh_flexa_head",
+      "smufl": null,
+      "smufl_codepoint": "U+F406",
+      "doc": "Rhineland flexa head: calligraphic head at the top of a descending flexa gesture + small downward stem stub. Composition partner for rh_flexa_line + rh_flexa_foot. Paleographically distinct from rh_pes_head (pen-entry stroke vs pen-exit stroke). PUA U+F406."
+    },
+    {
+      "rust_const": "FLEXA_FOOT",
+      "font_name": "rh_flexa_foot",
+      "smufl": null,
+      "smufl_codepoint": "U+F407",
+      "doc": "Rhineland flexa foot: small upward stem stub + foot hook terminator at the bottom of a descending flexa gesture. Composition partner for rh_flexa_head + rh_flexa_line. Paleographically distinct from rh_pes_foot (pen-exit terminator vs pen-entry hook). PUA U+F407."
     },
     {
       "rust_const": "FLEXA_LINE",
       "font_name": "rh_flexa_line",
       "smufl": null,
-      "smufl_codepoint": null,
-      "doc": "Descending diagonal connector for flexa/clivis. Private, no SMuFL."
+      "smufl_codepoint": "U+F408",
+      "doc": "Vertical stretchable connector for flexa compositions. PUA U+F408. Geometry: 38-du stem at x=[31, 69], 125 du tall extending from y=0 (top) to y=-125 (bottom). Rhena stretches vertically to fill the interval between rh_flexa_head's stem_bottom and rh_flexa_foot's stem_top (or substitutes a native SVG <line> at the stem_channel x-band per ADR-0012). 2026-04-20: redesigned from the abandoned-rhineland.rs diagonal parallelogram (172×260) after paleographic review of image 17 showed Hildegard's flexa stem is vertical, not diagonal."
     }
   ]
 }
