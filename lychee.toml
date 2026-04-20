@@ -1,17 +1,36 @@
 # lychee config for link checking in lint-docs.yml.
 #
-# Default lychee accepts the 2xx range. We extend acceptance to include
-# transient rate-limit / server-overload codes so CI doesn't fail when
-# academic archives and institutional servers are briefly unavailable —
-# those links will re-resolve on a retry; they're not broken links.
+# Accept codes:
+#   Default 2xx + 3xx redirects + transient rate-limit / server-overload
+#   (429, 500, 503). Rate-limited responses from academic archives and
+#   institutional servers should not gate CI; those links resolve fine
+#   in a browser and re-check on the next run.
 #
-# exclude_path skips historical docs where link rot is expected
-# (superseded planning + archived research) and the build output dir.
+# Excluded URLs:
+#   * hildegard-society.org is rate-limited through Google's "sorry"
+#     CAPTCHA page when accessed from CI runner IPs, so lychee sees a
+#     redirect chain ending at a 429 and flags the chain even when the
+#     final code is in the accept list. The site itself is a valid
+#     project reference — excluding is the cheap fix.
+#   * google.com/sorry is the CAPTCHA gate itself; excluded for the
+#     same reason (it's not an intentional link target from our docs).
+#
+# exclude_path:
+#   docs/archive/ is history — broken links there are expected
+#   (superseded docs cite URLs that may have since moved).
 
-accept = [200, 201, 202, 203, 204, 205, 206, 207, 208, 226, 429, 500, 503]
+accept = [
+    200, 201, 202, 203, 204, 205, 206, 207, 208, 226,
+    301, 302, 303, 307, 308,
+    429, 500, 503,
+]
 timeout = 20
 max_retries = 3
 retry_wait_time = 2
+exclude = [
+    'hildegard-society\.org',
+    'google\.com/sorry',
+]
 exclude_path = [
     "docs/archive",
     "build",
