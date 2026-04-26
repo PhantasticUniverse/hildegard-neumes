@@ -184,6 +184,15 @@ GEOMETRIC_FINAL_SHAPES: dict[str, list[list[tuple[int, int]]]] = {
         # equivalent.
         [(36, 0), (76, 0), (76, 250), (36, 250)],
     ],
+    "rh_pes_line_half": [
+        # Half-length pes stem connector. Natural 125 du = 1/2 staff
+        # space. Stem channel x=[36, 76] identical to rh_pes_line so the
+        # composition pass can swap them based on interval (rh_pes_line_half
+        # for pes-of-3rd; rh_pes_line for 4th+). Added 2026-04-26 alpha-3
+        # prep per rhena-coordination accept; PUA U+F409. Compositional-
+        # only; advance 12 placeholder consistent with rh_pes_line.
+        [(36, 0), (76, 0), (76, 125), (36, 125)],
+    ],
     "rh_flexa_line": [
         # Rhineland flexa stem connector, traced at scale from image 17
         # 2026-04-20. Vertical 38-du-thick stem at x=[31, 69], 125 du

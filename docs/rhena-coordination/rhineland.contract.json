@@ -301,6 +301,23 @@
       "y_extents": {"min": 0, "max": 250}
     },
     {
+      "rust_const": "PES_LINE_HALF",
+      "font_name": "rh_pes_line_half",
+      "width": 12,
+      "smufl": null,
+      "smufl_codepoint": "U+F409",
+      "doc": "Half-length ascending stroke connector for pes-of-3rd composition. Natural length 125 du (one half staff space) — half of rh_pes_line's 250 du natural length. Stem channel x=[36, 76] (40 du thick), identical to rh_pes_line for composition-pass interchangeability. Rhena's composition pass picks rh_pes_line_half at interval=3rd (line gap 99 du; 21% compression vs 60% for rh_pes_line) and falls through to rh_pes_line for 4th+. Added 2026-04-26 alpha-3 prep per rhena-coordination accept; PUA U+F409 in the Rhineland non-SMuFL block (skipping family-clustered allocation since renumbering existing atoms would break consumers — F400-F40F is reserved for Rhineland, not by family). Advance 12 is a placeholder kept consistent with rh_pes_line — compositional atom, Rhena stamps at x=0 and doesn't use advance for layout.",
+      "liquescent_direction": null,
+      "origin": "composed",
+      "compose_anchors": {
+        "base": {"x": 56, "y": 0},
+        "tip": {"x": 56, "y": 125}
+      },
+      "stem_channel": {"x_min": 36, "x_max": 76},
+      "x_extents": {"min": 36, "max": 76},
+      "y_extents": {"min": 0, "max": 125}
+    },
+    {
       "rust_const": "FLEXA_SHORT",
       "font_name": "rh_flexa_short",
       "width": 90,

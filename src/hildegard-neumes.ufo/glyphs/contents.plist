@@ -40,6 +40,8 @@
 	<string>rh_pes_head.glif</string>
 	<key>rh_pes_line</key>
 	<string>rh_pes_line.glif</string>
+	<key>rh_pes_line_half</key>
+	<string>rh_pes_line_half.glif</string>
 	<key>rh_pressus</key>
 	<string>rh_pressus.glif</string>
 	<key>rh_punctum</key>

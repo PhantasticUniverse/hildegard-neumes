@@ -151,6 +151,13 @@
       "doc": "Ascending stroke connector for pes/scandicus joins. PUA U+F404 (skipping U+F403 which is PRESSUS)."
     },
     {
+      "rust_const": "PES_LINE_HALF",
+      "font_name": "rh_pes_line_half",
+      "smufl": null,
+      "smufl_codepoint": "U+F409",
+      "doc": "Half-length ascending stroke connector for pes-of-3rd composition. Natural 125 du (vs rh_pes_line's 250). Same stem channel; picker-interchangeable. PUA U+F409. Added 2026-04-26 alpha-3 prep."
+    },
+    {
       "rust_const": "FLEXA_SHORT",
       "font_name": "rh_flexa_short",
       "smufl": null,
