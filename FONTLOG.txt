@@ -30,6 +30,71 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+26 April 2026 (v0.2.0-alpha.2) — Hildegard Neumes Project maintainers — pre-release tag: contract-v2 schema (origin enum, liquescent_direction, x/y extents)
+
+This pre-release cuts the contract-v2 schema agreed with the Rhena/Viriditas
+team in the rhena-coordination thread (2026-04-26). No glyph inventory change
+(still 25 atoms, same 4 placeholder atoms pending trace). Generated
+rhineland.rs is byte-identical to v0.2.0-alpha.1 output (verified) — the v2
+additions are consumed by Rhena's contract parser directly, not by the
+Glyph { name, codepoint } emission path. Width changes flow through OTF/hmtx
+on next deploy and require no Rust regen on Rhena's side.
+
+Schema bump (in docs/rhena-coordination/rhineland.contract.json)
+- Top-level `version: 1` renamed to `schema_version: 2` (no consumer reads
+  this field; rename is for clarity vs. font/OTF version).
+- `coordinate_system` extended with `y_zero: "staff_midline"`,
+  `staff_lines_du: [-375, -125, 125, 375]`, `staff_space_du: 250`. Records
+  the reference frame the per-atom `origin` field is interpreted against.
+- New top-level blocks `origin_definitions` and `liquescent_direction_definitions`
+  with verbatim per-enum-value descriptions sourced from the rhena-coordination
+  thread; downstream consumers parsing the contract get authoritative
+  semantics without chasing the cross-repo discussion.
+
+Per-atom additive fields (4 new fields × 25 atoms; non-breaking)
+- `liquescent_direction`: "ascending" | "descending" | "diminutive" | null.
+  Three atoms tagged: rh_liquescent_asc → ascending, rh_liquescent_desc →
+  descending, rh_deminutum → diminutive. Other 22 atoms null. Replaces
+  Rhena's v1-stopgap of name-string sniffing.
+- `origin`: "pitch-anchor" | "staff-fixed" | "composed". Per-atom split
+  17 / 5 / 3:
+    pitch-anchor (17): rh_punctum, rh_virga, rh_punctum_inclinatum,
+      rh_quilisma, rh_oriscus, rh_strophicus, rh_pressus,
+      rh_liquescent_asc, rh_liquescent_desc, rh_deminutum, rh_c_clef,
+      rh_f_clef, rh_pes_short, rh_pes_foot, rh_pes_head, rh_flexa_short,
+      rh_flexa_head.
+    staff-fixed (5): rh_divisio_minima, rh_divisio_maior,
+      rh_divisio_maxima, rh_divisio_finalis, rh_virgula.
+    composed (3): rh_pes_line, rh_flexa_line, rh_flexa_foot.
+  flexa_foot kept `composed` (origin = stem_top join, pitch_bottom inside
+  the body at y=-119 exposed via compose_anchors) rather than rebaselined
+  to pitch-anchor — preserves the descending-gesture model and the
+  existing trace-at-scale geometry. v3 rebaseline deferred contingent on
+  Rhena's composition pass actually proving frictional with the asymmetry.
+- `x_extents: {min, max}` and `y_extents: {min, max}`: visible bbox of
+  the atom's geometry in local em frame, computed from on-curve + control
+  points in src/hildegard-neumes.ufo/glyphs/*.glif. Lets Rhena compute
+  syllable-text placement and rollover wrap candidates from visible
+  geometry rather than the advance box (matters for asymmetric atoms
+  like rh_virga: x_extents [-44, 47] inside advance 120). Both fields
+  are `null` for the 4 placeholder atoms (rh_oriscus, rh_deminutum,
+  rh_f_clef, rh_liquescent_asc) — extents not measured because geometry
+  is not yet traced. Rhena's consumer must handle null gracefully (likely
+  fall back to advance-box layout, matching v1 behaviour).
+
+Schema-bump deferrals (out of scope)
+- `stem_extent_hint{min, max}`: declined by Rhena; their policy is "trust
+  anchor distances, stretch pes_line/flexa_line between them." Re-proposed
+  only if extreme-ambitus aesthetic artefacts surface during integration.
+
+Coordination
+- See contract-v2 thread on hildegard-neumes (issue link tbd; will move to
+  Rhena side after ADR-0003 ownership migration).
+- Rhena adoption ADR (filed by main project) references this contract +
+  ADR-0021 three-class taxonomy (Class A / atom + anchor compositional).
+- Liquescent trace priority next: rh_liquescent_asc ≈ rh_deminutum >
+  rh_oriscus > rh_f_clef. Targeting v0.2.0-alpha.3.
+
 20 April 2026 (v0.2.0-alpha.1) — Hildegard Neumes Project maintainers — pre-release tag: pes/flexa compositional families, ADR-0012 alignment, 25-atom contract
 
 This is the first pre-release tag, cutting the font for Rhena integration

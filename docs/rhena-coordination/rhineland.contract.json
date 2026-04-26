@@ -1,11 +1,31 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": 1,
+  "schema_version": 2,
   "description": "Authoritative Rhineland glyph contract for the Hildegard Neumes font project. Single source of truth for glyph names, advance widths, SMuFL cross-references, and documentation. Consumed by scripts/generate-rhena-glyphs.py to emit the Rust Glyph table for Rhena adoption. 2026-04-19 trace-at-scale workflow adopted for calligraphic atoms: each glyph's width is measured directly by tracing the manuscript reference image scaled to align with the font's staff-space guidelines (1 ss = 250 du). First measured widths: rh_punctum 160 (body 130), rh_virga 120 (body 91 at the head). Tradition-agnostic geometric widths remain Bravura-aligned per ADR-0009. Calligraphic atoms retain Rhineland-distinct widths per ADR-0008. Units are design units (du); 1 staff space = 250 du in our 1000-UPM scale. 2026-04-20 atom inventory expanded 19→22 atoms per ADR-0008 paleographic fidelity. rh_pes_short (integrated, for interval of a 2nd), rh_pes_foot and rh_pes_head (composition partners with rh_pes_line for interval of 3rd or wider). The split is forced by the 125-du 2nd interval being smaller than the usable sum of foot+head stub lengths in the compositional path; integrated variant matches Greciliae's continuous-gesture approach for the smallest intervals. The Hildegard pes is paleographically distinct from a generic punctum+virga stack (bottom is a hook, top lacks a virga terminator hook). Widths finalized 2026-04-20 from user traces: rh_pes_short 90, rh_pes_foot 90, rh_pes_head 90, rh_pes_line 12 (advance kept from placeholder — compositional atom, Rhena stamps at x=0 independent of advance). Stem channel for foot/line/head is uniformly x=[36, 76] (40 du thick), traced from the same manuscript reference (image 14, tall pes) for seamless compositional joins. Pes family entries include `compose_anchors` metadata declaring pitch-anchor and stem-joint points for Rhena's resolver — pitch anchors follow the pen-centerline-crosses-pitch-line convention (origin at local y=0 for bottom-pitch atoms and top-pitch atoms), joint points are the stem-stub endpoints where rh_pes_line meets rh_pes_foot/rh_pes_head. 2026-04-20 flexa family added paralleling the pes: rh_flexa_short (integrated 2nd), rh_flexa_head, rh_flexa_foot, and rh_flexa_line (redesigned from the abandoned diagonal to a vertical stem). Flexa widths finalized 90/90/90/12 from user trace-at-scale from images 16 (short) and 17 (long). Atom count 22→25. Flexa family uses its own stem-channel convention distinct from pes: flexa stems sit at x=[31, 69] (38 du thick) whereas pes stems sit at x=[36, 76] (40 du thick); trace-at-scale from different reference images yielded these per-family values. Flexa atoms use an origin-at-top convention (origin = upper attachment point) rather than origin-at-pitch like pes, mirroring the descending gesture's pen-direction: rh_flexa_head origin at top pitch, rh_flexa_line origin at top/tip, rh_flexa_foot origin at stem-top/line-joint (NOT at bottom pitch — that lives inside the foot body). Pes vs flexa minimum compositional interval differs: pes composition works for 3rd+ (stubs total 151 du < 250 du), whereas flexa composition is tight for 3rd (stubs total 244 du, leaving only 6 du for the line at 250-du interval) and progressively roomier for 4th+. 2026-04-20 post-Rhena-ADR-0012 revision: (a) compose_anchors coordinate frame is Y-up em-square, 1000 UPM, in each atom's local frame — origin (0, 0) varies per family convention but the anchors themselves give absolute landmark positions, abstracting the convention for consumers; (b) all compositional atoms now normalize pitch_x = stem_x within each family (pes=56, flexa=50) so that stamping at a pitch anchor aligns stems automatically into a single vertical column — no implicit inter-note x-offset to reverse-engineer; (c) new stem_channel {x_min, x_max} field on compositional atoms gives the x-band of the stem for Rhena's native SVG <line> rendering under ADR-0012 (thickness derivable from x_max - x_min); (d) PUA codepoints for all Rhineland non-SMuFL atoms consolidated into the SMuFL extension block U+F400..F40F for Verovio/LilyPond/@font-face interop — PRESSUS retains U+F403, pes family occupies U+F400..F402 + U+F404, flexa family occupies U+F405..F408.",
   "coordinate_system": {
     "em": 1000,
     "y_up": true,
-    "comment": "Font authored Y-up; Rhena's SVG backend flips to Y-down at render time via a transform. See hildegard-neumes rhena_integration_plan.md § 3.3."
+    "y_zero": "staff_midline",
+    "staff_lines_du": [-375, -125, 125, 375],
+    "staff_space_du": 250,
+    "comment": "Font authored Y-up; Rhena's SVG backend flips to Y-down at render time via a transform. y=0 in the local em frame coincides with the staff midline of the 4-line chant staff (lines at ±125, ±375; 1 staff space = 250 du; 1000 UPM). The per-atom `origin` field expresses how each atom's local (0,0) maps to screen-space cursor position — see per-enum-value definitions below. See hildegard-neumes rhena_integration_plan.md § 3.3 for the Rhena-side y-flip transform."
+  },
+  "origin_definitions": {
+    "pitch-anchor": {
+      "description": "(0,0) in the atom's local em frame coincides with the atom's musical pitch landmark. Consumer positions the SVG <text> cursor at (cursor_x, screen_y_of_pitch); cursor_x advances by the atom's hmtx width, cursor_y is set by the consumer's pitch-to-screen-y mapping for the staff. Internal y-extent of geometry relative to (0,0) is given by `y_extents`. Used by all single-note atoms, pes_short/foot/head, flexa_short/head, and both clefs (where the clef's designated line IS the pitch landmark)."
+    },
+    "staff-fixed": {
+      "description": "(0,0) in the atom's local em frame coincides with the staff midline reference. Consumer positions the cursor at (cursor_x, screen_y_of_staff_midline) — y is constant per line of music, independent of any pitch. Geometry sits at intrinsic y ranges relative to the midline (e.g., divisio_minima at y ∈ [+250, +500] = above the staff). Used by structural / rule atoms with no pitch: divisios and virgula."
+    },
+    "composed": {
+      "description": "(0,0) in the atom's local em frame coincides with a stem-channel join landmark declared in `compose_anchors` (`base`/`tip`/`stem_top`/`stem_bottom`). Consumer's composition engine positions the cursor at the join supplied by the previous atom in the compositional gesture — no pitch lookup at this stamp, no advance positioning. If the atom carries a pitch landmark (e.g., flexa_foot.pitch_bottom at local y=-119), it lives INSIDE the body and is exposed via a separate `compose_anchors` entry for downstream consumers (syllable text placement, etc.); pitch correctness is a construction invariant of the composition pass, not a stamp position. Used by pes_line, flexa_line, flexa_foot."
+    }
+  },
+  "liquescent_direction_definitions": {
+    "ascending": "Maps to Rhena IR `Liquescent::Ascending` (epiphonus / pes liquescens / Dendermonde 'pinnosa').",
+    "descending": "Maps to Rhena IR `Liquescent::Descending` (cephalicus / flexa liquescens).",
+    "diminutive": "Maps to Rhena IR `Liquescent::Diminutive` (chantPunctumDeminutum / phrase-final softening).",
+    "null": "Atom is not a liquescent terminator (default for 22 of 25 atoms)."
   },
   "width_tolerance": 1,
   "glyphs": [
@@ -15,7 +35,11 @@
       "width": 160,
       "smufl": "chantPunctum",
       "smufl_codepoint": "U+E990",
-      "doc": "Rhineland punctum: calligraphic parallelogram mark (body + tail); basic single note. Width 160 du (body 130) set 2026-04-19 via trace-at-scale from punctum.png, matching Bravura chantPunctum convention."
+      "doc": "Rhineland punctum: calligraphic parallelogram mark (body + tail); basic single note. Width 160 du (body 130) set 2026-04-19 via trace-at-scale from punctum.png, matching Bravura chantPunctum convention.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -50, "max": 81},
+      "y_extents": {"min": -39, "max": 36}
     },
     {
       "rust_const": "VIRGA",
@@ -23,7 +47,11 @@
       "width": 120,
       "smufl": "chantPunctumVirga",
       "smufl_codepoint": "U+E996",
-      "doc": "Rhineland virga: calligraphic head + thin descending stem + small rightward foot hook. Width 120 du (head 91 wide) set 2026-04-19 via trace-at-scale from virda.png; virga head is notably narrower than the punctum when traced at staff scale."
+      "doc": "Rhineland virga: calligraphic head + thin descending stem + small rightward foot hook. Width 120 du (head 91 wide) set 2026-04-19 via trace-at-scale from virda.png; virga head is notably narrower than the punctum when traced at staff scale.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -44, "max": 47},
+      "y_extents": {"min": -156, "max": 30}
     },
     {
       "rust_const": "PUNCTUM_INCLINATUM",
@@ -31,7 +59,11 @@
       "width": 140,
       "smufl": "chantPunctumInclinatum",
       "smufl_codepoint": "U+E991",
-      "doc": "Small tilted diamond for climacus descending notes. Sharper left/right points than rh_punctum. Width 140 du (body 110 × 65, ~85% of rh_punctum width) set 2026-04-19 via trace-at-scale from climacus.png. Rhena's resolver stamps this atom N times at descending y-positions to form climacus compounds; this glyph is a single inclinatum, not a cascade."
+      "doc": "Small tilted diamond for climacus descending notes. Sharper left/right points than rh_punctum. Width 140 du (body 110 × 65, ~85% of rh_punctum width) set 2026-04-19 via trace-at-scale from climacus.png. Rhena's resolver stamps this atom N times at descending y-positions to form climacus compounds; this glyph is a single inclinatum, not a cascade.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -38, "max": 72},
+      "y_extents": {"min": -32, "max": 33}
     },
     {
       "rust_const": "QUILISMA",
@@ -39,7 +71,11 @@
       "width": 280,
       "smufl": "chantQuilisma",
       "smufl_codepoint": "U+E99B",
-      "doc": "Rhineland quilisma: compact rising ornamental gesture with rounded humps. Width 280 du (body 247 × 276) set 2026-04-19 via trace-at-scale from quilisma.png — notably larger and more vertical than the earlier 'flat 3:1 ribbon' spec, which was inherited from the abandoned module and not paleographically verified."
+      "doc": "Rhineland quilisma: compact rising ornamental gesture with rounded humps. Width 280 du (body 247 × 276) set 2026-04-19 via trace-at-scale from quilisma.png — notably larger and more vertical than the earlier 'flat 3:1 ribbon' spec, which was inherited from the abandoned module and not paleographically verified.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -125, "max": 122},
+      "y_extents": {"min": -17, "max": 259}
     },
     {
       "rust_const": "ORISCUS",
@@ -47,7 +83,11 @@
       "width": 200,
       "smufl": "chantOriscusAscending",
       "smufl_codepoint": "U+E99C",
-      "doc": "Ornamental repercussion note; small punctum body with a wavy tail. Directional split deferred to v2."
+      "doc": "Ornamental repercussion note; small punctum body with a wavy tail. Directional split deferred to v2.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": null,
+      "y_extents": null
     },
     {
       "rust_const": "STROPHICUS",
@@ -55,7 +95,11 @@
       "width": 110,
       "smufl": "chantStrophicus",
       "smufl_codepoint": "U+E99F",
-      "doc": "Rhineland apostropha: small calligraphic mark with asymmetric flick. Rhena's resolver stamps this atom 1× (apostropha), 2× (bistropha), or 3× (tristropha); the glyph itself is a single mark. Width 110 du (body 73×54, daintier than inclinatum) set 2026-04-19 via trace-at-scale from the Lomer Hildegard-Symphonia transcription chart (row 5). Advance includes extra breathing room (~37 du) for readable gaps between stamped repeats."
+      "doc": "Rhineland apostropha: small calligraphic mark with asymmetric flick. Rhena's resolver stamps this atom 1× (apostropha), 2× (bistropha), or 3× (tristropha); the glyph itself is a single mark. Width 110 du (body 73×54, daintier than inclinatum) set 2026-04-19 via trace-at-scale from the Lomer Hildegard-Symphonia transcription chart (row 5). Advance includes extra breathing room (~37 du) for readable gaps between stamped repeats.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -33, "max": 41},
+      "y_extents": {"min": -30, "max": 24}
     },
     {
       "rust_const": "PRESSUS",
@@ -63,7 +107,11 @@
       "width": 240,
       "smufl": null,
       "smufl_codepoint": "U+F403",
-      "doc": "Rhineland pressus: vertical line attached to a short undulating line (Gardiner p. 94). No SMuFL equivalent; PUA codepoint U+F403 within the Rhineland non-SMuFL block U+F400..F40F (SMuFL extension range). Width 240 du (body 207 × 219) set 2026-04-19 via trace-at-scale from pressus.png."
+      "doc": "Rhineland pressus: vertical line attached to a short undulating line (Gardiner p. 94). No SMuFL equivalent; PUA codepoint U+F403 within the Rhineland non-SMuFL block U+F400..F40F (SMuFL extension range). Width 240 du (body 207 × 219) set 2026-04-19 via trace-at-scale from pressus.png.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -114, "max": 93},
+      "y_extents": {"min": -188, "max": 31}
     },
     {
       "rust_const": "LIQUESCENT_ASC",
@@ -71,7 +119,11 @@
       "width": 160,
       "smufl": "chantAuctumAsc",
       "smufl_codepoint": "U+E994",
-      "doc": "Ascending liquescent terminal; small head + upward calligraphic tail. Lighter stroke per Gardiner p. 92."
+      "doc": "Ascending liquescent terminal; small head + upward calligraphic tail. Lighter stroke per Gardiner p. 92. Semantically the Dendermonde 'pinnosa' / pes liquescens / epiphonus (maps to Rhena IR `Liquescent::Ascending` / `Epiphonus`): the upper head of an ascending two-note neume rendered as a diminutum/lighter-stroke variant. PLACEHOLDER pending trace-at-scale from Riesencodex f. 470r region (Gardiner Fig. 6 basic-neume plate); calibrate visually against Dendermonde counterpart at integration time per rhena-coordination 2026-04-26.",
+      "liquescent_direction": "ascending",
+      "origin": "pitch-anchor",
+      "x_extents": null,
+      "y_extents": null
     },
     {
       "rust_const": "LIQUESCENT_DESC",
@@ -79,7 +131,11 @@
       "width": 150,
       "smufl": "chantAuctumDesc",
       "smufl_codepoint": "U+E995",
-      "doc": "Rhineland cephalicus: round-loop head + descending calligraphic curl. Two contours (outer + inner void for the loop's eye). Width 150 du (body 120×238) set 2026-04-19 via trace-at-scale from a manuscript crop. Supersedes the earlier brief's 'angular head' description — Rhineland cephalicus has a rounded bulb-like head, not a tilted parallelogram."
+      "doc": "Rhineland cephalicus: round-loop head + descending calligraphic curl. Two contours (outer + inner void for the loop's eye). Width 150 du (body 120×238) set 2026-04-19 via trace-at-scale from a manuscript crop. Supersedes the earlier brief's 'angular head' description — Rhineland cephalicus has a rounded bulb-like head, not a tilted parallelogram.",
+      "liquescent_direction": "descending",
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -57, "max": 63},
+      "y_extents": {"min": -195, "max": 43}
     },
     {
       "rust_const": "DEMINUTUM",
@@ -87,7 +143,11 @@
       "width": 100,
       "smufl": "chantPunctumDeminutum",
       "smufl_codepoint": "U+E9A1",
-      "doc": "Small diminutive punctum for diminutive-liquescent positions."
+      "doc": "Small diminutive punctum for diminutive-liquescent positions.",
+      "liquescent_direction": "diminutive",
+      "origin": "pitch-anchor",
+      "x_extents": null,
+      "y_extents": null
     },
     {
       "rust_const": "C_CLEF",
@@ -95,7 +155,11 @@
       "width": 150,
       "smufl": "chantCclef",
       "smufl_codepoint": "U+E906",
-      "doc": "Rhineland movable C clef: compact calligraphic form (dash above a thick-thin C opening right). Width 150 du (body 122×158) set 2026-04-19 via trace-at-scale from c_clef.png — replaces the earlier Bravura placeholder. Significantly more compact than Bravura chantCclef (134×442) because the Rhineland C clef is a smaller scribal mark than a square-notation engraved one. LSB-0 origin; the C body sits above and below y=0 (the line the clef designates)."
+      "doc": "Rhineland movable C clef: compact calligraphic form (dash above a thick-thin C opening right). Width 150 du (body 122×158) set 2026-04-19 via trace-at-scale from c_clef.png — replaces the earlier Bravura placeholder. Significantly more compact than Bravura chantCclef (134×442) because the Rhineland C clef is a smaller scribal mark than a square-notation engraved one. LSB-0 origin; the C body sits above and below y=0 (the line the clef designates).",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -3, "max": 119},
+      "y_extents": {"min": -92, "max": 66}
     },
     {
       "rust_const": "F_CLEF",
@@ -103,7 +167,11 @@
       "width": 160,
       "smufl": "chantFclef",
       "smufl_codepoint": "U+E902",
-      "doc": "Rhineland F clef for low-range antiphons."
+      "doc": "Rhineland F clef for low-range antiphons.",
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": null,
+      "y_extents": null
     },
     {
       "rust_const": "DIVISIO_MINIMA",
@@ -111,7 +179,11 @@
       "width": 16,
       "smufl": "chantDivisioMinima",
       "smufl_codepoint": "U+E8F3",
-      "doc": "Short phrase break; thin bar spanning one staff space."
+      "doc": "Short phrase break; thin bar spanning one staff space.",
+      "liquescent_direction": null,
+      "origin": "staff-fixed",
+      "x_extents": {"min": 0, "max": 16},
+      "y_extents": {"min": 250, "max": 500}
     },
     {
       "rust_const": "DIVISIO_MAIOR",
@@ -119,7 +191,11 @@
       "width": 16,
       "smufl": "chantDivisioMaior",
       "smufl_codepoint": "U+E8F4",
-      "doc": "Medium phrase break; thin bar spanning the full 4-line staff."
+      "doc": "Medium phrase break; thin bar spanning the full 4-line staff.",
+      "liquescent_direction": null,
+      "origin": "staff-fixed",
+      "x_extents": {"min": 0, "max": 16},
+      "y_extents": {"min": -250, "max": 250}
     },
     {
       "rust_const": "DIVISIO_MAXIMA",
@@ -127,7 +203,11 @@
       "width": 16,
       "smufl": "chantDivisioMaxima",
       "smufl_codepoint": "U+E8F5",
-      "doc": "Long phrase break; thin bar extending above and below the staff."
+      "doc": "Long phrase break; thin bar extending above and below the staff.",
+      "liquescent_direction": null,
+      "origin": "staff-fixed",
+      "x_extents": {"min": 0, "max": 16},
+      "y_extents": {"min": -375, "max": 375}
     },
     {
       "rust_const": "DIVISIO_FINALIS",
@@ -135,7 +215,11 @@
       "width": 120,
       "smufl": "chantDivisioFinalis",
       "smufl_codepoint": "U+E8F6",
-      "doc": "Final double bar; two equal-weight 16-du verticals separated by an 88-du gap (total 120 du). SMuFL-aligned 2026-04-19."
+      "doc": "Final double bar; two equal-weight 16-du verticals separated by an 88-du gap (total 120 du). SMuFL-aligned 2026-04-19.",
+      "liquescent_direction": null,
+      "origin": "staff-fixed",
+      "x_extents": {"min": 0, "max": 120},
+      "y_extents": {"min": -375, "max": 375}
     },
     {
       "rust_const": "VIRGULA",
@@ -143,7 +227,11 @@
       "width": 91,
       "smufl": "chantVirgula",
       "smufl_codepoint": "U+E8F7",
-      "doc": "Breath mark above the top staff line. SMuFL-aligned to Bravura convention (width 91 du, y ∈ [+255, +500]) 2026-04-19."
+      "doc": "Breath mark above the top staff line. SMuFL-aligned to Bravura convention (width 91 du, y ∈ [+255, +500]) 2026-04-19.",
+      "liquescent_direction": null,
+      "origin": "staff-fixed",
+      "x_extents": {"min": 0, "max": 91},
+      "y_extents": {"min": 255, "max": 500}
     },
     {
       "rust_const": "PES_SHORT",
@@ -155,7 +243,11 @@
       "compose_anchors": {
         "pitch_bottom": {"x": 56, "y": 0},
         "pitch_top": {"x": 56, "y": 125}
-      }
+      },
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -116, "max": 116},
+      "y_extents": {"min": -81, "max": 130}
     },
     {
       "rust_const": "PES_FOOT",
@@ -168,7 +260,11 @@
         "pitch_bottom": {"x": 56, "y": 0},
         "stem_top": {"x": 56, "y": 71}
       },
-      "stem_channel": {"x_min": 36, "x_max": 76}
+      "stem_channel": {"x_min": 36, "x_max": 76},
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -103, "max": 76},
+      "y_extents": {"min": -45, "max": 71}
     },
     {
       "rust_const": "PES_HEAD",
@@ -181,7 +277,11 @@
         "pitch_top": {"x": 56, "y": 0},
         "stem_bottom": {"x": 56, "y": -80}
       },
-      "stem_channel": {"x_min": 36, "x_max": 76}
+      "stem_channel": {"x_min": 36, "x_max": 76},
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": 17, "max": 90},
+      "y_extents": {"min": -80, "max": 30}
     },
     {
       "rust_const": "PES_LINE",
@@ -194,7 +294,11 @@
         "base": {"x": 56, "y": 0},
         "tip": {"x": 56, "y": 250}
       },
-      "stem_channel": {"x_min": 36, "x_max": 76}
+      "stem_channel": {"x_min": 36, "x_max": 76},
+      "liquescent_direction": null,
+      "origin": "composed",
+      "x_extents": {"min": 36, "max": 76},
+      "y_extents": {"min": 0, "max": 250}
     },
     {
       "rust_const": "FLEXA_SHORT",
@@ -206,7 +310,11 @@
       "compose_anchors": {
         "pitch_top": {"x": 50, "y": 0},
         "pitch_bottom": {"x": 50, "y": -125}
-      }
+      },
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -60, "max": 94},
+      "y_extents": {"min": -155, "max": 36}
     },
     {
       "rust_const": "FLEXA_HEAD",
@@ -219,7 +327,11 @@
         "pitch_top": {"x": 50, "y": 0},
         "stem_bottom": {"x": 50, "y": -125}
       },
-      "stem_channel": {"x_min": 31, "x_max": 69}
+      "stem_channel": {"x_min": 31, "x_max": 69},
+      "liquescent_direction": null,
+      "origin": "pitch-anchor",
+      "x_extents": {"min": -65, "max": 75},
+      "y_extents": {"min": -128, "max": 45}
     },
     {
       "rust_const": "FLEXA_FOOT",
@@ -232,7 +344,11 @@
         "stem_top": {"x": 50, "y": 0},
         "pitch_bottom": {"x": 50, "y": -119}
       },
-      "stem_channel": {"x_min": 31, "x_max": 69}
+      "stem_channel": {"x_min": 31, "x_max": 69},
+      "liquescent_direction": null,
+      "origin": "composed",
+      "x_extents": {"min": 31, "max": 93},
+      "y_extents": {"min": -163, "max": 0}
     },
     {
       "rust_const": "FLEXA_LINE",
@@ -245,7 +361,11 @@
         "tip": {"x": 50, "y": 0},
         "base": {"x": 50, "y": -125}
       },
-      "stem_channel": {"x_min": 31, "x_max": 69}
+      "stem_channel": {"x_min": 31, "x_max": 69},
+      "liquescent_direction": null,
+      "origin": "composed",
+      "x_extents": {"min": 31, "max": 69},
+      "y_extents": {"min": -125, "max": 0}
     }
   ],
   "width_review": "docs/planning/width-review-2026-04-14.md"
