@@ -30,6 +30,79 @@ introduction, and direct folio inspection.
 ChangeLog
 ---------
 
+26 April 2026 (v0.2.0-alpha.3) — Hildegard Neumes Project maintainers — pre-release tag: rh_pes_line_half (U+F409) + shape-suggestive placeholder neumes
+
+This pre-release covers two changes since v0.2.0-alpha.2 (cut earlier the
+same day) — both shipped per the rhena-coordination thread (2026-04-26).
+No schema_version bump (still 2); atom inventory bumps 25 → 26; the four
+still-unfinished atoms get shape-suggestive geometry instead of bare
+rectangles, but their data treatment (null x_extents/y_extents) is
+unchanged from alpha.2.
+
+Atom inventory: 25 → 26
+- rh_pes_line_half added (U+F409, next free in F400-F40F PUA block).
+  Compositional atom; natural length 125 du = half a staff space, vs
+  rh_pes_line's 250 du. Stem channel x=[36, 76] and pitch_x normalisation
+  (x=56) identical to rh_pes_line — Rhena's composition pass picks
+  rh_pes_line_half at interval=3rd (line gap 99 du, 21% compression vs
+  60% for rh_pes_line) and falls through to rh_pes_line for 4th+. Single-
+  contour 4-point rectangle (36, 0)-(76, 125). Greenlit by Rhena 2026-04-26
+  via the rhena-coordination thread; non-breaking additive at the atom
+  level (no schema bump).
+
+Compositional metadata count: 8 → 9
+- rh_pes_line_half emits PES_LINE_HALF_META in the consumed Rust as part
+  of ALL_COMPOSITIONAL_META. Picker change happens on Rhena's side; until
+  shipped, the new atom is dead code in their consumed Rust.
+
+Shape-suggestive placeholders for the 4 still-unfinished atoms
+- rh_oriscus, rh_deminutum, rh_f_clef, rh_liquescent_asc each get a
+  geometric placeholder visually distinguishable from "placeholder
+  rectangle." The eventual trace-at-scale work supersedes these per the
+  Phase C workflow. Designs (all CCW, line segments, no Béziers):
+    rh_oriscus: 7 points (body + triangular flick).
+    rh_deminutum: 4-point tilted parallelogram, smaller than rh_punctum.
+    rh_f_clef: 18 points (F-letterform + 2 dots flanking the F-line at y=0).
+    rh_liquescent_asc: 9 points (head + thin vertical tail + leftward
+                       flick at the top).
+- contract.json x_extents and y_extents STAY null for all 4 — placeholder
+  geometry is interim, not authoritative. Rhena's consumer continues to
+  fall back to advance-box layout for these atoms until trace-at-scale
+  lands and we populate real extents.
+
+Codegen: regenerated; @generated header reflects v0.2.0-alpha.3 + the new
+contract sha. The change vs alpha.2 codegen output is the new PES_LINE_HALF
+const, the new PES_LINE_HALF_META static, and their refs in ALL_GLYPHS /
+ALL_COMPOSITIONAL_META. Rhena absorbs by re-running our codegen against
+the alpha-3 contract.
+
+Deferred from alpha-3 (queued for next alpha cut)
+- rh_liquescent_asc trace-at-scale from Riesencodex f. 470r region
+  (Dendermonde "pinnosa" / pes liquescens / epiphonus per the contract
+  docstring updated in alpha-2). Gated on user FontForge sessions.
+- rh_deminutum trace-at-scale (Tier 2). Gated on user FontForge sessions.
+- rh_oriscus trace (Tier 2, lower priority per coordination).
+- rh_f_clef real Rhineland trace (Tier 3).
+- rh_flexa_line_half explicitly NOT shipped — flexa-of-4th with current
+  rh_flexa_line is already at 1.05× scale (no distortion to fix);
+  flexa-of-3rd is degenerate at any line length and would need an
+  integrated rh_flexa_third atom, deferred to v3+ pending render evidence.
+
+Validation
+- 22/22 pytest cases passing.
+- Determinism: two consecutive generations byte-identical under
+  SOURCE_DATE_EPOCH=0.
+- OTF builds with 27 glyphs (.notdef + 26); cmap U+F409 → rh_pes_line_half
+  verified via fontTools.
+
+Coordination
+- Rhena adoption ADR + Class A composition pass implementation in flight
+  on their side; absorption of pes_line_half + the new placeholder
+  outlines is one re-codegen + commit on their end (no contract-shape
+  change to absorb separately from alpha-2's schema-2 fields).
+- Scheduled status check fires 2026-05-10 09:00 AEST to surface absorption
+  state and the next-alpha decision.
+
 26 April 2026 (v0.2.0-alpha.2) — Hildegard Neumes Project maintainers — pre-release tag: contract-v2 schema (origin enum, liquescent_direction, x/y extents)
 
 This pre-release cuts the contract-v2 schema agreed with the Rhena/Viriditas
